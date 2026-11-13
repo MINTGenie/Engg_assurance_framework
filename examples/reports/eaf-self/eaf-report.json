@@ -9,6 +9,7 @@
     "command_line": [
       "assess",
       ".",
+      "--allow-network",
       "--no-evidence",
       "-q",
       "-o",
@@ -16,8 +17,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T20:57:05+00:00",
-    "duration_s": 2.402,
+    "started_utc": "2026-11-13T21:01:04+00:00",
+    "duration_s": 2.333,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -26,16 +27,16 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": true,
-        "uncommitted_entries": 1
+        "uncommitted_entries": 13
       },
-      "source_digest": "sha256:d7542920fc928fdf476557fda0bb8e52fbf275797423f9e640a92739882b717f",
+      "source_digest": "sha256:ea1b68418038c356cd75ec38d7332888b948f451481fe46e6f0e197a6ce90b67",
       "source_tree_unmodified": true,
-      "files_in_scope": 31
+      "files_in_scope": 37
     },
-    "network_allowed": false,
+    "network_allowed": true,
     "policy": {
       "id": "eaf-baseline",
       "version": "1.0.0",
@@ -100,8 +101,8 @@
     }
   },
   "inventory": {
-    "file_count": 31,
-    "total_bytes": 143411,
+    "file_count": 37,
+    "total_bytes": 163270,
     "languages": {
       "javascript": {
         "files": 1,
@@ -109,7 +110,7 @@
       },
       "python": {
         "files": 25,
-        "lines": 3005
+        "lines": 3014
       }
     },
     "supported_languages": [
@@ -192,23 +193,23 @@
   },
   "summary": {
     "overall_status": "WARNING",
-    "overall_reason": "4 check(s) raised warnings",
+    "overall_reason": "3 check(s) raised warnings",
     "check_status_counts": {
-      "PASS": 8,
+      "PASS": 9,
       "FAIL": 0,
-      "WARNING": 4,
+      "WARNING": 3,
       "NOT_APPLICABLE": 4,
       "NOT_EXECUTED": 1
     },
     "finding_severity_counts": {
       "info": 0,
-      "low": 8,
+      "low": 7,
       "medium": 0,
       "high": 0,
       "critical": 0
     },
     "suppressed_findings": 27,
-    "results_digest": "sha256:5a35529861e714150fa87ef7802c5667433066016823a0bc74852663244a356d"
+    "results_digest": "sha256:8fbedc7a3c0f9f462826eeeb8aadb0beb28c68ea07f2a0d1ab8cd4ad55eef26b"
   },
   "controls": [
     {
@@ -299,7 +300,7 @@
       "checks": [
         {
           "id": "hygiene.readme",
-          "status": "WARNING"
+          "status": "PASS"
         },
         {
           "id": "hygiene.license",
@@ -436,7 +437,7 @@
             "... (+22 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.01,
+          "duration_s": 0.012,
           "stdout_sha256": "210bc31094b8d91c956df635d919f2ee4da0bebb5b1ebeaf123cef95b22bd601",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -446,7 +447,7 @@
       "notes": [
         "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
       ],
-      "duration_s": 0.014
+      "duration_s": 0.017
     },
     {
       "id": "quality.cppcheck",
@@ -519,7 +520,7 @@
             "src/eaf/data/eslint.config.cjs"
           ],
           "exit_code": 0,
-          "duration_s": 0.148,
+          "duration_s": 0.186,
           "stdout_sha256": "2888877175f45b03f94a1340bdd2023c597e0c688ef6c79c1ae4b70aa2079b2c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -529,7 +530,7 @@
       "notes": [
         "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown)."
       ],
-      "duration_s": 0.332
+      "duration_s": 0.376
     },
     {
       "id": "quality.eslint-ts",
@@ -944,8 +945,8 @@
             "... (+19 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.471,
-          "stdout_sha256": "30361876d6dc5d655184d1811dc3aed85e8d741510aa1fcc84a5a1dfb9017889",
+          "duration_s": 0.434,
+          "stdout_sha256": "cc35a1906e013cae94e9ab9a760fd21480e6944af67e5e643b2cfd6e781ba732",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -954,7 +955,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.622
+      "duration_s": 0.573
     },
     {
       "id": "security.flawfinder",
@@ -997,7 +998,7 @@
       "scanner_version": "1.5.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 31,
+      "files_examined": 37,
       "thresholds": {
         "fail_at": "medium",
         "warn_at": "low"
@@ -1020,8 +1021,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.232,
-          "stdout_sha256": "e98bbc2feb6a314a4216301fafbdba0a25f79a6278544428826577cb3da8ed65",
+          "duration_s": 0.196,
+          "stdout_sha256": "eb1430f81212367ce709b27ecb8d1b73af5888e65688bb4b089fbbc5e105cf9b",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1032,19 +1033,19 @@
             "scan",
             "--no-verify",
             ".gitignore",
+            "README.md",
             "eaf-profile.toml",
             "pyproject.toml",
-            "src/eaf/__init__.py",
-            "src/eaf/__main__.py",
-            "src/eaf/cli.py",
-            "src/eaf/discovery.py",
-            "src/eaf/engine.py",
-            "src/eaf/gitinfo.py",
-            "... (+22 more args)"
+            ".github/copilot-instructions.md",
+            ".github/prompts/eaf-assess.prompt.md",
+            ".github/skills/eaf-assess/SKILL.md",
+            "docs/ARCHITECTURE.md",
+            "docs/COPILOT.md",
+            "... (+28 more args)"
           ],
           "exit_code": 0,
-          "duration_s": 0.377,
-          "stdout_sha256": "364dacc7f64276d13617cae336c2d9843d59958b7a94843f8d33fa2c98d10d63",
+          "duration_s": 0.391,
+          "stdout_sha256": "18b429e34c7bb7d4101f8331c459b1e5ff2c3d32c0f2f466a5ff87f0e4217cf9",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1056,7 +1057,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.781
+      "duration_s": 0.77
     },
     {
       "id": "secrets.sensitive-files",
@@ -1068,7 +1069,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 31,
+      "files_examined": 37,
       "thresholds": {
         "fail_at": "high",
         "warn_at": "low"
@@ -1122,7 +1123,7 @@
       "title": "Python dependencies: known vulnerabilities (pip-audit)",
       "category": "dependencies",
       "status": "NOT_EXECUTED",
-      "reason": "Requires a network lookup of dependency names/versions; network access is disabled by default (enable with --allow-network)",
+      "reason": "Only requirements*.txt files are audited at Level 1; resolving pyproject.toml/setup.py dependencies would require running build code",
       "scanner": "pip-audit",
       "scanner_version": "2.10.1",
       "requires_network": true,
@@ -1145,7 +1146,7 @@
       "findings": [],
       "evidence": [],
       "notes": [],
-      "duration_s": 0.634
+      "duration_s": 0.572
     },
     {
       "id": "dependencies.npm-audit",
@@ -1179,40 +1180,26 @@
       "id": "hygiene.readme",
       "title": "README present at scope root",
       "category": "hygiene",
-      "status": "WARNING",
-      "reason": "1 finding(s) at or above 'low' severity",
+      "status": "PASS",
+      "reason": "No findings",
       "scanner": "eaf-builtin",
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 31,
+      "files_examined": 37,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
       },
       "finding_counts": {
         "info": 0,
-        "low": 1,
+        "low": 0,
         "medium": 0,
         "high": 0,
         "critical": 0
       },
       "suppressed_count": 0,
-      "findings": [
-        {
-          "check_id": "hygiene.readme",
-          "rule_id": "missing-readme",
-          "severity": "low",
-          "message": "No README file at the root of the assessed scope",
-          "file": null,
-          "line": null,
-          "cwe": null,
-          "confidence": null,
-          "suppressed": false,
-          "suppression_reason": null,
-          "fingerprint": "173204ca29a906be"
-        }
-      ],
+      "findings": [],
       "evidence": [],
       "notes": [],
       "duration_s": 0.0
@@ -1227,7 +1214,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 31,
+      "files_examined": 37,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
@@ -1390,7 +1377,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 31,
+      "files_examined": 37,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
@@ -1411,7 +1398,6 @@
   ],
   "limitations": [
     "Level 1 inspects source text only: nothing is built, executed or tested.",
-    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects.",
-    "Known-vulnerability lookups for dependencies were not performed (network disabled)."
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects."
   ]
 }

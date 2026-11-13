@@ -19,8 +19,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T20:57:01+00:00",
-    "duration_s": 1.982,
+    "started_utc": "2026-11-13T21:00:59+00:00",
+    "duration_s": 1.992,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,7 +29,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -324,7 +324,7 @@
             "/home/user/Engg_assurance_framework/samples/clean-python-lib/tests/test_convert.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.008,
+          "duration_s": 0.009,
           "stdout_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -334,7 +334,7 @@
       "notes": [
         "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
       ],
-      "duration_s": 0.012
+      "duration_s": 0.013
     },
     {
       "id": "quality.cppcheck",
@@ -467,8 +467,8 @@
             "/home/user/Engg_assurance_framework/samples/clean-python-lib/tests/test_convert.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.144,
-          "stdout_sha256": "b73072d4693081693d1d2ea01d331c34b4dccb50e2d99c767286c9f18b1b0df7",
+          "duration_s": 0.142,
+          "stdout_sha256": "007ff55938ad314fba3c1d8047a04f6a511f2f4e7dd7c6cfc745d10b3c0ff385",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -477,7 +477,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.278
+      "duration_s": 0.288
     },
     {
       "id": "security.flawfinder",
@@ -543,8 +543,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.17,
-          "stdout_sha256": "48b9942cccda94218d641a075081645d759caa1eccef7ca249728724a67f604a",
+          "duration_s": 0.216,
+          "stdout_sha256": "1f1ad4c1bda18f7bd959372de7bc390fca39b6273ccf2a7b8b73a2fd27622f1f",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -566,8 +566,8 @@
             "... (+1 more args)"
           ],
           "exit_code": 0,
-          "duration_s": 0.217,
-          "stdout_sha256": "d5f1d0c21cd601bb01a66f1b0ffe9422e0b22cae37a391df177764e26f428b22",
+          "duration_s": 0.213,
+          "stdout_sha256": "685074e912597b9b981915d13ba7c06924c88e1530c56665816740df0ca034e1",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -579,7 +579,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.548
+      "duration_s": 0.573
     },
     {
       "id": "secrets.sensitive-files",
@@ -679,7 +679,7 @@
             "off"
           ],
           "exit_code": 0,
-          "duration_s": 0.584,
+          "duration_s": 0.582,
           "stdout_sha256": "97e5aa34c09005cd58d51ab8c8a851def839dea77759228f1fdd2fc3598b35fb",
           "stderr_sha256": "79d30422388543b2563e1dde76bb7e7857d7ef0c6fdf05c8c71598633ca07e1e",
           "raw_output_file": null,
@@ -690,7 +690,7 @@
         "Package names and versions (not source code) were sent to the PyPI vulnerability service.",
         "pip-audit reports no severity; all known vulnerabilities are rated 'high'."
       ],
-      "duration_s": 1.127
+      "duration_s": 1.099
     },
     {
       "id": "dependencies.npm-audit",

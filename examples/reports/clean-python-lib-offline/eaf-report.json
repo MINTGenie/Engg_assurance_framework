@@ -1,0 +1,882 @@
+{
+  "schema_version": "1.0",
+  "disclaimer": "This report is an automated engineering quality indication produced by a prototype. A PASS result means only that the listed tools reported no findings above the policy thresholds for the assessed scope. It is NOT a security certification, does NOT establish ISO 26262 / ISO 21434 / ASPICE compliance, and is NOT an Audi IT or release approval. Checks marked NOT EXECUTED or NOT APPLICABLE provide no assurance.",
+  "tool": {
+    "name": "eaf",
+    "version": "0.1.0",
+    "python": "3.13.18",
+    "platform": "Linux x86_64",
+    "command_line": [
+      "assess",
+      "samples/clean-python-lib",
+      "--no-evidence",
+      "-q",
+      "-o",
+      "examples/reports/clean-python-lib-offline"
+    ]
+  },
+  "assessment": {
+    "started_utc": "2026-11-13T21:01:02+00:00",
+    "duration_s": 1.519,
+    "depth": 1,
+    "depth_description": "Level 1 - static source inspection (read-only)",
+    "scope": {
+      "type": "repository",
+      "path": "/home/user/Engg_assurance_framework/samples/clean-python-lib",
+      "git": {
+        "is_git_repository": true,
+        "toplevel": "/home/user/Engg_assurance_framework",
+        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
+        "branch": "ccr-632b2465-ai4euc",
+        "dirty": false,
+        "uncommitted_entries": 0
+      },
+      "source_digest": "sha256:a964294945fa01c4beeeeead4f2e1344db74bc2211309cb12d78dd5913ab4efc",
+      "source_tree_unmodified": true,
+      "files_in_scope": 10
+    },
+    "network_allowed": false,
+    "policy": {
+      "id": "eaf-baseline",
+      "version": "1.0.0",
+      "title": "EAF Baseline Engineering Hygiene Policy",
+      "status": "active",
+      "adapter": "threshold",
+      "source": "eaf-baseline",
+      "sha256": "a703fabe2001fda35adfe633cb029aabeb6d4be135dc73490c2807a9b9f5336f"
+    },
+    "profile": {
+      "source": "/home/user/Engg_assurance_framework/samples/clean-python-lib/eaf-profile.toml",
+      "name": "tempconv",
+      "component": "sample-library",
+      "owner": "EAF fixtures",
+      "criticality": "elevated",
+      "development_mode": "ai-assisted",
+      "ai_tools": [
+        "GitHub Copilot"
+      ],
+      "domain": "tooling",
+      "lifecycle_stage": "prototype",
+      "notes": "",
+      "policy": "eaf-baseline",
+      "exclude": [],
+      "skip_checks": [],
+      "allow_network": false,
+      "suppressions": []
+    }
+  },
+  "inventory": {
+    "file_count": 10,
+    "total_bytes": 1990,
+    "languages": {
+      "python": {
+        "files": 3,
+        "lines": 41
+      }
+    },
+    "supported_languages": [
+      "python"
+    ],
+    "unsupported_languages": [],
+    "frameworks": [
+      {
+        "name": "pytest",
+        "ecosystem": "python",
+        "detected_in": "requirements-dev.txt"
+      }
+    ],
+    "dependency_manifests": [
+      {
+        "path": "pyproject.toml",
+        "ecosystem": "python",
+        "kind": "manifest"
+      },
+      {
+        "path": "requirements-dev.txt",
+        "ecosystem": "python",
+        "kind": "manifest"
+      }
+    ],
+    "build_systems": [
+      {
+        "system": "python:setuptools.build_meta",
+        "path": "pyproject.toml"
+      }
+    ],
+    "ci_configuration": [
+      ".github/workflows"
+    ],
+    "excluded_paths": [],
+    "exclude_patterns": [
+      ".eggs",
+      ".git",
+      ".gradle",
+      ".hg",
+      ".idea",
+      ".mypy_cache",
+      ".next",
+      ".nox",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      ".vscode",
+      "__pycache__",
+      "bower_components",
+      "build",
+      "cmake-build-debug",
+      "cmake-build-release",
+      "coverage",
+      "dist",
+      "eaf-reports",
+      "env",
+      "node_modules",
+      "out",
+      "target",
+      "venv",
+      "*.min.js",
+      "*.min.css",
+      "*.map",
+      "*.egg-info"
+    ],
+    "skipped_symlinks": 0
+  },
+  "summary": {
+    "overall_status": "WARNING",
+    "overall_reason": "All executed checks passed, but 1 applicable check(s) were not executed (incomplete coverage)",
+    "check_status_counts": {
+      "PASS": 11,
+      "FAIL": 0,
+      "WARNING": 0,
+      "NOT_APPLICABLE": 5,
+      "NOT_EXECUTED": 1
+    },
+    "finding_severity_counts": {
+      "info": 0,
+      "low": 0,
+      "medium": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "suppressed_findings": 0,
+    "results_digest": "sha256:4cfb74d9b066e62dd026480996cd64ab6d965890eb3bf51a33d74735aa1618f6"
+  },
+  "controls": [
+    {
+      "id": "EAF-QUAL-01",
+      "title": "Static code quality analysis shows no blocking defects",
+      "status": "PASS",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "quality.ruff",
+          "status": "PASS"
+        },
+        {
+          "id": "quality.cppcheck",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-js",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-ts",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-01",
+      "title": "Static security analysis shows no blocking weaknesses",
+      "status": "PASS",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.bandit",
+          "status": "PASS"
+        },
+        {
+          "id": "security.flawfinder",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-02",
+      "title": "No credentials or key material in source",
+      "status": "PASS",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "secrets.detect-secrets",
+          "status": "PASS"
+        },
+        {
+          "id": "secrets.sensitive-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-DEP-01",
+      "title": "Third-party dependencies are pinned and free of known vulnerabilities",
+      "status": "NOT_EXECUTED",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "dependencies.pinning",
+          "status": "PASS"
+        },
+        {
+          "id": "dependencies.pip-audit",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "dependencies.npm-audit",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-HYG-01",
+      "title": "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)",
+      "status": "PASS",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "hygiene.readme",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.license",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.gitignore",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.tests-present",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.ci-config",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.large-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    }
+  ],
+  "checks": [
+    {
+      "id": "quality.ruff",
+      "title": "Python static code quality (ruff)",
+      "category": "code_quality",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "ruff",
+      "scanner_version": "0.16.9",
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [
+        {
+          "command": [
+            "/root/.local/bin/ruff",
+            "check",
+            "--isolated",
+            "--no-cache",
+            "--no-fix",
+            "--output-format",
+            "json",
+            "--select",
+            "E7,E9,F,B,PLE,C901",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/src/tempconv/__init__.py",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/src/tempconv/convert.py",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/tests/test_convert.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.01,
+          "stdout_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
+      ],
+      "duration_s": 0.015
+    },
+    {
+      "id": "quality.cppcheck",
+      "title": "C/C++ static analysis (cppcheck)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "cppcheck",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-js",
+      "title": "JavaScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No javascript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "javascript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-ts",
+      "title": "TypeScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No typescript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "typescript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.bandit",
+      "title": "Python security weaknesses (bandit)",
+      "category": "security",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "bandit",
+      "scanner_version": "1.9.4",
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/bandit",
+            "-f",
+            "json",
+            "-q",
+            "--skip",
+            "B101",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/src/tempconv/__init__.py",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/src/tempconv/convert.py",
+            "/home/user/Engg_assurance_framework/samples/clean-python-lib/tests/test_convert.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.137,
+          "stdout_sha256": "b1258d349a32b12b1a15e3c7f96366e0ef1f65daaafefec8887ab91eb0b22b39",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Bandit tests skipped: B101 (assert)."
+      ],
+      "duration_s": 0.304
+    },
+    {
+      "id": "security.flawfinder",
+      "title": "C/C++ risky API usage (flawfinder)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "flawfinder",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "secrets.detect-secrets",
+      "title": "Hardcoded secrets in file contents (detect-secrets)",
+      "category": "secrets",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "detect-secrets",
+      "scanner_version": "1.5.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 10,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            "eaf_canary.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.182,
+          "stdout_sha256": "5b118e74736219446f0cce2c88fdd939eb7fe2b59e1cb689428e7a84e0bf74c4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        },
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            ".gitignore",
+            "LICENSE",
+            "README.md",
+            "eaf-profile.toml",
+            "pyproject.toml",
+            "requirements-dev.txt",
+            ".github/workflows/ci.yml",
+            "src/tempconv/__init__.py",
+            "src/tempconv/convert.py",
+            "... (+1 more args)"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.238,
+          "stdout_sha256": "e9df44e0199ed10f94d77582e6ef94e02a7e665cf3449aa0e239482aa4f4ea3c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Working tree only; git history is not scanned.",
+        "Secret values are never written to the report (only type, file and line).",
+        "Online secret verification is disabled (--no-verify).",
+        "Scanner self-test passed (planted canary secret was detected)."
+      ],
+      "duration_s": 0.567
+    },
+    {
+      "id": "secrets.sensitive-files",
+      "title": "Credential / key files present in the source tree",
+      "category": "secrets",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 10,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.001
+    },
+    {
+      "id": "dependencies.pinning",
+      "title": "Dependencies are pinned / locked",
+      "category": "dependencies",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 2,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Works offline. C/C++ dependencies vendored or resolved by the build system (CMake FetchContent, git submodules) are not analysed."
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.pip-audit",
+      "title": "Python dependencies: known vulnerabilities (pip-audit)",
+      "category": "dependencies",
+      "status": "NOT_EXECUTED",
+      "reason": "Requires a network lookup of dependency names/versions; network access is disabled by default (enable with --allow-network)",
+      "scanner": "pip-audit",
+      "scanner_version": "2.10.1",
+      "requires_network": true,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.613
+    },
+    {
+      "id": "dependencies.npm-audit",
+      "title": "npm dependencies: known vulnerabilities (npm audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No package.json in scope",
+      "scanner": "npm",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.readme",
+      "title": "README present at scope root",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 10,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.license",
+      "title": "License / copyright notice present",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 10,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.gitignore",
+      "title": ".gitignore present",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.tests-present",
+      "title": "Automated tests exist for detected languages",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp",
+        "javascript",
+        "python",
+        "typescript"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Presence only (by file/directory naming). Tests are not executed and coverage is not measured at Level 1.",
+        "python: 1 test file(s) / 3 source file(s)"
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.ci-config",
+      "title": "CI pipeline configuration present",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Found: .github/workflows"
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.large-files",
+      "title": "No large files or build artefacts in source",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 10,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    }
+  ],
+  "limitations": [
+    "Level 1 inspects source text only: nothing is built, executed or tested.",
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects.",
+    "Known-vulnerability lookups for dependencies were not performed (network disabled)."
+  ]
+}

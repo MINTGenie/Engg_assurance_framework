@@ -19,8 +19,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T20:56:56+00:00",
-    "duration_s": 2.101,
+    "started_utc": "2026-11-13T21:00:53+00:00",
+    "duration_s": 2.24,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,7 +29,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -160,11 +160,11 @@
       "info": 0,
       "low": 11,
       "medium": 11,
-      "high": 25,
+      "high": 22,
       "critical": 0
     },
     "suppressed_findings": 0,
-    "results_digest": "sha256:1faaacc5d219bc9e2efd250d383413ee50d60bb8f83f9025946f2e024e6ec84f"
+    "results_digest": "sha256:356bae62523d99787c6bc8287c2edd252b8351e7d2bce2ab9f4ddb9165f4f756"
   },
   "controls": [
     {
@@ -391,7 +391,7 @@
             "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
           ],
           "exit_code": 1,
-          "duration_s": 0.011,
+          "duration_s": 0.01,
           "stdout_sha256": "638c6b5f2ca7f4c6073ed29d9f4b59fa98b1293b5f36313a5bfe37aba97b001c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -401,7 +401,7 @@
       "notes": [
         "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
       ],
-      "duration_s": 0.015
+      "duration_s": 0.014
     },
     {
       "id": "quality.cppcheck",
@@ -691,8 +691,8 @@
             "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
           ],
           "exit_code": 1,
-          "duration_s": 0.153,
-          "stdout_sha256": "daf9dac39a239b016eaa184b21ec6bbb579cb6e984277ca534fd741d4ce0dcc2",
+          "duration_s": 0.137,
+          "stdout_sha256": "2644c4800eed63a3fc0659d15a4785b0bc446e7f2d522a3ccd488b161b59352f",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -701,7 +701,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.321
+      "duration_s": 0.29
     },
     {
       "id": "security.flawfinder",
@@ -807,8 +807,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.176,
-          "stdout_sha256": "0b05e1adc337dd624142adf804bc55a9d8f98751fb7f9a9e8c16e0eba81830fa",
+          "duration_s": 0.203,
+          "stdout_sha256": "2b41bc7a861821728a6a2048e70e9e513fde428dfa45d94cd66736f46f44e9ee",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -826,8 +826,8 @@
             "app/server.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.241,
-          "stdout_sha256": "f77e94f6465f3a1915fe47004cf6fcd1a5c99da57bb8c989de8528d564e271af",
+          "duration_s": 0.304,
+          "stdout_sha256": "67845290f39c8f641edd4b63004fa0f47892455b1344f59c23a068e657de0c15",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -839,7 +839,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.568
+      "duration_s": 0.64
     },
     {
       "id": "secrets.sensitive-files",
@@ -931,7 +931,7 @@
       "title": "Python dependencies: known vulnerabilities (pip-audit)",
       "category": "dependencies",
       "status": "FAIL",
-      "reason": "21 finding(s) at or above 'high' severity",
+      "reason": "18 finding(s) at or above 'high' severity",
       "scanner": "pip-audit",
       "scanner_version": "2.10.1",
       "requires_network": true,
@@ -947,7 +947,7 @@
         "info": 0,
         "low": 0,
         "medium": 0,
-        "high": 21,
+        "high": 18,
         "critical": 0
       },
       "suppressed_count": 0,
@@ -956,79 +956,66 @@
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2018-28",
           "severity": "high",
-          "message": "requests 2.19.1 has a known vulnerability (GHSA-x84v-xcm2-53pg, CVE-2018-18074); fix versions: 2.20.0",
+          "message": "requests 2.19.1 has a known vulnerability (CVE-2018-18074, GHSA-x84v-xcm2-53pg); fix versions: 2.20.0",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "36cf05941bcb7bc3"
+          "fingerprint": "0a4374f682d71e3b"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2018-66",
           "severity": "high",
-          "message": "flask 0.12.2 has a known vulnerability (GHSA-562c-5r94-xh97, CVE-2018-1000656); fix versions: 0.12.3",
+          "message": "flask 0.12.2 has a known vulnerability (CVE-2018-1000656, GHSA-562c-5r94-xh97); fix versions: 0.12.3",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "2b121d1e2b6c66de"
+          "fingerprint": "8ffae41bc89eb838"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2019-179",
           "severity": "high",
-          "message": "flask 0.12.2 has a known vulnerability (GHSA-5wv5-4vpf-pj6m, CVE-2019-1010083); fix versions: 1.0",
+          "message": "flask 0.12.2 has a known vulnerability (CVE-2019-1010083, GHSA-5wv5-4vpf-pj6m); fix versions: 1.0",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "3417c06162284e6c"
+          "fingerprint": "ec8e434eecbbf59f"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2019-217",
           "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (GHSA-462w-v97r-4m45, CVE-2019-10906); fix versions: 2.10.1",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2019-10906, GHSA-462w-v97r-4m45); fix versions: 2.10.1",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "4e456700afc49e00"
+          "fingerprint": "c39a992a07c3aa8f"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2020-176",
           "severity": "high",
-          "message": "pyyaml 5.1 has a known vulnerability (GHSA-3pqx-4fqf-j49f, CVE-2019-20477); fix versions: 5.2b1",
+          "message": "pyyaml 5.1 has a known vulnerability (CVE-2019-20477, GHSA-3pqx-4fqf-j49f); fix versions: 5.2, 5.2b1",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "9763e105cf15809e"
-        },
-        {
-          "check_id": "dependencies.pip-audit",
-          "rule_id": "PYSEC-2020-176",
-          "severity": "high",
-          "message": "pyyaml 5.1 has a known vulnerability (GHSA-3pqx-4fqf-j49f, CVE-2019-20477); fix versions: 5.2",
-          "file": "requirements.txt",
-          "line": null,
-          "cwe": null,
-          "confidence": null,
-          "suppressed": false,
-          "suppression_reason": null,
-          "fingerprint": "7586283397e01675"
+          "fingerprint": "2ed07916ee3a30cc"
         },
         {
           "check_id": "dependencies.pip-audit",
@@ -1045,107 +1032,81 @@
         },
         {
           "check_id": "dependencies.pip-audit",
-          "rule_id": "PYSEC-2020-96",
-          "severity": "high",
-          "message": "pyyaml 5.1 has a known vulnerability (CVE-2020-1747, GHSA-6757-jp84-gxfx); fix versions: 5.3.1",
-          "file": "requirements.txt",
-          "line": null,
-          "cwe": null,
-          "confidence": null,
-          "suppressed": false,
-          "suppression_reason": null,
-          "fingerprint": "b627ae91d014a42f"
-        },
-        {
-          "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2021-142",
           "severity": "high",
-          "message": "pyyaml 5.1 has a known vulnerability (GHSA-8q59-q68h-6hv4, CVE-2020-14343); fix versions: 5.4",
+          "message": "pyyaml 5.1 has a known vulnerability (CVE-2020-14343, GHSA-8q59-q68h-6hv4); fix versions: 5.4",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "0e0224f1727150ac"
+          "fingerprint": "87a18128f7217894"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2021-66",
           "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (SNYK-PYTHON-JINJA2-1012994, GHSA-g3rq-g295-4j3m, CVE-2020-28493); fix versions: 2.11.3",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2020-28493, GHSA-g3rq-g295-4j3m, SNYK-PYTHON-JINJA2-1012994); fix versions: 2.11.3",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "190dc63575b44b72"
-        },
-        {
-          "check_id": "dependencies.pip-audit",
-          "rule_id": "PYSEC-2021-66",
-          "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (SNYK-PYTHON-JINJA2-1012994, CVE-2020-28493, GHSA-g3rq-g295-4j3m); fix versions: 2.11.3",
-          "file": "requirements.txt",
-          "line": null,
-          "cwe": null,
-          "confidence": null,
-          "suppressed": false,
-          "suppression_reason": null,
-          "fingerprint": "b6ad44a4565bff22"
+          "fingerprint": "24433973230a555e"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2023-62",
           "severity": "high",
-          "message": "flask 0.12.2 has a known vulnerability (GHSA-m2qf-hxjv-5gpq, CVE-2023-30861); fix versions: 2.2.5, 2.3.2",
+          "message": "flask 0.12.2 has a known vulnerability (CVE-2023-30861, GHSA-m2qf-hxjv-5gpq); fix versions: 2.2.5, 2.3.2",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "b85530895fd12dea"
+          "fingerprint": "20183f8349523bb2"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2023-74",
           "severity": "high",
-          "message": "requests 2.19.1 has a known vulnerability (GHSA-j8r2-6x86-q33q, CVE-2023-32681); fix versions: 2.31.0",
+          "message": "requests 2.19.1 has a known vulnerability (CVE-2023-32681, GHSA-j8r2-6x86-q33q); fix versions: 2.31.0",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "50dfc80b5347e63b"
+          "fingerprint": "5257fe13020f46a9"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2026-1471",
           "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (GHSA-cpwx-vrp4-4pq7, CVE-2025-27516); fix versions: 3.1.6",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2025-27516, GHSA-cpwx-vrp4-4pq7); fix versions: 3.1.6",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "8b1f5084e09f2b56"
+          "fingerprint": "53994f3be2a52a4e"
         },
         {
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2026-1473",
           "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (GHSA-h5c8-rqwp-cp95, CVE-2024-22195); fix versions: 3.1.3",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2024-22195, GHSA-h5c8-rqwp-cp95); fix versions: 3.1.3",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "60b318b38d74408e"
+          "fingerprint": "326edda7f3723446"
         },
         {
           "check_id": "dependencies.pip-audit",
@@ -1164,14 +1125,14 @@
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2026-1475",
           "severity": "high",
-          "message": "jinja2 2.10 has a known vulnerability (GHSA-q2x7-8rv6-6q7h, CVE-2024-56326); fix versions: 3.1.5",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2024-56326, GHSA-q2x7-8rv6-6q7h); fix versions: 3.1.5",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "8cf53b9010d43335"
+          "fingerprint": "81e6e1abf6c992aa"
         },
         {
           "check_id": "dependencies.pip-audit",
@@ -1216,14 +1177,14 @@
           "check_id": "dependencies.pip-audit",
           "rule_id": "PYSEC-2026-2275",
           "severity": "high",
-          "message": "requests 2.19.1 has a known vulnerability (GHSA-gc5v-m9x4-r6x2, CVE-2026-25645); fix versions: 2.33.0",
+          "message": "requests 2.19.1 has a known vulnerability (CVE-2026-25645, GHSA-gc5v-m9x4-r6x2); fix versions: 2.33.0",
           "file": "requirements.txt",
           "line": null,
           "cwe": null,
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
-          "fingerprint": "0e073365a6cad9b5"
+          "fingerprint": "1b77094117a676c2"
         }
       ],
       "evidence": [
@@ -1240,8 +1201,8 @@
             "off"
           ],
           "exit_code": 1,
-          "duration_s": 0.619,
-          "stdout_sha256": "5b8d21e15fa51d52aa773233c6e201b700cea16d9ba58c9ae48b0e3217130e7e",
+          "duration_s": 0.686,
+          "stdout_sha256": "424e7d82bf9c49525f96d39ff44ad0fd21004aa1ace3f80d2a544aedd91dbe6b",
           "stderr_sha256": "72875e9f112ae354bf49217e0d3c5670fcad65232942cf5f18792623619bc673",
           "raw_output_file": null,
           "timed_out": false
@@ -1252,7 +1213,7 @@
         "pip-audit reports no severity; all known vulnerabilities are rated 'high'.",
         "requirements-dev.txt: skipped, unpinned requirements (pytest, black) cannot be audited without dependency resolution"
       ],
-      "duration_s": 1.18
+      "duration_s": 1.276
     },
     {
       "id": "dependencies.npm-audit",

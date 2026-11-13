@@ -80,6 +80,21 @@ def test_eslint_js_on_node_sample():
 
 
 @needs("eslint")
+def test_eslint_handles_commonjs_esm_and_foreign_inline_directives(tree):
+    root = tree({
+        # sloppy-mode CommonJS: 'protected' is only reserved in strict/module code
+        "legacy.js": "var protected = 1;\nmodule.exports = protected;\n",
+        "modern.js": "import fs from 'fs';\nexport const x = fs;\n",
+        "plugin.js": "// eslint-disable-next-line promise/catch-or-return\nmodule.exports = 1;\n",
+    })
+    report = assess(root, Options(only=["quality.eslint-js"]))
+    c = next(c for c in report["checks"] if c["id"] == "quality.eslint-js")
+    assert "parse-error" not in rules(c), c["findings"]
+    assert not any("promise/" in f["rule_id"] for f in c["findings"])
+    assert rules(c) == {"no-var"}
+
+
+@needs("eslint")
 def test_eslint_ts_runs_or_is_explicitly_not_executed():
     c = check("web-ts-node", "quality.eslint-ts")
     if c["status"] == "NOT_EXECUTED":

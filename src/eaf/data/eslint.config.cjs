@@ -2,9 +2,12 @@
 // never loaded (it is executable JavaScript). Only core ESLint rules are used so that
 // results do not depend on plugins installed in the repository.
 // EAF_ESLINT_LANG=js|ts selects which file family is linted.
+// EAF_ESLINT_SOURCE_TYPE=module|commonjs is how *.js / *.jsx files are parsed; the adapter
+// classifies each file by content, because ESLint cannot auto-detect it.
 "use strict";
 
 const lang = process.env.EAF_ESLINT_LANG || "js";
+const jsSourceType = process.env.EAF_ESLINT_SOURCE_TYPE === "commonjs" ? "commonjs" : "module";
 
 const coreRules = {
   // security relevant
@@ -45,7 +48,17 @@ const configs = [];
 
 if (lang === "js") {
   configs.push({
-    files: ["**/*.js", "**/*.mjs", "**/*.jsx"],
+    files: ["**/*.js", "**/*.jsx"],
+    linterOptions,
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: jsSourceType,
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    rules: { ...coreRules, "no-unused-vars": "warn", "no-redeclare": "error" },
+  });
+  configs.push({
+    files: ["**/*.mjs"],
     linterOptions,
     languageOptions: {
       ecmaVersion: "latest",

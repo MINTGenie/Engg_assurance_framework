@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 from functools import lru_cache
@@ -12,6 +13,20 @@ from pathlib import Path
 from eaf.models import Finding, Severity
 from eaf.runner import build_env, find_tool
 from eaf.scanners.base import ScanContext, ScanNotExecuted, ScannerAdapter, ScanOutput, chunks
+
+_ESM_SYNTAX = re.compile(r"^\s*(import\s*[\w{*'\"]|export\s+[\w{*])", re.MULTILINE)
+_MISSING_RULE = re.compile(r"^Definition for rule '.*' was not found")
+
+
+def is_es_module(path: Path) -> bool:
+    """True if a .js/.jsx file uses static import/export. ESLint cannot detect this itself;
+    parsing CommonJS as a module (strict mode) produces false parse errors."""
+    try:
+        with open(path, "r", encoding="utf-8", errors="replace") as fh:
+            return bool(_ESM_SYNTAX.search(fh.read(200_000)))
+    except OSError:
+        return False
+
 
 ESLINT_HIGH_RULES = {"no-eval", "no-implied-eval", "no-new-func", "no-script-url"}
 TS_PARSER = "@typescript-eslint/parser"
@@ -62,8 +77,15 @@ class _EslintAdapter(ScannerAdapter):
                                 "because runtime globals are unknown)."])
         files = self.target_files(ctx)
         out.files_examined = len(files)
-        env = {"EAF_ESLINT_LANG": self.lang_mode, "NODE_PATH": node_path()}
-        for batch in chunks(files, 300):
+        groups: dict[str, list[str]] = {"module": [], "commonjs": []}
+        for f in files:
+            plain_js = f.lower().endswith((".js", ".jsx"))
+            groups["commonjs" if plain_js and not is_es_module(ctx.root / f) else "module"].append(f)
+        missing_rules = 0
+        batches = [(kind, b) for kind, group in groups.items() for b in chunks(group, 300)]
+        for source_type, batch in batches:
+            env = {"EAF_ESLINT_LANG": self.lang_mode, "NODE_PATH": node_path(),
+                   "EAF_ESLINT_SOURCE_TYPE": source_type}
             # ESLint only lints files below its working directory, so cwd is the assessed root.
             # It does not write there: no cache, no fix, config lookup disabled.
             res = ctx.run(self.id, [find_tool(self.tool), "--no-config-lookup",
@@ -87,6 +109,9 @@ class _EslintAdapter(ScannerAdapter):
                     elif rule is None:
                         out.notes.append(f"{rel}: {m.get('message', '')}")
                         continue
+                    elif _MISSING_RULE.match(m.get("message", "")):
+                        missing_rules += 1  # inline directive for a plugin EAF does not load
+                        continue
                     elif rule in ESLINT_HIGH_RULES:
                         sev = Severity.HIGH
                     else:
@@ -94,6 +119,10 @@ class _EslintAdapter(ScannerAdapter):
                     out.findings.append(Finding(check_id=self.id, rule_id=rule, severity=sev,
                                                 message=m.get("message", ""), file=rel,
                                                 line=m.get("line")))
+        if missing_rules:
+            out.notes.append(f"{missing_rules} inline directive(s) reference plugin rules that "
+                             "EAF does not load; ignored.")
+        out.notes.append("Inline 'eslint-disable' comments in the source are honoured.")
         return out
 
 

@@ -19,8 +19,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T20:56:59+00:00",
-    "duration_s": 2.151,
+    "started_utc": "2026-11-13T21:00:56+00:00",
+    "duration_s": 2.284,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,7 +29,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -540,7 +540,7 @@
             "src/server.js"
           ],
           "exit_code": 1,
-          "duration_s": 0.174,
+          "duration_s": 0.157,
           "stdout_sha256": "7348d58741d1214cbd959b80238683694107b278f9eee3702e132496d0fc32bf",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -550,7 +550,7 @@
       "notes": [
         "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown)."
       ],
-      "duration_s": 0.427
+      "duration_s": 0.371
     },
     {
       "id": "quality.eslint-ts",
@@ -658,7 +658,7 @@
             "src/telemetry.ts"
           ],
           "exit_code": 1,
-          "duration_s": 0.356,
+          "duration_s": 0.37,
           "stdout_sha256": "e29db752b7a782aec89d4ed094e9cef0939885daeae1dbca19e48cac407db3bf",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -669,7 +669,7 @@
         "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown).",
         "Syntax-level rules only: no type-aware rules, no tsc type check."
       ],
-      "duration_s": 0.559
+      "duration_s": 0.549
     },
     {
       "id": "security.bandit",
@@ -779,8 +779,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.207,
-          "stdout_sha256": "149152c5bebff5ac3c5362021daf51d98b50f3d9e06e665cfc4fca3b3e78afd5",
+          "duration_s": 0.2,
+          "stdout_sha256": "e811071536a59ddade9cf171e49fc9a3e21e5ecaa58d869742a8b285ec8a8827",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -798,8 +798,8 @@
             "src/telemetry.ts"
           ],
           "exit_code": 0,
-          "duration_s": 0.192,
-          "stdout_sha256": "6f25c44a95aa8b52a57fcba5f83c9e921dc370ac664bde7c62a51e2faf876dcb",
+          "duration_s": 0.243,
+          "stdout_sha256": "58828feb64e2201329cad924e7859c0654f02220e40a753379c23ba46df04d75",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -812,7 +812,7 @@
         "1 file(s) skipped (lockfiles or larger than 1000000 bytes).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.541
+      "duration_s": 0.6
     },
     {
       "id": "secrets.sensitive-files",
@@ -1068,7 +1068,7 @@
             "--json"
           ],
           "exit_code": 1,
-          "duration_s": 0.526,
+          "duration_s": 0.664,
           "stdout_sha256": "d9e952c7d77440591f9d5469fbd0b8d4f4bf155f53aad4530ed2b9bec7b7e8b6",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -1078,7 +1078,7 @@
       "notes": [
         "The dependency tree (package names and versions, not source code) was sent to the npm registry audit endpoint."
       ],
-      "duration_s": 0.607
+      "duration_s": 0.745
     },
     {
       "id": "hygiene.readme",
