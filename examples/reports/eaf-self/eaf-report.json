@@ -17,8 +17,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:01:04+00:00",
-    "duration_s": 2.333,
+    "started_utc": "2026-11-13T21:04:14+00:00",
+    "duration_s": 2.285,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -27,12 +27,12 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
+        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": true,
-        "uncommitted_entries": 13
+        "uncommitted_entries": 14
       },
-      "source_digest": "sha256:ea1b68418038c356cd75ec38d7332888b948f451481fe46e6f0e197a6ce90b67",
+      "source_digest": "sha256:e5d0a249294c1fe593ece0870a3cb6810345e72250c61fe990f475cd45008942",
       "source_tree_unmodified": true,
       "files_in_scope": 37
     },
@@ -102,15 +102,15 @@
   },
   "inventory": {
     "file_count": 37,
-    "total_bytes": 163270,
+    "total_bytes": 166020,
     "languages": {
       "javascript": {
         "files": 1,
-        "lines": 80
+        "lines": 93
       },
       "python": {
         "files": 25,
-        "lines": 3014
+        "lines": 3058
       }
     },
     "supported_languages": [
@@ -203,13 +203,13 @@
     },
     "finding_severity_counts": {
       "info": 0,
-      "low": 7,
+      "low": 8,
       "medium": 0,
       "high": 0,
       "critical": 0
     },
     "suppressed_findings": 27,
-    "results_digest": "sha256:8fbedc7a3c0f9f462826eeeb8aadb0beb28c68ea07f2a0d1ab8cd4ad55eef26b"
+    "results_digest": "sha256:ddf8992727adacb6c7a20d3baff53766e8b1f6ff545d73ab513b878f0485f839"
   },
   "controls": [
     {
@@ -332,7 +332,7 @@
       "title": "Python static code quality (ruff)",
       "category": "code_quality",
       "status": "WARNING",
-      "reason": "5 finding(s) at or above 'low' severity",
+      "reason": "6 finding(s) at or above 'low' severity",
       "scanner": "ruff",
       "scanner_version": "0.16.9",
       "requires_network": false,
@@ -346,7 +346,7 @@
       },
       "finding_counts": {
         "info": 0,
-        "low": 5,
+        "low": 6,
         "medium": 0,
         "high": 0,
         "critical": 0
@@ -417,6 +417,19 @@
           "suppressed": false,
           "suppression_reason": null,
           "fingerprint": "88e9b331b26966b6"
+        },
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "C901",
+          "severity": "low",
+          "message": "`scan` is too complex (12 > 10)",
+          "file": "src/eaf/scanners/js_tools.py",
+          "line": 74,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "02ade54bf3511ad9"
         }
       ],
       "evidence": [
@@ -437,8 +450,8 @@
             "... (+22 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.012,
-          "stdout_sha256": "210bc31094b8d91c956df635d919f2ee4da0bebb5b1ebeaf123cef95b22bd601",
+          "duration_s": 0.013,
+          "stdout_sha256": "1bc82a49902b904470a38462c88e18852162b5c6cc91e42cc8999bb49948f12f",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -520,7 +533,7 @@
             "src/eaf/data/eslint.config.cjs"
           ],
           "exit_code": 0,
-          "duration_s": 0.186,
+          "duration_s": 0.168,
           "stdout_sha256": "2888877175f45b03f94a1340bdd2023c597e0c688ef6c79c1ae4b70aa2079b2c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -528,9 +541,10 @@
         }
       ],
       "notes": [
-        "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown)."
+        "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown).",
+        "Inline 'eslint-disable' comments in the source are honoured."
       ],
-      "duration_s": 0.376
+      "duration_s": 0.346
     },
     {
       "id": "quality.eslint-ts",
@@ -724,25 +738,12 @@
           "severity": "low",
           "message": "Consider possible security implications associated with the subprocess module. [blacklist]",
           "file": "src/eaf/scanners/js_tools.py",
-          "line": 7,
+          "line": 8,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Import-level notices only. Running scanner subprocesses and parsing their XML output is the purpose of this tool.",
-          "fingerprint": "d926d547a8743df0"
-        },
-        {
-          "check_id": "security.bandit",
-          "rule_id": "B603",
-          "severity": "low",
-          "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
-          "file": "src/eaf/scanners/js_tools.py",
-          "line": 31,
-          "cwe": "CWE-78",
-          "confidence": "high",
-          "suppressed": true,
-          "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "2b081cf194934976"
+          "fingerprint": "7dde507449236699"
         },
         {
           "check_id": "security.bandit",
@@ -756,6 +757,19 @@
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
           "fingerprint": "16020434a4bb265b"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B603",
+          "severity": "low",
+          "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
+          "file": "src/eaf/scanners/js_tools.py",
+          "line": 61,
+          "cwe": "CWE-78",
+          "confidence": "high",
+          "suppressed": true,
+          "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
+          "fingerprint": "dca98082f1d03bb2"
         },
         {
           "check_id": "security.bandit",
@@ -854,12 +868,12 @@
           "severity": "low",
           "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
           "file": "tests/test_scanners.py",
-          "line": 139,
+          "line": 154,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "3e1f549b2abeffad"
+          "fingerprint": "305715446fb31b2c"
         },
         {
           "check_id": "security.bandit",
@@ -867,12 +881,12 @@
           "severity": "low",
           "message": "Starting a process with a partial executable path [start_process_with_partial_path]",
           "file": "tests/test_scanners.py",
-          "line": 139,
+          "line": 154,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "fc04b9f6f882ecbe"
+          "fingerprint": "41a9a1d3b7ad05db"
         },
         {
           "check_id": "security.bandit",
@@ -880,12 +894,12 @@
           "severity": "low",
           "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
           "file": "tests/test_scanners.py",
-          "line": 140,
+          "line": 155,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "dfe7e5f4b9b06df6"
+          "fingerprint": "2b417a4962fd6d8e"
         },
         {
           "check_id": "security.bandit",
@@ -893,12 +907,12 @@
           "severity": "low",
           "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
           "file": "tests/test_scanners.py",
-          "line": 141,
+          "line": 156,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "8e49613387e66e34"
+          "fingerprint": "2aca17d4e5d1e481"
         },
         {
           "check_id": "security.bandit",
@@ -906,12 +920,12 @@
           "severity": "low",
           "message": "subprocess call - check for execution of untrusted input. [subprocess_without_shell_equals_true]",
           "file": "tests/test_scanners.py",
-          "line": 149,
+          "line": 164,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "56ec3ba99873e144"
+          "fingerprint": "de6ec0673aa446c4"
         },
         {
           "check_id": "security.bandit",
@@ -919,12 +933,12 @@
           "severity": "low",
           "message": "Starting a process with a partial executable path [start_process_with_partial_path]",
           "file": "tests/test_scanners.py",
-          "line": 149,
+          "line": 164,
           "cwe": "CWE-78",
           "confidence": "high",
           "suppressed": true,
           "suppression_reason": "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests).",
-          "fingerprint": "ee8510f04a8d2128"
+          "fingerprint": "38fef136fc0d791e"
         }
       ],
       "evidence": [
@@ -945,8 +959,8 @@
             "... (+19 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.434,
-          "stdout_sha256": "cc35a1906e013cae94e9ab9a760fd21480e6944af67e5e643b2cfd6e781ba732",
+          "duration_s": 0.469,
+          "stdout_sha256": "ee1fe3a21df19e3acfbb7fce85c6690f35dd217f2621f7794c7093993dde2399",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -955,7 +969,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.573
+      "duration_s": 0.612
     },
     {
       "id": "security.flawfinder",
@@ -1021,8 +1035,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.196,
-          "stdout_sha256": "eb1430f81212367ce709b27ecb8d1b73af5888e65688bb4b089fbbc5e105cf9b",
+          "duration_s": 0.212,
+          "stdout_sha256": "492e19b75c629c06f2abfeb9d7c0d351fda66d79c8a50d3938d6a5e4220aff10",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1044,8 +1058,8 @@
             "... (+28 more args)"
           ],
           "exit_code": 0,
-          "duration_s": 0.391,
-          "stdout_sha256": "18b429e34c7bb7d4101f8331c459b1e5ff2c3d32c0f2f466a5ff87f0e4217cf9",
+          "duration_s": 0.393,
+          "stdout_sha256": "e51eb576607c37d01f6d5df1a6e667549208c24be859cf2cf4fb99fb7a460bf1",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1057,7 +1071,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.77
+      "duration_s": 0.765
     },
     {
       "id": "secrets.sensitive-files",
@@ -1146,7 +1160,7 @@
       "findings": [],
       "evidence": [],
       "notes": [],
-      "duration_s": 0.572
+      "duration_s": 0.52
     },
     {
       "id": "dependencies.npm-audit",

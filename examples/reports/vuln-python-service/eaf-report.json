@@ -19,8 +19,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:00:53+00:00",
-    "duration_s": 2.24,
+    "started_utc": "2026-11-13T21:04:04+00:00",
+    "duration_s": 1.945,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,7 +29,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
+        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -691,8 +691,8 @@
             "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
           ],
           "exit_code": 1,
-          "duration_s": 0.137,
-          "stdout_sha256": "2644c4800eed63a3fc0659d15a4785b0bc446e7f2d522a3ccd488b161b59352f",
+          "duration_s": 0.16,
+          "stdout_sha256": "432b656d1e7f416941c47e6877ea3be9b645ec5a1b080a52172fea947dc0e98e",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -701,7 +701,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.29
+      "duration_s": 0.293
     },
     {
       "id": "security.flawfinder",
@@ -807,8 +807,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.203,
-          "stdout_sha256": "2b41bc7a861821728a6a2048e70e9e513fde428dfa45d94cd66736f46f44e9ee",
+          "duration_s": 0.178,
+          "stdout_sha256": "67e4b06412465e6508ef3076e101a97c78370a72b3c22c873bbb4ffd0285302f",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -826,8 +826,8 @@
             "app/server.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.304,
-          "stdout_sha256": "67845290f39c8f641edd4b63004fa0f47892455b1344f59c23a068e657de0c15",
+          "duration_s": 0.204,
+          "stdout_sha256": "0ddc710256695b1f2e24eea852cca11c97ab0a7417e18f203d7f3bdb652c53ea",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -839,7 +839,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.64
+      "duration_s": 0.511
     },
     {
       "id": "secrets.sensitive-files",
@@ -1201,8 +1201,8 @@
             "off"
           ],
           "exit_code": 1,
-          "duration_s": 0.686,
-          "stdout_sha256": "424e7d82bf9c49525f96d39ff44ad0fd21004aa1ace3f80d2a544aedd91dbe6b",
+          "duration_s": 0.549,
+          "stdout_sha256": "1b8fd7b45df5650af6e4bcee9d446803d6a470aefee7160dfb0ed9c453067495",
           "stderr_sha256": "72875e9f112ae354bf49217e0d3c5670fcad65232942cf5f18792623619bc673",
           "raw_output_file": null,
           "timed_out": false
@@ -1213,7 +1213,7 @@
         "pip-audit reports no severity; all known vulnerabilities are rated 'high'.",
         "requirements-dev.txt: skipped, unpinned requirements (pytest, black) cannot be audited without dependency resolution"
       ],
-      "duration_s": 1.276
+      "duration_s": 1.111
     },
     {
       "id": "dependencies.npm-audit",

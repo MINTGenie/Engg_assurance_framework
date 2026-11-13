@@ -18,8 +18,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:01:01+00:00",
-    "duration_s": 1.522,
+    "started_utc": "2026-11-13T21:04:11+00:00",
+    "duration_s": 1.396,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -28,7 +28,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
+        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -347,7 +347,7 @@
             "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
           ],
           "exit_code": 1,
-          "duration_s": 0.01,
+          "duration_s": 0.009,
           "stdout_sha256": "638c6b5f2ca7f4c6073ed29d9f4b59fa98b1293b5f36313a5bfe37aba97b001c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -357,7 +357,7 @@
       "notes": [
         "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
       ],
-      "duration_s": 0.015
+      "duration_s": 0.013
     },
     {
       "id": "quality.cppcheck",
@@ -647,8 +647,8 @@
             "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
           ],
           "exit_code": 1,
-          "duration_s": 0.163,
-          "stdout_sha256": "92917bb8b64e894228b150de09e77eb6406b7b5ed299490c88c5f4ec277542fa",
+          "duration_s": 0.157,
+          "stdout_sha256": "f624d9d54ef1a5c9f9aaabb466c151efa0cde07105df2c2493407d5bc198625a",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -657,7 +657,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.324
+      "duration_s": 0.304
     },
     {
       "id": "security.flawfinder",
@@ -763,8 +763,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.209,
-          "stdout_sha256": "1ed3c8aba59949b3e785db9bd31726d1236adb6e643650a7fca7e3d805ca84ca",
+          "duration_s": 0.155,
+          "stdout_sha256": "b296437ba92a954f82677ba1da83adb1a4f0393bef36f6832891418fade43fea",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -782,8 +782,8 @@
             "app/server.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.242,
-          "stdout_sha256": "665c217cef443f9aa3978753a403e12c2eeb19a6407028fb282aa35630314fea",
+          "duration_s": 0.211,
+          "stdout_sha256": "c3ebe25e2d965224a0e09c633570bc62e8ca8d5a32246cfbd3b7065eb77f1374",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -795,7 +795,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.611
+      "duration_s": 0.495
     },
     {
       "id": "secrets.sensitive-files",
@@ -910,7 +910,7 @@
       "findings": [],
       "evidence": [],
       "notes": [],
-      "duration_s": 0.554
+      "duration_s": 0.565
     },
     {
       "id": "dependencies.npm-audit",

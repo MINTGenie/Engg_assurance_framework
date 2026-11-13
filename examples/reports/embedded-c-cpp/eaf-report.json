@@ -19,8 +19,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:00:56+00:00",
-    "duration_s": 0.737,
+    "started_utc": "2026-11-13T21:04:06+00:00",
+    "duration_s": 0.721,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,7 +29,7 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "137f727c82c5456b6530806b7ed688aa720c1e17",
+        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
         "uncommitted_entries": 0
@@ -462,10 +462,10 @@
             "--suppress=missingInclude",
             "--suppress=missingIncludeSystem",
             "-I/home/user/Engg_assurance_framework/samples/embedded-c-cpp/include",
-            "--file-list=/tmp/eaf-jv7tqb0s/cppcheck-files.txt"
+            "--file-list=/tmp/eaf-mf6mcc1i/cppcheck-files.txt"
           ],
           "exit_code": 0,
-          "duration_s": 0.017,
+          "duration_s": 0.015,
           "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "stderr_sha256": "fb835a7e255d92c07723c7cb474f05eefa511921de0a633965ffe20a2af485a5",
           "raw_output_file": null,
@@ -476,7 +476,7 @@
         "Analysed without a compilation database: include paths and preprocessor defines are unknown, so some code paths are not checked and some findings may be configuration artefacts.",
         "Include path heuristic: 1 director(ies) containing headers inside the scope were passed with -I."
       ],
-      "duration_s": 0.021
+      "duration_s": 0.019
     },
     {
       "id": "quality.eslint-js",
@@ -806,7 +806,7 @@
             "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/tests/test_ring_buffer.cpp"
           ],
           "exit_code": 0,
-          "duration_s": 0.06,
+          "duration_s": 0.061,
           "stdout_sha256": "8c6ee9e868265fbd256c0f3043e8895b688c0fc8bf2d4a49c450754dabebaf4c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -816,7 +816,7 @@
       "notes": [
         "flawfinder matches function names lexically without data-flow analysis; expect false positives, especially at risk levels 1-2 (reported as 'low')."
       ],
-      "duration_s": 0.123
+      "duration_s": 0.112
     },
     {
       "id": "secrets.detect-secrets",
@@ -851,8 +851,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.189,
-          "stdout_sha256": "589ad0cbc0813fde8e80e026ac449c94e96a318d131c23b7fc688616888a1f3e",
+          "duration_s": 0.207,
+          "stdout_sha256": "3cf01fd5b9d36756e367359502c298618a3dd6f261ea27afa8439d6858051a96",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -873,8 +873,8 @@
             "tests/test_ring_buffer.cpp"
           ],
           "exit_code": 0,
-          "duration_s": 0.228,
-          "stdout_sha256": "eb49af5a3be209b1b34465811ac4c443df7b2040002f9cb8356f95a13486d536",
+          "duration_s": 0.208,
+          "stdout_sha256": "69d82a12ad80343cc53de17d076fa499977c2b8a7fdc66aa45e899d52d07b4b8",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -886,7 +886,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.573
+      "duration_s": 0.57
     },
     {
       "id": "secrets.sensitive-files",

@@ -48,7 +48,7 @@ sudo apt-get install cppcheck                         # C/C++
 npm install -g eslint @typescript-eslint/parser       # JS / TS (Node.js required)
 
 eaf scanners        # shows every adapter, tool version, or MISSING
-pytest              # 44 tests; scanner integration tests skip if a tool is missing
+pytest              # 45 tests; scanner integration tests skip if a tool is missing
 ```
 
 A missing scanner never aborts an assessment: its check is reported as `NOT_EXECUTED` with
