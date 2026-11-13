@@ -17,8 +17,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:04:14+00:00",
-    "duration_s": 2.285,
+    "started_utc": "2026-11-13T21:07:25+00:00",
+    "duration_s": 2.458,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -27,14 +27,14 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
+        "revision": "813515a1fc0d1fd9907edf00c98f8dd061898899",
         "branch": "ccr-632b2465-ai4euc",
-        "dirty": true,
-        "uncommitted_entries": 14
+        "dirty": false,
+        "uncommitted_entries": 0
       },
-      "source_digest": "sha256:e5d0a249294c1fe593ece0870a3cb6810345e72250c61fe990f475cd45008942",
+      "source_digest": "sha256:4a8898aebfdad4a060839cd2fa33409d6e56a02dd9eb790392f3650b54e86b0b",
       "source_tree_unmodified": true,
-      "files_in_scope": 37
+      "files_in_scope": 39
     },
     "network_allowed": true,
     "policy": {
@@ -101,8 +101,8 @@
     }
   },
   "inventory": {
-    "file_count": 37,
-    "total_bytes": 166020,
+    "file_count": 39,
+    "total_bytes": 182100,
     "languages": {
       "javascript": {
         "files": 1,
@@ -142,6 +142,7 @@
     "excluded_paths": [
       ".git/",
       ".pytest_cache/",
+      "build/",
       "examples/reports/",
       "samples/clean-python-lib/",
       "samples/embedded-c-cpp/",
@@ -192,11 +193,11 @@
     "skipped_symlinks": 0
   },
   "summary": {
-    "overall_status": "WARNING",
-    "overall_reason": "3 check(s) raised warnings",
+    "overall_status": "FAIL",
+    "overall_reason": "1 check(s) failed",
     "check_status_counts": {
-      "PASS": 9,
-      "FAIL": 0,
+      "PASS": 8,
+      "FAIL": 1,
       "WARNING": 3,
       "NOT_APPLICABLE": 4,
       "NOT_EXECUTED": 1
@@ -204,12 +205,12 @@
     "finding_severity_counts": {
       "info": 0,
       "low": 8,
-      "medium": 0,
+      "medium": 1,
       "high": 0,
       "critical": 0
     },
     "suppressed_findings": 27,
-    "results_digest": "sha256:ddf8992727adacb6c7a20d3baff53766e8b1f6ff545d73ab513b878f0485f839"
+    "results_digest": "sha256:3dcbb4d155838aaa18fe726615f85e3f827b0a59637dc6a86049c24143f1ec9f"
   },
   "controls": [
     {
@@ -257,12 +258,12 @@
     {
       "id": "EAF-SEC-02",
       "title": "No credentials or key material in source",
-      "status": "PASS",
+      "status": "FAIL",
       "reason": "Worst status of mapped checks",
       "checks": [
         {
           "id": "secrets.detect-secrets",
-          "status": "PASS"
+          "status": "FAIL"
         },
         {
           "id": "secrets.sensitive-files",
@@ -450,7 +451,7 @@
             "... (+22 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.013,
+          "duration_s": 0.011,
           "stdout_sha256": "1bc82a49902b904470a38462c88e18852162b5c6cc91e42cc8999bb49948f12f",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -460,7 +461,7 @@
       "notes": [
         "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
       ],
-      "duration_s": 0.017
+      "duration_s": 0.016
     },
     {
       "id": "quality.cppcheck",
@@ -533,7 +534,7 @@
             "src/eaf/data/eslint.config.cjs"
           ],
           "exit_code": 0,
-          "duration_s": 0.168,
+          "duration_s": 0.193,
           "stdout_sha256": "2888877175f45b03f94a1340bdd2023c597e0c688ef6c79c1ae4b70aa2079b2c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -544,7 +545,7 @@
         "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown).",
         "Inline 'eslint-disable' comments in the source are honoured."
       ],
-      "duration_s": 0.346
+      "duration_s": 0.417
     },
     {
       "id": "quality.eslint-ts",
@@ -959,8 +960,8 @@
             "... (+19 more args)"
           ],
           "exit_code": 1,
-          "duration_s": 0.469,
-          "stdout_sha256": "ee1fe3a21df19e3acfbb7fce85c6690f35dd217f2621f7794c7093993dde2399",
+          "duration_s": 0.461,
+          "stdout_sha256": "bdc65e31b23201e5ebbc9c53111a176e2f701019b311d887b9388676546e7c4c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -969,7 +970,7 @@
       "notes": [
         "Bandit tests skipped: B101 (assert)."
       ],
-      "duration_s": 0.612
+      "duration_s": 0.63
     },
     {
       "id": "security.flawfinder",
@@ -1006,13 +1007,13 @@
       "id": "secrets.detect-secrets",
       "title": "Hardcoded secrets in file contents (detect-secrets)",
       "category": "secrets",
-      "status": "PASS",
-      "reason": "No findings",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'medium' severity",
       "scanner": "detect-secrets",
       "scanner_version": "1.5.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 37,
+      "files_examined": 39,
       "thresholds": {
         "fail_at": "medium",
         "warn_at": "low"
@@ -1020,12 +1021,26 @@
       "finding_counts": {
         "info": 0,
         "low": 0,
-        "medium": 0,
+        "medium": 1,
         "high": 0,
         "critical": 0
       },
       "suppressed_count": 0,
-      "findings": [],
+      "findings": [
+        {
+          "check_id": "secrets.detect-secrets",
+          "rule_id": "Secret-Keyword",
+          "severity": "medium",
+          "message": "Possible secret: Secret Keyword",
+          "file": "docs/VALIDATION.md",
+          "line": 141,
+          "cwe": null,
+          "confidence": "heuristic",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "653aa634b1b1b0f2"
+        }
+      ],
       "evidence": [
         {
           "command": [
@@ -1035,8 +1050,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.212,
-          "stdout_sha256": "492e19b75c629c06f2abfeb9d7c0d351fda66d79c8a50d3938d6a5e4220aff10",
+          "duration_s": 0.186,
+          "stdout_sha256": "a33ab7b95caf5ec54f87e2076b0dbd769c66f4283594d12840921ceaf3dcd7cb",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1055,11 +1070,11 @@
             ".github/skills/eaf-assess/SKILL.md",
             "docs/ARCHITECTURE.md",
             "docs/COPILOT.md",
-            "... (+28 more args)"
+            "... (+30 more args)"
           ],
           "exit_code": 0,
-          "duration_s": 0.393,
-          "stdout_sha256": "e51eb576607c37d01f6d5df1a6e667549208c24be859cf2cf4fb99fb7a460bf1",
+          "duration_s": 0.439,
+          "stdout_sha256": "afc65b982e3d43d123e3353e06ec9af5de121679f67908d2c28c5f72aa3bf7df",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -1071,7 +1086,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.765
+      "duration_s": 0.806
     },
     {
       "id": "secrets.sensitive-files",
@@ -1083,7 +1098,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 37,
+      "files_examined": 39,
       "thresholds": {
         "fail_at": "high",
         "warn_at": "low"
@@ -1160,7 +1175,7 @@
       "findings": [],
       "evidence": [],
       "notes": [],
-      "duration_s": 0.52
+      "duration_s": 0.565
     },
     {
       "id": "dependencies.npm-audit",
@@ -1200,7 +1215,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 37,
+      "files_examined": 39,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
@@ -1228,7 +1243,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 37,
+      "files_examined": 39,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
@@ -1391,7 +1406,7 @@
       "scanner_version": "0.1.0",
       "requires_network": false,
       "languages": [],
-      "files_examined": 37,
+      "files_examined": 39,
       "thresholds": {
         "fail_at": "never",
         "warn_at": "low"
