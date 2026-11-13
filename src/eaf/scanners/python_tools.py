@@ -147,14 +147,22 @@ class PipAuditAdapter(ScannerAdapter):
                                       f"{res.stderr.strip()[-300:]}") from exc
             audited += 1
             out.files_examined += 1
+            # The advisory service returns aliases in varying order and may list one advisory
+            # several times; normalise so that identical inputs give identical findings.
+            merged: dict[tuple, dict] = {}
             for dep in data.get("dependencies", []):
                 for v in dep.get("vulns", []):
-                    fix = ", ".join(v.get("fix_versions", [])) or "none listed"
-                    out.findings.append(Finding(
-                        check_id=self.id, rule_id=v.get("id", "VULN"), severity=Severity.HIGH,
-                        message=f"{dep.get('name')} {dep.get('version')} has a known vulnerability "
-                                f"({', '.join(v.get('aliases', [])[:3]) or v.get('id')}); "
-                                f"fix versions: {fix}", file=rel))
+                    entry = merged.setdefault((dep.get("name"), dep.get("version"), v.get("id", "VULN")),
+                                              {"aliases": set(), "fixes": set()})
+                    entry["aliases"].update(v.get("aliases", []))
+                    entry["fixes"].update(v.get("fix_versions", []))
+            for (name, version, vuln_id), entry in sorted(merged.items()):
+                aliases = ", ".join(sorted(entry["aliases"])[:3]) or vuln_id
+                fixes = ", ".join(sorted(entry["fixes"])) or "none listed"
+                out.findings.append(Finding(
+                    check_id=self.id, rule_id=vuln_id, severity=Severity.HIGH,
+                    message=f"{name} {version} has a known vulnerability ({aliases}); "
+                            f"fix versions: {fixes}", file=rel))
         if not audited:
             raise ScanNotExecuted("No fully pinned requirements file could be audited: "
                                   + "; ".join(out.notes[2:]))

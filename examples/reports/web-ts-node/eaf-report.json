@@ -1,0 +1,1320 @@
+{
+  "schema_version": "1.0",
+  "disclaimer": "This report is an automated engineering quality indication produced by a prototype. A PASS result means only that the listed tools reported no findings above the policy thresholds for the assessed scope. It is NOT a security certification, does NOT establish ISO 26262 / ISO 21434 / ASPICE compliance, and is NOT an Audi IT or release approval. Checks marked NOT EXECUTED or NOT APPLICABLE provide no assurance.",
+  "tool": {
+    "name": "eaf",
+    "version": "0.1.0",
+    "python": "3.13.18",
+    "platform": "Linux x86_64",
+    "command_line": [
+      "assess",
+      "samples/web-ts-node",
+      "--depth",
+      "1",
+      "--allow-network",
+      "--no-evidence",
+      "-q",
+      "-o",
+      "examples/reports/web-ts-node"
+    ]
+  },
+  "assessment": {
+    "started_utc": "2026-11-13T20:56:59+00:00",
+    "duration_s": 2.151,
+    "depth": 1,
+    "depth_description": "Level 1 - static source inspection (read-only)",
+    "scope": {
+      "type": "repository",
+      "path": "/home/user/Engg_assurance_framework/samples/web-ts-node",
+      "git": {
+        "is_git_repository": true,
+        "toplevel": "/home/user/Engg_assurance_framework",
+        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "branch": "ccr-632b2465-ai4euc",
+        "dirty": false,
+        "uncommitted_entries": 0
+      },
+      "source_digest": "sha256:526e4f92bda0df7af2d1826555bd2d47e6ab47f34b4b00b11b5b89bf3a2706bc",
+      "source_tree_unmodified": true,
+      "files_in_scope": 7
+    },
+    "network_allowed": true,
+    "policy": {
+      "id": "eaf-baseline",
+      "version": "1.0.0",
+      "title": "EAF Baseline Engineering Hygiene Policy",
+      "status": "active",
+      "adapter": "threshold",
+      "source": "eaf-baseline",
+      "sha256": "a703fabe2001fda35adfe633cb029aabeb6d4be135dc73490c2807a9b9f5336f"
+    },
+    "profile": {
+      "source": "built-in defaults",
+      "name": "",
+      "component": "",
+      "owner": "",
+      "criticality": "standard",
+      "development_mode": "unknown",
+      "ai_tools": [],
+      "domain": "",
+      "lifecycle_stage": "",
+      "notes": "",
+      "policy": "eaf-baseline",
+      "exclude": [],
+      "skip_checks": [],
+      "allow_network": false,
+      "suppressions": []
+    }
+  },
+  "inventory": {
+    "file_count": 7,
+    "total_bytes": 23659,
+    "languages": {
+      "javascript": {
+        "files": 1,
+        "lines": 43
+      },
+      "typescript": {
+        "files": 1,
+        "lines": 30
+      }
+    },
+    "supported_languages": [
+      "javascript",
+      "typescript"
+    ],
+    "unsupported_languages": [],
+    "frameworks": [
+      {
+        "name": "Express",
+        "ecosystem": "npm",
+        "detected_in": "package.json"
+      },
+      {
+        "name": "TypeScript compiler",
+        "ecosystem": "npm",
+        "detected_in": "package.json"
+      }
+    ],
+    "dependency_manifests": [
+      {
+        "path": "package-lock.json",
+        "ecosystem": "npm",
+        "kind": "lockfile"
+      },
+      {
+        "path": "package.json",
+        "ecosystem": "npm",
+        "kind": "manifest"
+      }
+    ],
+    "build_systems": [
+      {
+        "system": "tsc",
+        "path": "tsconfig.json"
+      },
+      {
+        "system": "npm-scripts",
+        "path": "package.json",
+        "scripts": [
+          "build",
+          "start"
+        ]
+      }
+    ],
+    "ci_configuration": [],
+    "excluded_paths": [],
+    "exclude_patterns": [
+      ".eggs",
+      ".git",
+      ".gradle",
+      ".hg",
+      ".idea",
+      ".mypy_cache",
+      ".next",
+      ".nox",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      ".vscode",
+      "__pycache__",
+      "bower_components",
+      "build",
+      "cmake-build-debug",
+      "cmake-build-release",
+      "coverage",
+      "dist",
+      "eaf-reports",
+      "env",
+      "node_modules",
+      "out",
+      "target",
+      "venv",
+      "*.min.js",
+      "*.min.css",
+      "*.map",
+      "*.egg-info"
+    ],
+    "skipped_symlinks": 0
+  },
+  "summary": {
+    "overall_status": "FAIL",
+    "overall_reason": "5 check(s) failed",
+    "check_status_counts": {
+      "PASS": 3,
+      "FAIL": 5,
+      "WARNING": 4,
+      "NOT_APPLICABLE": 5,
+      "NOT_EXECUTED": 0
+    },
+    "finding_severity_counts": {
+      "info": 0,
+      "low": 14,
+      "medium": 7,
+      "high": 9,
+      "critical": 1
+    },
+    "suppressed_findings": 0,
+    "results_digest": "sha256:45626800d287caed3e61d2d1419139bfbbe4b9234fff804c7d8f13f98894b319"
+  },
+  "controls": [
+    {
+      "id": "EAF-QUAL-01",
+      "title": "Static code quality analysis shows no blocking defects",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "quality.ruff",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.cppcheck",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-js",
+          "status": "FAIL"
+        },
+        {
+          "id": "quality.eslint-ts",
+          "status": "FAIL"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-01",
+      "title": "Static security analysis shows no blocking weaknesses",
+      "status": "NOT_APPLICABLE",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.bandit",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "security.flawfinder",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-02",
+      "title": "No credentials or key material in source",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "secrets.detect-secrets",
+          "status": "FAIL"
+        },
+        {
+          "id": "secrets.sensitive-files",
+          "status": "FAIL"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-DEP-01",
+      "title": "Third-party dependencies are pinned and free of known vulnerabilities",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "dependencies.pinning",
+          "status": "PASS"
+        },
+        {
+          "id": "dependencies.pip-audit",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "dependencies.npm-audit",
+          "status": "FAIL"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-HYG-01",
+      "title": "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "hygiene.readme",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.license",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.gitignore",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.tests-present",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.ci-config",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.large-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    }
+  ],
+  "checks": [
+    {
+      "id": "quality.ruff",
+      "title": "Python static code quality (ruff)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No python source files in scope",
+      "scanner": "ruff",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.cppcheck",
+      "title": "C/C++ static analysis (cppcheck)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "cppcheck",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-js",
+      "title": "JavaScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'high' severity",
+      "scanner": "eslint",
+      "scanner_version": "10.1.0",
+      "requires_network": false,
+      "languages": [
+        "javascript"
+      ],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 6,
+        "medium": 4,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-eval",
+          "severity": "high",
+          "message": "`eval` can be harmful.",
+          "file": "src/server.js",
+          "line": 10,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "d8dc8a596ba47f33"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-dupe-keys",
+          "severity": "medium",
+          "message": "Duplicate key 'id'.",
+          "file": "src/server.js",
+          "line": 21,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "e39e23806ce5daff"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-unreachable",
+          "severity": "medium",
+          "message": "Unreachable code.",
+          "file": "src/server.js",
+          "line": 32,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9c4551fa811b88df"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "valid-typeof",
+          "severity": "medium",
+          "message": "Invalid typeof comparison value.",
+          "file": "src/server.js",
+          "line": 37,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ca3b12d358383366"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "use-isnan",
+          "severity": "medium",
+          "message": "Use the isNaN function to compare with NaN.",
+          "file": "src/server.js",
+          "line": 40,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "2a16453431c7021a"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-unused-vars",
+          "severity": "low",
+          "message": "'fs' is assigned a value but never used.",
+          "file": "src/server.js",
+          "line": 3,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "d6dfbec7da236945"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-unused-vars",
+          "severity": "low",
+          "message": "'unusedCounter' is assigned a value but never used.",
+          "file": "src/server.js",
+          "line": 6,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "0052d26206681662"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-var",
+          "severity": "low",
+          "message": "Unexpected var, use let or const instead.",
+          "file": "src/server.js",
+          "line": 6,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "93de761c09bb29c7"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "eqeqeq",
+          "severity": "low",
+          "message": "Expected '===' and instead saw '=='.",
+          "file": "src/server.js",
+          "line": 17,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "6479f284d08afee6"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-unused-vars",
+          "severity": "low",
+          "message": "'schedule' is defined but never used.",
+          "file": "src/server.js",
+          "line": 28,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "a9a0df84eec3591a"
+        },
+        {
+          "check_id": "quality.eslint-js",
+          "rule_id": "no-unused-vars",
+          "severity": "low",
+          "message": "'isNumber' is defined but never used.",
+          "file": "src/server.js",
+          "line": 35,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "295fe491c37e7b21"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/opt/node22/bin/eslint",
+            "--no-config-lookup",
+            "-c",
+            "/home/user/Engg_assurance_framework/src/eaf/data/eslint.config.cjs",
+            "--format",
+            "json",
+            "--no-error-on-unmatched-pattern",
+            "--no-warn-ignored",
+            "src/server.js"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.174,
+          "stdout_sha256": "7348d58741d1214cbd959b80238683694107b278f9eee3702e132496d0fc32bf",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown)."
+      ],
+      "duration_s": 0.427
+    },
+    {
+      "id": "quality.eslint-ts",
+      "title": "TypeScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'high' severity",
+      "scanner": "eslint",
+      "scanner_version": "10.1.0",
+      "requires_network": false,
+      "languages": [
+        "typescript"
+      ],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 2,
+        "medium": 2,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "quality.eslint-ts",
+          "rule_id": "no-new-func",
+          "severity": "high",
+          "message": "The Function constructor is eval.",
+          "file": "src/telemetry.ts",
+          "line": 9,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1cce3bcd48e3152d"
+        },
+        {
+          "check_id": "quality.eslint-ts",
+          "rule_id": "no-debugger",
+          "severity": "medium",
+          "message": "Unexpected 'debugger' statement.",
+          "file": "src/telemetry.ts",
+          "line": 14,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "175833dadad96bb5"
+        },
+        {
+          "check_id": "quality.eslint-ts",
+          "rule_id": "no-duplicate-case",
+          "severity": "medium",
+          "message": "Duplicate case label.",
+          "file": "src/telemetry.ts",
+          "line": 18,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "2e99cfc0745bc75c"
+        },
+        {
+          "check_id": "quality.eslint-ts",
+          "rule_id": "eqeqeq",
+          "severity": "low",
+          "message": "Expected '===' and instead saw '=='.",
+          "file": "src/telemetry.ts",
+          "line": 21,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "10982bf5a712b923"
+        },
+        {
+          "check_id": "quality.eslint-ts",
+          "rule_id": "no-empty",
+          "severity": "low",
+          "message": "Empty block statement.",
+          "file": "src/telemetry.ts",
+          "line": 27,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "cec2b71d32f6055c"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/opt/node22/bin/eslint",
+            "--no-config-lookup",
+            "-c",
+            "/home/user/Engg_assurance_framework/src/eaf/data/eslint.config.cjs",
+            "--format",
+            "json",
+            "--no-error-on-unmatched-pattern",
+            "--no-warn-ignored",
+            "src/telemetry.ts"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.356,
+          "stdout_sha256": "e29db752b7a782aec89d4ed094e9cef0939885daeae1dbca19e48cac407db3bf",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "EAF-owned config with core ESLint rules only; the repository's ESLint config and plugins are not loaded (no-undef is disabled because runtime globals are unknown).",
+        "Syntax-level rules only: no type-aware rules, no tsc type check."
+      ],
+      "duration_s": 0.559
+    },
+    {
+      "id": "security.bandit",
+      "title": "Python security weaknesses (bandit)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No python source files in scope",
+      "scanner": "bandit",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.flawfinder",
+      "title": "C/C++ risky API usage (flawfinder)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "flawfinder",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "secrets.detect-secrets",
+      "title": "Hardcoded secrets in file contents (detect-secrets)",
+      "category": "secrets",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'medium' severity",
+      "scanner": "detect-secrets",
+      "scanner_version": "1.5.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "secrets.detect-secrets",
+          "rule_id": "Basic-Auth-Credentials",
+          "severity": "high",
+          "message": "Possible secret: Basic Auth Credentials",
+          "file": ".env",
+          "line": 2,
+          "cwe": null,
+          "confidence": "pattern",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "e17014ed2bae2f42"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            "eaf_canary.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.207,
+          "stdout_sha256": "149152c5bebff5ac3c5362021daf51d98b50f3d9e06e665cfc4fca3b3e78afd5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        },
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            ".env",
+            "README.md",
+            "package.json",
+            "tsconfig.json",
+            "src/server.js",
+            "src/telemetry.ts"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.192,
+          "stdout_sha256": "6f25c44a95aa8b52a57fcba5f83c9e921dc370ac664bde7c62a51e2faf876dcb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Working tree only; git history is not scanned.",
+        "Secret values are never written to the report (only type, file and line).",
+        "Online secret verification is disabled (--no-verify).",
+        "1 file(s) skipped (lockfiles or larger than 1000000 bytes).",
+        "Scanner self-test passed (planted canary secret was detected)."
+      ],
+      "duration_s": 0.541
+    },
+    {
+      "id": "secrets.sensitive-files",
+      "title": "Credential / key files present in the source tree",
+      "category": "secrets",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'high' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 7,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "secrets.sensitive-files",
+          "rule_id": "sensitive-file",
+          "severity": "high",
+          "message": "File '.env' typically holds credentials or private key material and should not be stored in source control",
+          "file": ".env",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "aa601cd927fde140"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.001
+    },
+    {
+      "id": "dependencies.pinning",
+      "title": "Dependencies are pinned / locked",
+      "category": "dependencies",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Works offline. C/C++ dependencies vendored or resolved by the build system (CMake FetchContent, git submodules) are not analysed."
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.pip-audit",
+      "title": "Python dependencies: known vulnerabilities (pip-audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No Python dependency manifest in scope",
+      "scanner": "pip-audit",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.npm-audit",
+      "title": "npm dependencies: known vulnerabilities (npm audit)",
+      "category": "dependencies",
+      "status": "FAIL",
+      "reason": "6 finding(s) at or above 'high' severity",
+      "scanner": "npm",
+      "scanner_version": "10.9.9",
+      "requires_network": true,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 3,
+        "medium": 0,
+        "high": 5,
+        "critical": 1
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-vh95-rmgr-6w4m",
+          "severity": "critical",
+          "message": "minimist (1.0.0 - 1.2.5): Prototype Pollution in minimist; Prototype Pollution in minimist",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "6330c51ff5c16fbb"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-35jh-r3h4-6jhm",
+          "severity": "high",
+          "message": "lodash (<=4.17.23): Command Injection in lodash; Prototype Pollution in lodash; Regular Expression Denial of Service (ReDoS) in lodash",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ba3ce4337b7129a3"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-9wv6-86v2-598j",
+          "severity": "high",
+          "message": "path-to-regexp (<=0.1.12): path-to-regexp outputs backtracking regular expressions; path-to-regexp contains a ReDoS; path-to-regexp vulnerable to Regular Expression Denial of Service via multiple route parameters [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "6a77d980d7c212f0"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-hrpp-h998-j3pp",
+          "severity": "high",
+          "message": "qs (<=6.15.4): qs vulnerable to Prototype Pollution; qs's arrayLimit bypass in its bracket notation allows DoS via memory exhaustion; qs: Denial of Service via Attacker Controlled isBuffer [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "c4b8132a76d77411"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-qw6h-vgh9-j6wx",
+          "severity": "high",
+          "message": "express (<=4.21.2 || 5.0.0-alpha.1 - 5.0.0): express vulnerable to XSS via response.redirect(); Express.js Open Redirect in malformed URLs",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "4dbf1b7883cbb7a7"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-qwcr-r2fm-qrc7",
+          "severity": "high",
+          "message": "body-parser (<=1.20.8): body-parser vulnerable to denial of service when url encoding is enabled; body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement; body-parser vulnerable to Denial of Service via trailing bytes after a compressed request body [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "c9668eff13fad8e7"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-cm22-4g7w-348p",
+          "severity": "low",
+          "message": "serve-static (<=1.16.0): serve-static vulnerable to template injection that can lead to XSS [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "7bcf9a377558d045"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-m6fv-jmcg-4jfg",
+          "severity": "low",
+          "message": "send (<0.19.0): send vulnerable to template injection that can lead to XSS [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9f7659de2b96849c"
+        },
+        {
+          "check_id": "dependencies.npm-audit",
+          "rule_id": "GHSA-pxg6-pf52-xh8x",
+          "severity": "low",
+          "message": "cookie (<0.7.0): cookie accepts cookie name, path, and domain with out of bounds characters [transitive]",
+          "file": "package-lock.json",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "7fe673f94ac1d215"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/opt/node22/bin/npm",
+            "audit",
+            "--package-lock-only",
+            "--ignore-scripts",
+            "--json"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.526,
+          "stdout_sha256": "d9e952c7d77440591f9d5469fbd0b8d4f4bf155f53aad4530ed2b9bec7b7e8b6",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "The dependency tree (package names and versions, not source code) was sent to the npm registry audit endpoint."
+      ],
+      "duration_s": 0.607
+    },
+    {
+      "id": "hygiene.readme",
+      "title": "README present at scope root",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 7,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.license",
+      "title": "License / copyright notice present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 7,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.license",
+          "rule_id": "missing-license",
+          "severity": "low",
+          "message": "No LICENSE/COPYING/NOTICE file at the root of the assessed scope",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1de94e23a7ff0eb6"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.gitignore",
+      "title": ".gitignore present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.gitignore",
+          "rule_id": "missing-gitignore",
+          "severity": "low",
+          "message": "No .gitignore at the root of the assessed scope",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9e4fe9d550310a12"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.tests-present",
+      "title": "Automated tests exist for detected languages",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'medium' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp",
+        "javascript",
+        "python",
+        "typescript"
+      ],
+      "files_examined": 2,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 1,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.tests-present",
+          "rule_id": "no-tests:javascript/typescript",
+          "severity": "medium",
+          "message": "No test files found for javascript/typescript (2 source file(s))",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "7da8a990faf23b72"
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Presence only (by file/directory naming). Tests are not executed and coverage is not measured at Level 1."
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.ci-config",
+      "title": "CI pipeline configuration present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.ci-config",
+          "rule_id": "missing-ci",
+          "severity": "low",
+          "message": "No CI configuration found in the assessed scope (it may live in a parent directory or an external system)",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ea66e69576d61d8b"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.large-files",
+      "title": "No large files or build artefacts in source",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 7,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    }
+  ],
+  "limitations": [
+    "Level 1 inspects source text only: nothing is built, executed or tested.",
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects."
+  ]
+}

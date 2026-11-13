@@ -42,6 +42,7 @@ details>div{padding:0 14px 14px}
 .sev-critical,.sev-high{color:var(--fail)}.sev-medium{color:var(--warn)}.sev-low,.sev-info{color:var(--muted)}
 .suppressed td{opacity:.55}
 ul{margin:6px 0;padding-left:20px}
+.nw{white-space:nowrap}
 """
 
 
@@ -137,7 +138,7 @@ def render_html(report: dict) -> str:
         + "".join(f"<td class='num'>{c['finding_counts'].get(k, 0) or ''}</td>" for k in SEVERITIES)
         + f"<td>{e(c['reason'])}</td></tr>" for c in checks_sorted)
     control_rows = "".join(
-        f"<tr><td>{_badge(c['status'])}</td><td><code>{e(c['id'])}</code></td><td>{e(c['title'])}</td>"
+        f"<tr><td>{_badge(c['status'])}</td><td class='nw'><code>{e(c['id'])}</code></td><td>{e(c['title'])}</td>"
         f"<td>{', '.join(e(x['id']) + ' (' + e(STATUS_LABEL[x['status']]) + ')' for x in c['checks']) or e(c['reason'])}</td></tr>"
         for c in report["controls"])
     placeholder = (f"<p class='WARNING'><strong>Policy status: {e(pol['status'])}.</strong> "

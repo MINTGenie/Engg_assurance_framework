@@ -1,0 +1,1201 @@
+{
+  "schema_version": "1.0",
+  "disclaimer": "This report is an automated engineering quality indication produced by a prototype. A PASS result means only that the listed tools reported no findings above the policy thresholds for the assessed scope. It is NOT a security certification, does NOT establish ISO 26262 / ISO 21434 / ASPICE compliance, and is NOT an Audi IT or release approval. Checks marked NOT EXECUTED or NOT APPLICABLE provide no assurance.",
+  "tool": {
+    "name": "eaf",
+    "version": "0.1.0",
+    "python": "3.13.18",
+    "platform": "Linux x86_64",
+    "command_line": [
+      "assess",
+      "samples/embedded-c-cpp",
+      "--depth",
+      "1",
+      "--allow-network",
+      "--no-evidence",
+      "-q",
+      "-o",
+      "examples/reports/embedded-c-cpp"
+    ]
+  },
+  "assessment": {
+    "started_utc": "2026-11-13T20:56:58+00:00",
+    "duration_s": 0.722,
+    "depth": 1,
+    "depth_description": "Level 1 - static source inspection (read-only)",
+    "scope": {
+      "type": "repository",
+      "path": "/home/user/Engg_assurance_framework/samples/embedded-c-cpp",
+      "git": {
+        "is_git_repository": true,
+        "toplevel": "/home/user/Engg_assurance_framework",
+        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "branch": "ccr-632b2465-ai4euc",
+        "dirty": false,
+        "uncommitted_entries": 0
+      },
+      "source_digest": "sha256:28e1a91c57f494ded77c49c6c7dd999d0ff81af234f435f18d7aed03164c80ba",
+      "source_tree_unmodified": true,
+      "files_in_scope": 9
+    },
+    "network_allowed": true,
+    "policy": {
+      "id": "eaf-baseline",
+      "version": "1.0.0",
+      "title": "EAF Baseline Engineering Hygiene Policy",
+      "status": "active",
+      "adapter": "threshold",
+      "source": "eaf-baseline",
+      "sha256": "a703fabe2001fda35adfe633cb029aabeb6d4be135dc73490c2807a9b9f5336f"
+    },
+    "profile": {
+      "source": "built-in defaults",
+      "name": "",
+      "component": "",
+      "owner": "",
+      "criticality": "standard",
+      "development_mode": "unknown",
+      "ai_tools": [],
+      "domain": "",
+      "lifecycle_stage": "",
+      "notes": "",
+      "policy": "eaf-baseline",
+      "exclude": [],
+      "skip_checks": [],
+      "allow_network": false,
+      "suppressions": []
+    }
+  },
+  "inventory": {
+    "file_count": 9,
+    "total_bytes": 3677,
+    "languages": {
+      "c": {
+        "files": 2,
+        "lines": 78
+      },
+      "cpp": {
+        "files": 3,
+        "lines": 71
+      }
+    },
+    "supported_languages": [
+      "c",
+      "cpp"
+    ],
+    "unsupported_languages": [],
+    "frameworks": [
+      {
+        "name": "GTest",
+        "ecosystem": "cmake",
+        "detected_in": "CMakeLists.txt"
+      },
+      {
+        "name": "Threads",
+        "ecosystem": "cmake",
+        "detected_in": "CMakeLists.txt"
+      }
+    ],
+    "dependency_manifests": [],
+    "build_systems": [
+      {
+        "system": "cmake",
+        "path": "CMakeLists.txt"
+      }
+    ],
+    "ci_configuration": [],
+    "excluded_paths": [],
+    "exclude_patterns": [
+      ".eggs",
+      ".git",
+      ".gradle",
+      ".hg",
+      ".idea",
+      ".mypy_cache",
+      ".next",
+      ".nox",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      ".vscode",
+      "__pycache__",
+      "bower_components",
+      "build",
+      "cmake-build-debug",
+      "cmake-build-release",
+      "coverage",
+      "dist",
+      "eaf-reports",
+      "env",
+      "node_modules",
+      "out",
+      "target",
+      "venv",
+      "*.min.js",
+      "*.min.css",
+      "*.map",
+      "*.egg-info"
+    ],
+    "skipped_symlinks": 0
+  },
+  "summary": {
+    "overall_status": "FAIL",
+    "overall_reason": "2 check(s) failed",
+    "check_status_counts": {
+      "PASS": 7,
+      "FAIL": 2,
+      "WARNING": 1,
+      "NOT_APPLICABLE": 7,
+      "NOT_EXECUTED": 0
+    },
+    "finding_severity_counts": {
+      "info": 0,
+      "low": 10,
+      "medium": 7,
+      "high": 8,
+      "critical": 0
+    },
+    "suppressed_findings": 0,
+    "results_digest": "sha256:1e4f7e62bba1186608cb3a73663fc6472183f50ace461ded3b0a58403b0983b9"
+  },
+  "controls": [
+    {
+      "id": "EAF-QUAL-01",
+      "title": "Static code quality analysis shows no blocking defects",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "quality.ruff",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.cppcheck",
+          "status": "FAIL"
+        },
+        {
+          "id": "quality.eslint-js",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-ts",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-01",
+      "title": "Static security analysis shows no blocking weaknesses",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.bandit",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "security.flawfinder",
+          "status": "FAIL"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-02",
+      "title": "No credentials or key material in source",
+      "status": "PASS",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "secrets.detect-secrets",
+          "status": "PASS"
+        },
+        {
+          "id": "secrets.sensitive-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-DEP-01",
+      "title": "Third-party dependencies are pinned and free of known vulnerabilities",
+      "status": "NOT_APPLICABLE",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "dependencies.pinning",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "dependencies.pip-audit",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "dependencies.npm-audit",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-HYG-01",
+      "title": "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "hygiene.readme",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.license",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.gitignore",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.tests-present",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.ci-config",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.large-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    }
+  ],
+  "checks": [
+    {
+      "id": "quality.ruff",
+      "title": "Python static code quality (ruff)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No python source files in scope",
+      "scanner": "ruff",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.cppcheck",
+      "title": "C/C++ static analysis (cppcheck)",
+      "category": "code_quality",
+      "status": "FAIL",
+      "reason": "2 finding(s) at or above 'high' severity",
+      "scanner": "cppcheck",
+      "scanner_version": "2.13.0",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 5,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 7,
+        "high": 2,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "arrayIndexOutOfBounds",
+          "severity": "high",
+          "message": "Array 'frame->data[8]' accessed at index 8, which is out of bounds.",
+          "file": "src/can_logger.c",
+          "line": 17,
+          "cwe": "CWE-788",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "243fa254df0a488e"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "memleak",
+          "severity": "high",
+          "message": "Memory leak: frame",
+          "file": "src/can_logger.c",
+          "line": 45,
+          "cwe": "CWE-401",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "8a7a37abcea60633"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "getsCalled",
+          "severity": "medium",
+          "message": "Obsolete function 'gets' called. It is recommended to use 'fgets' or 'gets_s' instead.",
+          "file": "src/can_logger.c",
+          "line": 56,
+          "cwe": "CWE-477",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "def0c56dffa5cb77"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "uninitMemberVar",
+          "severity": "medium",
+          "message": "Member variable 'RingBuffer::tail_' is not initialized in the constructor.",
+          "file": "src/ring_buffer.cpp",
+          "line": 5,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "01dd6007ac53524a"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "uninitMemberVar",
+          "severity": "medium",
+          "message": "Member variable 'RingBuffer::overruns_' is not initialized in the constructor.",
+          "file": "src/ring_buffer.cpp",
+          "line": 5,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "6a7924f962e87348"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "noCopyConstructor",
+          "severity": "medium",
+          "message": "Class 'RingBuffer' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).",
+          "file": "src/ring_buffer.cpp",
+          "line": 6,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "6f4cb6b5c4388cc8"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "noOperatorEq",
+          "severity": "medium",
+          "message": "Class 'RingBuffer' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).",
+          "file": "src/ring_buffer.cpp",
+          "line": 6,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1fa8efcb1f729421"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "assertWithSideEffect",
+          "severity": "medium",
+          "message": "Assert statement calls a function which may have desired side effects: 'push'.",
+          "file": "tests/test_ring_buffer.cpp",
+          "line": 9,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "405e7df3fb21e78d"
+        },
+        {
+          "check_id": "quality.cppcheck",
+          "rule_id": "assertWithSideEffect",
+          "severity": "medium",
+          "message": "Assert statement calls a function which may have desired side effects: 'pop'.",
+          "file": "tests/test_ring_buffer.cpp",
+          "line": 10,
+          "cwe": "CWE-398",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "eca74f4be84dca01"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/bin/cppcheck",
+            "--xml",
+            "--xml-version=2",
+            "--quiet",
+            "--enable=warning,style,performance,portability",
+            "--suppress=missingInclude",
+            "--suppress=missingIncludeSystem",
+            "-I/home/user/Engg_assurance_framework/samples/embedded-c-cpp/include",
+            "--file-list=/tmp/eaf-n4mi99it/cppcheck-files.txt"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.012,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "fb835a7e255d92c07723c7cb474f05eefa511921de0a633965ffe20a2af485a5",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Analysed without a compilation database: include paths and preprocessor defines are unknown, so some code paths are not checked and some findings may be configuration artefacts.",
+        "Include path heuristic: 1 director(ies) containing headers inside the scope were passed with -I."
+      ],
+      "duration_s": 0.018
+    },
+    {
+      "id": "quality.eslint-js",
+      "title": "JavaScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No javascript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "javascript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-ts",
+      "title": "TypeScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No typescript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "typescript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.bandit",
+      "title": "Python security weaknesses (bandit)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No python source files in scope",
+      "scanner": "bandit",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.flawfinder",
+      "title": "C/C++ risky API usage (flawfinder)",
+      "category": "security",
+      "status": "FAIL",
+      "reason": "6 finding(s) at or above 'high' severity",
+      "scanner": "flawfinder",
+      "scanner_version": "2.0.20",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 5,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 9,
+        "medium": 0,
+        "high": 6,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1005:strcat",
+          "severity": "high",
+          "message": "[level 4] Does not check for buffer overflows when concatenating to destination [MS-banned] (CWE-120). Consider using strcat_s, strncat, strlcat, or snprintf (warning: strncat is easily misused).",
+          "file": "src/can_logger.c",
+          "line": 18,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "83986e1fc8f41a9d"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1001:strcpy",
+          "severity": "high",
+          "message": "[level 4] Does not check for buffer overflows when copying to destination [MS-banned] (CWE-120). Consider using snprintf, strcpy_s, or strlcpy (warning: strncpy easily misused).",
+          "file": "src/can_logger.c",
+          "line": 28,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9a07220d2a09fbbb"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1001:strcpy",
+          "severity": "high",
+          "message": "[level 4] Does not check for buffer overflows when copying to destination [MS-banned] (CWE-120). Consider using snprintf, strcpy_s, or strlcpy (warning: strncpy easily misused).",
+          "file": "src/can_logger.c",
+          "line": 29,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "e2864160fab4cf44"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1005:strcat",
+          "severity": "high",
+          "message": "[level 4] Does not check for buffer overflows when concatenating to destination [MS-banned] (CWE-120). Consider using strcat_s, strncat, strlcat, or snprintf (warning: strncat is easily misused).",
+          "file": "src/can_logger.c",
+          "line": 31,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "42473ee9e2831ae8"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1017:fprintf",
+          "severity": "high",
+          "message": "[level 4] If format strings can be influenced by an attacker, they can be exploited (CWE-134). Use a constant for the format specification.",
+          "file": "src/can_logger.c",
+          "line": 34,
+          "cwe": "CWE-134",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1348c55a1cb6dce7"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1014:gets",
+          "severity": "high",
+          "message": "[level 5] Does not check for buffer overflows (CWE-120, CWE-20). Use fgets() instead.",
+          "file": "src/can_logger.c",
+          "line": 56,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9f6a34365b7a9454"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1013:char",
+          "severity": "low",
+          "message": "[level 2] Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length.",
+          "file": "src/can_logger.c",
+          "line": 7,
+          "cwe": "CWE-119",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "2d46ce3fc4fef9b0"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1013:char",
+          "severity": "low",
+          "message": "[level 2] Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length.",
+          "file": "src/can_logger.c",
+          "line": 11,
+          "cwe": "CWE-119",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "8d57a6a598c5b8aa"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1015:sprintf",
+          "severity": "low",
+          "message": "[level 2] Does not check for buffer overflows (CWE-120). Use sprintf_s, snprintf, or vsnprintf.",
+          "file": "src/can_logger.c",
+          "line": 14,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "11b38b43f0030cc3"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1015:sprintf",
+          "severity": "low",
+          "message": "[level 2] Does not check for buffer overflows (CWE-120). Use sprintf_s, snprintf, or vsnprintf.",
+          "file": "src/can_logger.c",
+          "line": 17,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "b764daf948d8056f"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1013:char",
+          "severity": "low",
+          "message": "[level 2] Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length.",
+          "file": "src/can_logger.c",
+          "line": 25,
+          "cwe": "CWE-119",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "df892ce6b81d0baa"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1005:strcat",
+          "severity": "low",
+          "message": "[level 2] Does not check for buffer overflows when concatenating to destination [MS-banned] (CWE-120). Consider using strcat_s, strncat, strlcat, or snprintf (warning: strncat is easily misused).",
+          "file": "src/can_logger.c",
+          "line": 30,
+          "cwe": "CWE-120",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "4fa417ac52f84d82"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1040:fopen",
+          "severity": "low",
+          "message": "[level 2] Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).",
+          "file": "src/can_logger.c",
+          "line": 32,
+          "cwe": "CWE-362",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "070924ec598cef48"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1022:strlen",
+          "severity": "low",
+          "message": "[level 1] Does not handle strings that are not \\0-terminated; if given one it may perform an over-read (it could cause a crash if unprotected) (CWE-126).",
+          "file": "src/can_logger.c",
+          "line": 36,
+          "cwe": "CWE-126",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "23b65e4e2c8ad68f"
+        },
+        {
+          "check_id": "security.flawfinder",
+          "rule_id": "FF1047:atoi",
+          "severity": "low",
+          "message": "[level 2] Unless checked, the resulting number can exceed the expected range (CWE-190). If source untrusted, check both minimum and maximum, even if the input had no minus sign (large numbers can roll over into negative number; consider saving to an unsigned value if that is intended).",
+          "file": "src/can_logger.c",
+          "line": 57,
+          "cwe": "CWE-190",
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "80dfc9b0aa95c066"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/flawfinder",
+            "--csv",
+            "--dataonly",
+            "--quiet",
+            "--minlevel=1",
+            "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/include/can_logger.h",
+            "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/include/ring_buffer.hpp",
+            "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/src/can_logger.c",
+            "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/src/ring_buffer.cpp",
+            "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/tests/test_ring_buffer.cpp"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.058,
+          "stdout_sha256": "8c6ee9e868265fbd256c0f3043e8895b688c0fc8bf2d4a49c450754dabebaf4c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "flawfinder matches function names lexically without data-flow analysis; expect false positives, especially at risk levels 1-2 (reported as 'low')."
+      ],
+      "duration_s": 0.106
+    },
+    {
+      "id": "secrets.detect-secrets",
+      "title": "Hardcoded secrets in file contents (detect-secrets)",
+      "category": "secrets",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "detect-secrets",
+      "scanner_version": "1.5.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            "eaf_canary.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.171,
+          "stdout_sha256": "2d88f2ac8ac0c6616f824d80f32aa8f35dd43bae4edc265470e5929e0cca3b75",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        },
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            ".gitignore",
+            "CMakeLists.txt",
+            "LICENSE",
+            "README.md",
+            "include/can_logger.h",
+            "include/ring_buffer.hpp",
+            "src/can_logger.c",
+            "src/ring_buffer.cpp",
+            "tests/test_ring_buffer.cpp"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.268,
+          "stdout_sha256": "3c418ec300398332279ac0697b68ffe64674dcc2d04dfcc8b74193c82d72cad0",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Working tree only; git history is not scanned.",
+        "Secret values are never written to the report (only type, file and line).",
+        "Online secret verification is disabled (--no-verify).",
+        "Scanner self-test passed (planted canary secret was detected)."
+      ],
+      "duration_s": 0.579
+    },
+    {
+      "id": "secrets.sensitive-files",
+      "title": "Credential / key files present in the source tree",
+      "category": "secrets",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.001
+    },
+    {
+      "id": "dependencies.pinning",
+      "title": "Dependencies are pinned / locked",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No dependency manifest in scope",
+      "scanner": "eaf-builtin",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.pip-audit",
+      "title": "Python dependencies: known vulnerabilities (pip-audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No Python dependency manifest in scope",
+      "scanner": "pip-audit",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.npm-audit",
+      "title": "npm dependencies: known vulnerabilities (npm audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No package.json in scope",
+      "scanner": "npm",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.readme",
+      "title": "README present at scope root",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.license",
+      "title": "License / copyright notice present",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.gitignore",
+      "title": ".gitignore present",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.tests-present",
+      "title": "Automated tests exist for detected languages",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp",
+        "javascript",
+        "python",
+        "typescript"
+      ],
+      "files_examined": 5,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Presence only (by file/directory naming). Tests are not executed and coverage is not measured at Level 1.",
+        "c/c++: 1 test file(s) / 5 source file(s)"
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.ci-config",
+      "title": "CI pipeline configuration present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.ci-config",
+          "rule_id": "missing-ci",
+          "severity": "low",
+          "message": "No CI configuration found in the assessed scope (it may live in a parent directory or an external system)",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ea66e69576d61d8b"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.large-files",
+      "title": "No large files or build artefacts in source",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    }
+  ],
+  "limitations": [
+    "Level 1 inspects source text only: nothing is built, executed or tested.",
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects."
+  ]
+}

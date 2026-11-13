@@ -1,0 +1,1522 @@
+{
+  "schema_version": "1.0",
+  "disclaimer": "This report is an automated engineering quality indication produced by a prototype. A PASS result means only that the listed tools reported no findings above the policy thresholds for the assessed scope. It is NOT a security certification, does NOT establish ISO 26262 / ISO 21434 / ASPICE compliance, and is NOT an Audi IT or release approval. Checks marked NOT EXECUTED or NOT APPLICABLE provide no assurance.",
+  "tool": {
+    "name": "eaf",
+    "version": "0.1.0",
+    "python": "3.13.18",
+    "platform": "Linux x86_64",
+    "command_line": [
+      "assess",
+      "samples/vuln-python-service",
+      "--depth",
+      "1",
+      "--allow-network",
+      "--no-evidence",
+      "-q",
+      "-o",
+      "examples/reports/vuln-python-service"
+    ]
+  },
+  "assessment": {
+    "started_utc": "2026-11-13T20:56:56+00:00",
+    "duration_s": 2.101,
+    "depth": 1,
+    "depth_description": "Level 1 - static source inspection (read-only)",
+    "scope": {
+      "type": "repository",
+      "path": "/home/user/Engg_assurance_framework/samples/vuln-python-service",
+      "git": {
+        "is_git_repository": true,
+        "toplevel": "/home/user/Engg_assurance_framework",
+        "revision": "e07c8f366091c9c5f6e9a7a30a28b2787fb71836",
+        "branch": "ccr-632b2465-ai4euc",
+        "dirty": false,
+        "uncommitted_entries": 0
+      },
+      "source_digest": "sha256:b64590752c10b0c2235e314f520fc86fbbd640228c80a39254fe761cc3245cfa",
+      "source_tree_unmodified": true,
+      "files_in_scope": 6
+    },
+    "network_allowed": true,
+    "policy": {
+      "id": "eaf-baseline",
+      "version": "1.0.0",
+      "title": "EAF Baseline Engineering Hygiene Policy",
+      "status": "active",
+      "adapter": "threshold",
+      "source": "eaf-baseline",
+      "sha256": "a703fabe2001fda35adfe633cb029aabeb6d4be135dc73490c2807a9b9f5336f"
+    },
+    "profile": {
+      "source": "built-in defaults",
+      "name": "",
+      "component": "",
+      "owner": "",
+      "criticality": "standard",
+      "development_mode": "unknown",
+      "ai_tools": [],
+      "domain": "",
+      "lifecycle_stage": "",
+      "notes": "",
+      "policy": "eaf-baseline",
+      "exclude": [],
+      "skip_checks": [],
+      "allow_network": false,
+      "suppressions": []
+    }
+  },
+  "inventory": {
+    "file_count": 6,
+    "total_bytes": 2057,
+    "languages": {
+      "python": {
+        "files": 3,
+        "lines": 77
+      }
+    },
+    "supported_languages": [
+      "python"
+    ],
+    "unsupported_languages": [],
+    "frameworks": [
+      {
+        "name": "Flask",
+        "ecosystem": "python",
+        "detected_in": "requirements.txt"
+      },
+      {
+        "name": "pytest",
+        "ecosystem": "python",
+        "detected_in": "requirements-dev.txt"
+      },
+      {
+        "name": "requests",
+        "ecosystem": "python",
+        "detected_in": "requirements.txt"
+      }
+    ],
+    "dependency_manifests": [
+      {
+        "path": "requirements-dev.txt",
+        "ecosystem": "python",
+        "kind": "manifest"
+      },
+      {
+        "path": "requirements.txt",
+        "ecosystem": "python",
+        "kind": "manifest"
+      }
+    ],
+    "build_systems": [],
+    "ci_configuration": [],
+    "excluded_paths": [],
+    "exclude_patterns": [
+      ".eggs",
+      ".git",
+      ".gradle",
+      ".hg",
+      ".idea",
+      ".mypy_cache",
+      ".next",
+      ".nox",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      ".vscode",
+      "__pycache__",
+      "bower_components",
+      "build",
+      "cmake-build-debug",
+      "cmake-build-release",
+      "coverage",
+      "dist",
+      "eaf-reports",
+      "env",
+      "node_modules",
+      "out",
+      "target",
+      "venv",
+      "*.min.js",
+      "*.min.css",
+      "*.map",
+      "*.egg-info"
+    ],
+    "skipped_symlinks": 0
+  },
+  "summary": {
+    "overall_status": "FAIL",
+    "overall_reason": "4 check(s) failed",
+    "check_status_counts": {
+      "PASS": 3,
+      "FAIL": 4,
+      "WARNING": 5,
+      "NOT_APPLICABLE": 5,
+      "NOT_EXECUTED": 0
+    },
+    "finding_severity_counts": {
+      "info": 0,
+      "low": 11,
+      "medium": 11,
+      "high": 25,
+      "critical": 0
+    },
+    "suppressed_findings": 0,
+    "results_digest": "sha256:1faaacc5d219bc9e2efd250d383413ee50d60bb8f83f9025946f2e024e6ec84f"
+  },
+  "controls": [
+    {
+      "id": "EAF-QUAL-01",
+      "title": "Static code quality analysis shows no blocking defects",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "quality.ruff",
+          "status": "FAIL"
+        },
+        {
+          "id": "quality.cppcheck",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-js",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.eslint-ts",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-01",
+      "title": "Static security analysis shows no blocking weaknesses",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.bandit",
+          "status": "FAIL"
+        },
+        {
+          "id": "security.flawfinder",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-02",
+      "title": "No credentials or key material in source",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "secrets.detect-secrets",
+          "status": "FAIL"
+        },
+        {
+          "id": "secrets.sensitive-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-DEP-01",
+      "title": "Third-party dependencies are pinned and free of known vulnerabilities",
+      "status": "FAIL",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "dependencies.pinning",
+          "status": "WARNING"
+        },
+        {
+          "id": "dependencies.pip-audit",
+          "status": "FAIL"
+        },
+        {
+          "id": "dependencies.npm-audit",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-HYG-01",
+      "title": "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "hygiene.readme",
+          "status": "PASS"
+        },
+        {
+          "id": "hygiene.license",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.gitignore",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.tests-present",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.ci-config",
+          "status": "WARNING"
+        },
+        {
+          "id": "hygiene.large-files",
+          "status": "PASS"
+        }
+      ],
+      "unknown_checks": []
+    }
+  ],
+  "checks": [
+    {
+      "id": "quality.ruff",
+      "title": "Python static code quality (ruff)",
+      "category": "code_quality",
+      "status": "FAIL",
+      "reason": "1 finding(s) at or above 'high' severity",
+      "scanner": "ruff",
+      "scanner_version": "0.16.9",
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 3,
+        "medium": 1,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "F821",
+          "severity": "high",
+          "message": "Undefined name `default_payload`",
+          "file": "app/server.py",
+          "line": 65,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "39eb457954f46bb7"
+        },
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "B006",
+          "severity": "medium",
+          "message": "Do not use mutable data structures for argument defaults",
+          "file": "app/server.py",
+          "line": 51,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "a0a9bcd07beab05f"
+        },
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "F401",
+          "severity": "low",
+          "message": "`os` imported but unused",
+          "file": "app/server.py",
+          "line": 3,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9a54ddeb10425ff1"
+        },
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "F401",
+          "severity": "low",
+          "message": "`sys` imported but unused",
+          "file": "app/server.py",
+          "line": 7,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "90f37063bd8f5329"
+        },
+        {
+          "check_id": "quality.ruff",
+          "rule_id": "E722",
+          "severity": "low",
+          "message": "Do not use bare `except`",
+          "file": "app/server.py",
+          "line": 62,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "d23090585ba28e5f"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/root/.local/bin/ruff",
+            "check",
+            "--isolated",
+            "--no-cache",
+            "--no-fix",
+            "--output-format",
+            "json",
+            "--select",
+            "E7,E9,F,B,PLE,C901",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/__init__.py",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/config.py",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.011,
+          "stdout_sha256": "638c6b5f2ca7f4c6073ed29d9f4b59fa98b1293b5f36313a5bfe37aba97b001c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Rule selection: E7,E9,F,B,PLE,C901; repository ruff config ignored (--isolated) for reproducibility."
+      ],
+      "duration_s": 0.015
+    },
+    {
+      "id": "quality.cppcheck",
+      "title": "C/C++ static analysis (cppcheck)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "cppcheck",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-js",
+      "title": "JavaScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No javascript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "javascript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.eslint-ts",
+      "title": "TypeScript static code quality (ESLint core rules)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No typescript source files in scope",
+      "scanner": "eslint",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "typescript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.bandit",
+      "title": "Python security weaknesses (bandit)",
+      "category": "security",
+      "status": "FAIL",
+      "reason": "2 finding(s) at or above 'high' severity",
+      "scanner": "bandit",
+      "scanner_version": "1.9.4",
+      "requires_network": false,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 5,
+        "medium": 5,
+        "high": 2,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B602",
+          "severity": "high",
+          "message": "subprocess call with shell=True identified, security issue. [subprocess_popen_with_shell_equals_true]",
+          "file": "app/server.py",
+          "line": 34,
+          "cwe": "CWE-78",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "506be8054769f0df"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B324",
+          "severity": "high",
+          "message": "Use of weak MD5 hash for security. Consider usedforsecurity=False [hashlib]",
+          "file": "app/server.py",
+          "line": 53,
+          "cwe": "CWE-327",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ff57cbe8cc1d1126"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B608",
+          "severity": "medium",
+          "message": "Possible SQL injection vector through string-based query construction. [hardcoded_sql_expressions]",
+          "file": "app/server.py",
+          "line": 26,
+          "cwe": "CWE-89",
+          "confidence": "medium",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "e335171380e9b589"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B307",
+          "severity": "medium",
+          "message": "Use of possibly insecure function - consider using safer ast.literal_eval. [blacklist]",
+          "file": "app/server.py",
+          "line": 40,
+          "cwe": "CWE-78",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "438bc843c66d222b"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B506",
+          "severity": "medium",
+          "message": "Use of unsafe yaml load. Allows instantiation of arbitrary objects. Consider yaml.safe_load(). [yaml_load]",
+          "file": "app/server.py",
+          "line": 46,
+          "cwe": "CWE-20",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "af5f5d5d43f517c5"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B301",
+          "severity": "medium",
+          "message": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue. [blacklist]",
+          "file": "app/server.py",
+          "line": 47,
+          "cwe": "CWE-502",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "4ca017060c1012e5"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B104",
+          "severity": "medium",
+          "message": "Possible binding to all interfaces. [hardcoded_bind_all_interfaces]",
+          "file": "app/server.py",
+          "line": 69,
+          "cwe": "CWE-605",
+          "confidence": "medium",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "dc7591e2e8f2639f"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B105",
+          "severity": "low",
+          "message": "Possible hardcoded password: '<redacted>' [hardcoded_password_string]",
+          "file": "app/config.py",
+          "line": 5,
+          "cwe": "CWE-259",
+          "confidence": "medium",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "4020dc5d8b2cfa44"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B105",
+          "severity": "low",
+          "message": "Possible hardcoded password: '<redacted>' [hardcoded_password_string]",
+          "file": "app/config.py",
+          "line": 7,
+          "cwe": "CWE-259",
+          "confidence": "medium",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "5a643c11bbc88951"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B403",
+          "severity": "low",
+          "message": "Consider possible security implications associated with pickle module. [blacklist]",
+          "file": "app/server.py",
+          "line": 4,
+          "cwe": "CWE-502",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "8b087996688342f9"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B404",
+          "severity": "low",
+          "message": "Consider possible security implications associated with the subprocess module. [blacklist]",
+          "file": "app/server.py",
+          "line": 6,
+          "cwe": "CWE-78",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1879cf03c55f7a1e"
+        },
+        {
+          "check_id": "security.bandit",
+          "rule_id": "B110",
+          "severity": "low",
+          "message": "Try, Except, Pass detected. [try_except_pass]",
+          "file": "app/server.py",
+          "line": 62,
+          "cwe": "CWE-703",
+          "confidence": "high",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "95f13e3c202b92f0"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/bandit",
+            "-f",
+            "json",
+            "-q",
+            "--skip",
+            "B101",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/__init__.py",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/config.py",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/app/server.py"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.153,
+          "stdout_sha256": "daf9dac39a239b016eaa184b21ec6bbb579cb6e984277ca534fd741d4ce0dcc2",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Bandit tests skipped: B101 (assert)."
+      ],
+      "duration_s": 0.321
+    },
+    {
+      "id": "security.flawfinder",
+      "title": "C/C++ risky API usage (flawfinder)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No c/cpp source files in scope",
+      "scanner": "flawfinder",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "secrets.detect-secrets",
+      "title": "Hardcoded secrets in file contents (detect-secrets)",
+      "category": "secrets",
+      "status": "FAIL",
+      "reason": "3 finding(s) at or above 'medium' severity",
+      "scanner": "detect-secrets",
+      "scanner_version": "1.5.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "medium",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 2,
+        "high": 1,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "secrets.detect-secrets",
+          "rule_id": "AWS-Access-Key",
+          "severity": "high",
+          "message": "Possible secret: AWS Access Key",
+          "file": "app/config.py",
+          "line": 6,
+          "cwe": null,
+          "confidence": "pattern",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "f472c2d4296a83ed"
+        },
+        {
+          "check_id": "secrets.detect-secrets",
+          "rule_id": "Secret-Keyword",
+          "severity": "medium",
+          "message": "Possible secret: Secret Keyword",
+          "file": "app/config.py",
+          "line": 5,
+          "cwe": null,
+          "confidence": "heuristic",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "2102fd52c613cbb0"
+        },
+        {
+          "check_id": "secrets.detect-secrets",
+          "rule_id": "Base64-High-Entropy-String",
+          "severity": "medium",
+          "message": "Possible secret: Base64 High Entropy String",
+          "file": "app/config.py",
+          "line": 7,
+          "cwe": null,
+          "confidence": "heuristic",
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "593212667992c7ae"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            "eaf_canary.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.176,
+          "stdout_sha256": "0b05e1adc337dd624142adf804bc55a9d8f98751fb7f9a9e8c16e0eba81830fa",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        },
+        {
+          "command": [
+            "/usr/local/bin/detect-secrets",
+            "scan",
+            "--no-verify",
+            "README.md",
+            "requirements-dev.txt",
+            "requirements.txt",
+            "app/__init__.py",
+            "app/config.py",
+            "app/server.py"
+          ],
+          "exit_code": 0,
+          "duration_s": 0.241,
+          "stdout_sha256": "f77e94f6465f3a1915fe47004cf6fcd1a5c99da57bb8c989de8528d564e271af",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Working tree only; git history is not scanned.",
+        "Secret values are never written to the report (only type, file and line).",
+        "Online secret verification is disabled (--no-verify).",
+        "Scanner self-test passed (planted canary secret was detected)."
+      ],
+      "duration_s": 0.568
+    },
+    {
+      "id": "secrets.sensitive-files",
+      "title": "Credential / key files present in the source tree",
+      "category": "secrets",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.001
+    },
+    {
+      "id": "dependencies.pinning",
+      "title": "Dependencies are pinned / locked",
+      "category": "dependencies",
+      "status": "WARNING",
+      "reason": "2 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 2,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 2,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "dependencies.pinning",
+          "rule_id": "unpinned-python-dependency",
+          "severity": "medium",
+          "message": "'pytest>=6' is not pinned to an exact version (==)",
+          "file": "requirements-dev.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "76506bbaacf6ff71"
+        },
+        {
+          "check_id": "dependencies.pinning",
+          "rule_id": "unpinned-python-dependency",
+          "severity": "medium",
+          "message": "'black' is not pinned to an exact version (==)",
+          "file": "requirements-dev.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "b7a59e596e114b55"
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Works offline. C/C++ dependencies vendored or resolved by the build system (CMake FetchContent, git submodules) are not analysed."
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "dependencies.pip-audit",
+      "title": "Python dependencies: known vulnerabilities (pip-audit)",
+      "category": "dependencies",
+      "status": "FAIL",
+      "reason": "21 finding(s) at or above 'high' severity",
+      "scanner": "pip-audit",
+      "scanner_version": "2.10.1",
+      "requires_network": true,
+      "languages": [
+        "python"
+      ],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 21,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2018-28",
+          "severity": "high",
+          "message": "requests 2.19.1 has a known vulnerability (GHSA-x84v-xcm2-53pg, CVE-2018-18074); fix versions: 2.20.0",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "36cf05941bcb7bc3"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2018-66",
+          "severity": "high",
+          "message": "flask 0.12.2 has a known vulnerability (GHSA-562c-5r94-xh97, CVE-2018-1000656); fix versions: 0.12.3",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "2b121d1e2b6c66de"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2019-179",
+          "severity": "high",
+          "message": "flask 0.12.2 has a known vulnerability (GHSA-5wv5-4vpf-pj6m, CVE-2019-1010083); fix versions: 1.0",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "3417c06162284e6c"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2019-217",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (GHSA-462w-v97r-4m45, CVE-2019-10906); fix versions: 2.10.1",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "4e456700afc49e00"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2020-176",
+          "severity": "high",
+          "message": "pyyaml 5.1 has a known vulnerability (GHSA-3pqx-4fqf-j49f, CVE-2019-20477); fix versions: 5.2b1",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9763e105cf15809e"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2020-176",
+          "severity": "high",
+          "message": "pyyaml 5.1 has a known vulnerability (GHSA-3pqx-4fqf-j49f, CVE-2019-20477); fix versions: 5.2",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "7586283397e01675"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2020-96",
+          "severity": "high",
+          "message": "pyyaml 5.1 has a known vulnerability (CVE-2020-1747, CVE-2025-50460, GHSA-6757-jp84-gxfx); fix versions: 5.3.1",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "f6333155337aed9b"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2020-96",
+          "severity": "high",
+          "message": "pyyaml 5.1 has a known vulnerability (CVE-2020-1747, GHSA-6757-jp84-gxfx); fix versions: 5.3.1",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "b627ae91d014a42f"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2021-142",
+          "severity": "high",
+          "message": "pyyaml 5.1 has a known vulnerability (GHSA-8q59-q68h-6hv4, CVE-2020-14343); fix versions: 5.4",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "0e0224f1727150ac"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2021-66",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (SNYK-PYTHON-JINJA2-1012994, GHSA-g3rq-g295-4j3m, CVE-2020-28493); fix versions: 2.11.3",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "190dc63575b44b72"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2021-66",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (SNYK-PYTHON-JINJA2-1012994, CVE-2020-28493, GHSA-g3rq-g295-4j3m); fix versions: 2.11.3",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "b6ad44a4565bff22"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2023-62",
+          "severity": "high",
+          "message": "flask 0.12.2 has a known vulnerability (GHSA-m2qf-hxjv-5gpq, CVE-2023-30861); fix versions: 2.2.5, 2.3.2",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "b85530895fd12dea"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2023-74",
+          "severity": "high",
+          "message": "requests 2.19.1 has a known vulnerability (GHSA-j8r2-6x86-q33q, CVE-2023-32681); fix versions: 2.31.0",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "50dfc80b5347e63b"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1471",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (GHSA-cpwx-vrp4-4pq7, CVE-2025-27516); fix versions: 3.1.6",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "8b1f5084e09f2b56"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1473",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (GHSA-h5c8-rqwp-cp95, CVE-2024-22195); fix versions: 3.1.3",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "60b318b38d74408e"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1474",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (CVE-2024-34064, GHSA-h75v-3vvj-5mfj); fix versions: 3.1.4",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "f968089980b939df"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1475",
+          "severity": "high",
+          "message": "jinja2 2.10 has a known vulnerability (GHSA-q2x7-8rv6-6q7h, CVE-2024-56326); fix versions: 3.1.5",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "8cf53b9010d43335"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1872",
+          "severity": "high",
+          "message": "requests 2.19.1 has a known vulnerability (CVE-2024-47081, GHSA-9hjg-9r4m-mvj7); fix versions: 2.32.4",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "c490e7e33178550a"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-1873",
+          "severity": "high",
+          "message": "requests 2.19.1 has a known vulnerability (CVE-2024-35195, GHSA-9wx4-h78v-vm56); fix versions: 2.32.0",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "aae1499a119ef588"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-2151",
+          "severity": "high",
+          "message": "flask 0.12.2 has a known vulnerability (CVE-2026-27205, GHSA-68rp-wp8r-4726); fix versions: 3.1.3",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "d7f4e41806b0e13f"
+        },
+        {
+          "check_id": "dependencies.pip-audit",
+          "rule_id": "PYSEC-2026-2275",
+          "severity": "high",
+          "message": "requests 2.19.1 has a known vulnerability (GHSA-gc5v-m9x4-r6x2, CVE-2026-25645); fix versions: 2.33.0",
+          "file": "requirements.txt",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "0e073365a6cad9b5"
+        }
+      ],
+      "evidence": [
+        {
+          "command": [
+            "/usr/local/bin/pip-audit",
+            "-r",
+            "/home/user/Engg_assurance_framework/samples/vuln-python-service/requirements.txt",
+            "--no-deps",
+            "--disable-pip",
+            "-f",
+            "json",
+            "--progress-spinner",
+            "off"
+          ],
+          "exit_code": 1,
+          "duration_s": 0.619,
+          "stdout_sha256": "5b8d21e15fa51d52aa773233c6e201b700cea16d9ba58c9ae48b0e3217130e7e",
+          "stderr_sha256": "72875e9f112ae354bf49217e0d3c5670fcad65232942cf5f18792623619bc673",
+          "raw_output_file": null,
+          "timed_out": false
+        }
+      ],
+      "notes": [
+        "Package names and versions (not source code) were sent to the PyPI vulnerability service.",
+        "pip-audit reports no severity; all known vulnerabilities are rated 'high'.",
+        "requirements-dev.txt: skipped, unpinned requirements (pytest, black) cannot be audited without dependency resolution"
+      ],
+      "duration_s": 1.18
+    },
+    {
+      "id": "dependencies.npm-audit",
+      "title": "npm dependencies: known vulnerabilities (npm audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No package.json in scope",
+      "scanner": "npm",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.readme",
+      "title": "README present at scope root",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.license",
+      "title": "License / copyright notice present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.license",
+          "rule_id": "missing-license",
+          "severity": "low",
+          "message": "No LICENSE/COPYING/NOTICE file at the root of the assessed scope",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "1de94e23a7ff0eb6"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.gitignore",
+      "title": ".gitignore present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.gitignore",
+          "rule_id": "missing-gitignore",
+          "severity": "low",
+          "message": "No .gitignore at the root of the assessed scope",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "9e4fe9d550310a12"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.tests-present",
+      "title": "Automated tests exist for detected languages",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'medium' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [
+        "c",
+        "cpp",
+        "javascript",
+        "python",
+        "typescript"
+      ],
+      "files_examined": 3,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "medium"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 1,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.tests-present",
+          "rule_id": "no-tests:python",
+          "severity": "medium",
+          "message": "No test files found for python (3 source file(s))",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "74ae6abdb9c4d84c"
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Presence only (by file/directory naming). Tests are not executed and coverage is not measured at Level 1."
+      ],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.ci-config",
+      "title": "CI pipeline configuration present",
+      "category": "hygiene",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "hygiene.ci-config",
+          "rule_id": "missing-ci",
+          "severity": "low",
+          "message": "No CI configuration found in the assessed scope (it may live in a parent directory or an external system)",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "fingerprint": "ea66e69576d61d8b"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.large-files",
+      "title": "No large files or build artefacts in source",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.1.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 6,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    }
+  ],
+  "limitations": [
+    "Level 1 inspects source text only: nothing is built, executed or tested.",
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects."
+  ]
+}
