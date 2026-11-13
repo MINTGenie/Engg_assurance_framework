@@ -42,3 +42,9 @@ reason = "Accepted for the prototype: input is cppcheck's own XML report, which 
 check = "hygiene.tests-present"
 rule = "no-tests:javascript/typescript"
 reason = "False positive: the only JavaScript file is the bundled ESLint configuration (src/eaf/data/eslint.config.cjs)."
+
+[[suppressions]]
+check = "secrets.detect-secrets"
+rule = "Secret-Keyword"
+path = "docs/VALIDATION.md"
+reason = "False positive: the document quotes the npm source line (a password prompt string) that it discusses as a false positive."

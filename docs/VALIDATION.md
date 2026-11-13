@@ -25,7 +25,7 @@ Everything below is what the tool actually produced. Reports for the samples are
 | `samples/embedded-c-cpp` | 149 C/C++ | FAIL | FAIL | 0 / 8 / 7 / 10 | 0.8 s / 0.9 s |
 | `samples/web-ts-node` | 73 JS/TS | FAIL | FAIL | 1 / 9 / 7 / 14 | 1.7 s / 2.2 s |
 | `samples/clean-python-lib` (negative control, `elevated`) | 41 Python | WARNING (pip-audit not executed) | PASS | 0 / 0 / 0 / 0 | 1.6 s / 2.1 s |
-| EAF itself (37 files, samples excluded) | 3,094 Python + 1 JS | WARNING | WARNING | 0 / 0 / 0 / 8 (+27 suppressed) | 2.4 s / 2.4 s |
+| EAF itself (37 files, samples excluded) | 3,094 Python + 1 JS | WARNING | WARNING | 0 / 0 / 0 / 8 (+28 suppressed) | 2.4 s / 2.4 s |
 | pip 24.0 source (incl. vendored) | 184,623 Python | FAIL | not run | 0 / 68 / 396 / 958 | 18.7 s (single run) |
 | npm 10.9.9 `lib/` | 14,045 JS | FAIL | not run | 0 / 0 / 4 / 48 | 2.3 s (single run) |
 
@@ -121,7 +121,8 @@ PASS, because the vulnerability lookup could not run. That is intended behaviour
 - bandit B314 on parsing cppcheck's XML – accepted for the prototype, suppressed with reason.
 - `hygiene.tests-present` reported "no JavaScript tests" because of one bundled ESLint config
   file – false positive, suppressed.
-- detect-secrets flagged the fake AWS key literal inside a unit test – fixed in the test.
+- detect-secrets flagged the fake AWS key literal inside a unit test (fixed in the test) and,
+  later, the npm line quoted in this document (suppressed with reason).
 - Remaining real warnings: 6 complexity (ruff C901), no LICENSE file, no CI configuration.
 
 ### pip 24.0
