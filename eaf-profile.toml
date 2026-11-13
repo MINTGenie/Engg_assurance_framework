@@ -1,0 +1,44 @@
+# Engineering context profile used when EAF assesses its own repository.
+[project]
+name = "engg-assurance-framework"
+component = "eaf-cli"
+owner = "SDV Software Hub - engineering assurance prototype"
+
+[context]
+criticality = "standard"
+development_mode = "ai-assisted"
+ai_tools = ["Claude Code"]
+domain = "engineering-tooling"
+lifecycle_stage = "prototype"
+
+[assessment]
+policy = "eaf-baseline"
+# samples/ holds deliberately defective fixtures; examples/ holds generated reports.
+exclude = ["samples/*", "examples/*"]
+
+# --- reviewed findings -------------------------------------------------------------------
+[[suppressions]]
+check = "security.bandit"
+rule = "B40[45]"
+reason = "Import-level notices only. Running scanner subprocesses and parsing their XML output is the purpose of this tool."
+
+[[suppressions]]
+check = "security.bandit"
+rule = "B60[37]"
+reason = "Reviewed: all subprocess calls use argv lists without a shell; executables are resolved via PATH by design (scanner tools, git in tests)."
+
+[[suppressions]]
+check = "security.bandit"
+rule = "B105"
+reason = "False positive: status constants such as PASS = \"PASS\" and test check ids are not passwords."
+
+[[suppressions]]
+check = "security.bandit"
+rule = "B314"
+path = "src/eaf/scanners/c_cpp_tools.py"
+reason = "Accepted for the prototype: input is cppcheck's own XML report, which contains no DTD. Phase 2: switch to defusedxml."
+
+[[suppressions]]
+check = "hygiene.tests-present"
+rule = "no-tests:javascript/typescript"
+reason = "False positive: the only JavaScript file is the bundled ESLint configuration (src/eaf/data/eslint.config.cjs)."

@@ -1,0 +1,14 @@
+[project]
+name = "tempconv"
+component = "sample-library"
+owner = "EAF fixtures"
+
+[context]
+criticality = "elevated"
+development_mode = "ai-assisted"
+ai_tools = ["GitHub Copilot"]
+domain = "tooling"
+lifecycle_stage = "prototype"
+
+[assessment]
+policy = "eaf-baseline"

@@ -1,0 +1,88 @@
+# EAF baseline policy. Change the version whenever thresholds or controls change:
+# reports record id + version + sha256 so results can be reproduced.
+
+[policy]
+id = "eaf-baseline"
+version = "1.0.0"
+title = "EAF Baseline Engineering Hygiene Policy"
+status = "active"
+adapter = "threshold"
+
+[defaults]
+fail_at = "high"       # a finding at or above this severity fails the check
+warn_at = "low"        # a finding at or above this severity raises a warning
+not_executed_degrades_overall = true   # an applicable-but-unexecuted check caps overall at WARNING
+
+# --- per-check thresholds -------------------------------------------------------------
+[checks."secrets.detect-secrets"]
+fail_at = "medium"
+warn_at = "low"
+
+[checks."secrets.sensitive-files"]
+fail_at = "high"
+
+[checks."security.flawfinder"]
+# flawfinder is a lexical matcher; levels 1-2 (mapped to "low") are mostly noise.
+warn_at = "medium"
+
+[checks."quality.ruff"]
+fail_at = "high"
+
+[checks."hygiene.readme"]
+fail_at = "never"
+[checks."hygiene.license"]
+fail_at = "never"
+[checks."hygiene.gitignore"]
+fail_at = "never"
+[checks."hygiene.ci-config"]
+fail_at = "never"
+[checks."hygiene.large-files"]
+fail_at = "never"
+[checks."hygiene.tests-present"]
+fail_at = "never"
+warn_at = "medium"
+[checks."dependencies.pinning"]
+fail_at = "never"
+
+# --- strictness by profile criticality ---------------------------------------------------
+[criticality.prototype.defaults]
+fail_at = "critical"
+[criticality.prototype.checks."secrets.detect-secrets"]
+fail_at = "medium"     # secrets fail even in prototypes
+
+[criticality.elevated.defaults]
+fail_at = "medium"
+[criticality.elevated.checks."hygiene.tests-present"]
+fail_at = "medium"
+[criticality.elevated.checks."dependencies.pinning"]
+fail_at = "medium"
+[criticality.elevated.checks."security.flawfinder"]
+fail_at = "high"
+warn_at = "medium"
+
+# --- controls: grouping of checks for reporting -------------------------------------------
+[[controls]]
+id = "EAF-QUAL-01"
+title = "Static code quality analysis shows no blocking defects"
+checks = ["quality.ruff", "quality.cppcheck", "quality.eslint-js", "quality.eslint-ts"]
+
+[[controls]]
+id = "EAF-SEC-01"
+title = "Static security analysis shows no blocking weaknesses"
+checks = ["security.bandit", "security.flawfinder"]
+
+[[controls]]
+id = "EAF-SEC-02"
+title = "No credentials or key material in source"
+checks = ["secrets.detect-secrets", "secrets.sensitive-files"]
+
+[[controls]]
+id = "EAF-DEP-01"
+title = "Third-party dependencies are pinned and free of known vulnerabilities"
+checks = ["dependencies.pinning", "dependencies.pip-audit", "dependencies.npm-audit"]
+
+[[controls]]
+id = "EAF-HYG-01"
+title = "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)"
+checks = ["hygiene.readme", "hygiene.license", "hygiene.gitignore", "hygiene.tests-present",
+          "hygiene.ci-config", "hygiene.large-files"]

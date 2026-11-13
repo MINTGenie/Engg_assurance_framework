@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(can_logger C CXX)
+find_package(Threads REQUIRED)
+find_package(GTest)
+add_library(canlog src/can_logger.c src/ring_buffer.cpp)
+target_include_directories(canlog PUBLIC include)
+add_executable(canlog_test tests/test_ring_buffer.cpp)
+target_link_libraries(canlog_test canlog)

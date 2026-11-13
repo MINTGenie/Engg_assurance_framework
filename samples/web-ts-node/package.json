@@ -1,0 +1,19 @@
+{
+  "name": "eaf-fixture-web-ts-node",
+  "version": "0.0.1",
+  "private": true,
+  "description": "EAF test fixture - do not deploy",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "express": "4.16.0",
+    "lodash": "4.17.15",
+    "minimist": "1.2.0"
+  },
+  "devDependencies": {
+    "typescript": "5.4.5"
+  }
+}

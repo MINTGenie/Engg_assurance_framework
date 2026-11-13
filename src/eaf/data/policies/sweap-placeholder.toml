@@ -1,0 +1,40 @@
+# PLACEHOLDER organizational policy adapter for SWEAP.
+#
+# This file contains NO actual SWEAP requirements. The control IDs and titles below are
+# invented placeholders that only demonstrate the mapping mechanism. Replace them with the
+# real control catalogue (owned by the SWEAP process owner) and bump the version.
+# A result against this placeholder says nothing about SWEAP conformance.
+
+[policy]
+id = "sweap-placeholder"
+version = "0.0.1"
+title = "SWEAP mapping PLACEHOLDER (not real SWEAP content)"
+status = "placeholder"
+adapter = "threshold"
+
+[defaults]
+fail_at = "high"
+warn_at = "low"
+not_executed_degrades_overall = true
+
+[checks."security.flawfinder"]
+warn_at = "medium"
+[checks."secrets.detect-secrets"]
+fail_at = "medium"
+
+[[controls]]
+id = "SWEAP-PLACEHOLDER-A"
+title = "Placeholder: static analysis evidence"
+checks = ["quality.ruff", "quality.cppcheck", "quality.eslint-js", "quality.eslint-ts",
+          "security.bandit", "security.flawfinder"]
+
+[[controls]]
+id = "SWEAP-PLACEHOLDER-B"
+title = "Placeholder: secrets and dependency evidence"
+checks = ["secrets.detect-secrets", "secrets.sensitive-files", "dependencies.pinning",
+          "dependencies.pip-audit", "dependencies.npm-audit"]
+
+[[controls]]
+id = "SWEAP-PLACEHOLDER-C"
+title = "Placeholder: control with no Level 1 evidence (e.g. review records, test results)"
+checks = []
