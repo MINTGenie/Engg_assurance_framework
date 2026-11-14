@@ -44,6 +44,7 @@ class Profile:
     notes: str = ""
     # [assessment]
     policy: str = "eaf-baseline"
+    guidance: str = "eaf-practices"
     exclude: list[str] = field(default_factory=list)
     skip_checks: list[str] = field(default_factory=list)
     allow_network: bool = False
@@ -81,6 +82,7 @@ def load_profile(path: Path | None, root: Path | None = None) -> Profile:
     p.lifecycle_stage = str(context.get("lifecycle_stage", ""))
     p.notes = str(context.get("notes", ""))
     p.policy = str(assessment.get("policy", p.policy))
+    p.guidance = str(assessment.get("guidance", p.guidance))
     p.exclude = [str(x) for x in assessment.get("exclude", [])]
     p.skip_checks = [str(x) for x in assessment.get("skip_checks", [])]
     p.allow_network = bool(assessment.get("allow_network", False))
@@ -120,8 +122,9 @@ notes = ""
 
 [assessment]
 policy = "eaf-baseline"     # bundled policy id or path to a policy .toml
+guidance = "eaf-practices"  # bundled guidance pack id or path to your own pack (.toml)
 exclude = []                # extra path globs to leave out, e.g. ["third_party/*"]
-skip_checks = []            # check ids to skip (reported as NOT_EXECUTED)
+skip_checks = []            # check ids (globs) to skip, e.g. ["practice.docs.changelog"]
 allow_network = false       # dependency-vulnerability lookups send package names+versions out
 
 # Suppress a finding only with a documented reason. Suppressed findings stay in the report.

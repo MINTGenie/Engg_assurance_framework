@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "fleet-tools": {
+      "type": "http",
+      "url": "http://mcp.fleet.example:8765/mcp",
+      "headers": { "Authorization": "Bearer fixture-token-not-real-0123456789abcdef" }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/srv/reports"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github@2025.4.8"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}" }
+    },
+    "local-dev": {
+      "command": "bash",
+      "args": ["-c", "python -m app.mcp_server"]
+    }
+  }
+}

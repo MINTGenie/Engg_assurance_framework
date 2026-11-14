@@ -23,10 +23,29 @@ EAF is a read-only static assessment CLI. It does not build or run the code unde
 5. Read `eaf-reports/eaf-report.json` and summarise from it:
    - `summary.overall_status` and `summary.overall_reason`
    - scope: `assessment.scope.git.revision`, `dirty`, `source_digest`, policy id and version
-   - every check with status FAIL or WARNING: top findings with `file:line`, `rule_id`, severity
+   - every check with status FAIL or WARNING: top findings with `file:line`, `rule_id`,
+     severity, and the finding's `guidance` text (how to fix)
+   - engineering practices (`category == "practices"`): which are evidenced, which are not,
+     and the `guidance` for each missing one
+   - `standards_coverage`: categories with findings, and categories with coverage `none`
    - every check with status NOT_EXECUTED, with its `reason`
    - `inventory.unsupported_languages` and the `limitations` list
-6. Point the user to `eaf-reports/eaf-report.html` for the full report.
+6. Point the user to `eaf-reports/eaf-report.html` for the full report and to
+   `eaf-reports/eaf-evidence.md` as the summary to attach to a review.
+
+## Working spec-first
+
+When a practice finding says a specification, architecture document or changelog is missing,
+help the user create it; do not generate filler to satisfy the check.
+
+- Before implementing a feature, read the spec the report lists as evidence
+  (`practice.spec.present` notes). If none exists, draft `specs/<feature>.md` with the user:
+  problem, behaviour, numbered requirements with acceptance criteria, out of scope.
+- Implement against requirement IDs and name the ID in each test.
+- When behaviour changes, change the spec, the tests, the docs and the changelog in the
+  same change, then re-run the assessment.
+- The team's own rules are in the guidance pack (`eaf guidance [pack]`); follow its text
+  where it differs from the above.
 
 ## Fixing findings
 
@@ -43,6 +62,10 @@ EAF is a read-only static assessment CLI. It does not build or run the code unde
 - Say "no findings above the policy thresholds in the assessed scope", not "secure" or
   "compliant".
 - NOT EXECUTED and NOT APPLICABLE mean no evidence. Report them as gaps.
+- Standards coverage is partial by design. Never say a standard (for example the OWASP
+  Top 10) "has been checked" or "is covered"; say which checks contributed evidence to
+  which categories and which categories are not looked at.
+- A passing practice check means a document exists, not that it is correct or followed.
 - Level 1 inspects source text only. Do not claim anything about build, runtime behaviour,
   test results or coverage.
 - If the work tree is dirty (`assessment.scope.git.dirty`), say that the result does not

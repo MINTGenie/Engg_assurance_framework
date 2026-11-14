@@ -1,7 +1,7 @@
 # Using EAF from GitHub Copilot
 
-EAF does not need an LLM. The integration only teaches Copilot how to run the CLI and how to
-talk about the result without overstating it.
+EAF does not need an LLM. The integration teaches Copilot how to run the CLI, how to work
+spec-first on the practice findings, and how to talk about the result without overstating it.
 
 | File | Used by | Purpose |
 |---|---|---|

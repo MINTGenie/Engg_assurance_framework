@@ -19,7 +19,7 @@ def result(check_id, status):
 def test_bundled_policies_load_and_are_versioned():
     assert {"eaf-baseline", "sweap-placeholder"} <= set(bundled_policies())
     desc = load_policy("eaf-baseline").describe()
-    assert desc["version"] == "1.0.0" and len(desc["sha256"]) == 64
+    assert desc["version"] == "1.1.0" and len(desc["sha256"]) == 64
     assert load_policy("sweap-placeholder").describe()["status"] == "placeholder"
 
 

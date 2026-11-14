@@ -53,6 +53,27 @@ def _resolve_ref(git_dir: Path, ref: str) -> str | None:
     return None
 
 
+def hardened_git(path: Path, args: list[str], timeout: int = 60) -> str | None:
+    """Run a read-only git command with hooks, fsmonitor and index writes disabled.
+    Returns stdout, or None if git is unavailable, the path is not a work tree, or it fails."""
+    git = shutil.which("git")
+    found = _find_git_dir(Path(path).resolve())
+    if not git or not found:
+        return None
+    env = {"PATH": os.environ.get("PATH", ""), "HOME": os.environ.get("HOME", "/"),
+           "GIT_OPTIONAL_LOCKS": "0", "GIT_CONFIG_NOSYSTEM": "1",
+           "GIT_TERMINAL_PROMPT": "0", "LC_ALL": "C"}
+    cmd = [git, "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
+           "-c", f"safe.directory={found[0]}", "-c", "core.quotePath=false",
+           "-C", str(path), *args]
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env,
+                             stdin=subprocess.DEVNULL)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return res.stdout if res.returncode == 0 else None
+
+
 def git_info(path: Path) -> dict:
     found = _find_git_dir(path.resolve())
     if not found:
@@ -75,19 +96,10 @@ def git_info(path: Path) -> dict:
         info["revision"] = head
         info["branch"] = "(detached HEAD)"
 
-    git = shutil.which("git")
-    if git and info["revision"]:
-        env = {"PATH": os.environ.get("PATH", ""), "HOME": os.environ.get("HOME", "/"),
-               "GIT_OPTIONAL_LOCKS": "0", "GIT_CONFIG_NOSYSTEM": "1",
-               "GIT_TERMINAL_PROMPT": "0", "LC_ALL": "C"}
-        cmd = [git, "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null",
-               "-c", f"safe.directory={top}", "-C", str(path), "status", "--porcelain",
-               "--untracked-files=normal", "--", "."]
-        try:
-            res = subprocess.run(cmd, capture_output=True, text=True, timeout=60, env=env)
-            if res.returncode == 0:
-                info["dirty"] = bool(res.stdout.strip())
-                info["uncommitted_entries"] = len(res.stdout.splitlines())
-        except (OSError, subprocess.TimeoutExpired):
-            pass
+    if info["revision"]:
+        out = hardened_git(path, ["status", "--porcelain", "--untracked-files=normal", "--", "."])
+        if out is not None:
+            info["dirty"] = bool(out.strip())
+            info["uncommitted_entries"] = len(out.splitlines())
+        info["shallow"] = (git_dir / "shallow").is_file()
     return info

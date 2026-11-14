@@ -226,3 +226,65 @@ class NpmAuditAdapter(ScannerAdapter):
                             f"{'' if v.get('isDirect') else ' [transitive]'}",
                     file=lock_rel))
         return out
+
+
+class BunAuditAdapter(ScannerAdapter):
+    id = "dependencies.bun-audit"
+    title = "Bun dependencies: known vulnerabilities (bun audit)"
+    category = "dependencies"
+    tool = "bun"
+    requires_network = True
+
+    def _lock_dirs(self, ctx: ScanContext) -> list[str]:
+        dirs = []
+        for lock in ctx.inventory.manifest_paths("bun.lock"):
+            d = os.path.dirname(lock)
+            if (ctx.root / d / "package.json").is_file() and d not in dirs:
+                dirs.append(d)
+        return dirs
+
+    def applicable(self, ctx: ScanContext) -> tuple[bool, str]:
+        if self._lock_dirs(ctx):
+            return True, ""
+        if ctx.inventory.manifest_paths("bun.lockb"):
+            return True, ""
+        return False, "No bun.lock in scope"
+
+    def preflight(self, ctx: ScanContext) -> str | None:
+        reason = super().preflight(ctx)
+        if reason:
+            return reason
+        if not self._lock_dirs(ctx):
+            return "Only the text lockfile (bun.lock) is supported; binary bun.lockb is not"
+        return None
+
+    def scan(self, ctx: ScanContext) -> ScanOutput:
+        out = ScanOutput(notes=["The dependency tree (package names and versions, not source "
+                                "code) was sent to the npm registry audit endpoint."])
+        for i, d in enumerate(self._lock_dirs(ctx)):
+            # Audit a copy: the repository's bunfig.toml, .npmrc and scripts are not involved.
+            tmp = ctx.workdir / f"bun-audit-{i}"
+            tmp.mkdir()
+            for name in ("package.json", "bun.lock"):
+                shutil.copyfile(ctx.root / d / name, tmp / name)
+            res = ctx.run(self.id, [find_tool(self.tool), "audit", "--json"], cwd=tmp, network=True)
+            out.evidence.append(res.evidence)
+            start = res.stdout.find("{")
+            try:
+                data = json.loads(res.stdout[start:]) if start >= 0 else None
+            except json.JSONDecodeError:
+                data = None
+            if not isinstance(data, dict):
+                raise ScanNotExecuted(f"bun audit produced no JSON (exit {res.exit_code}): "
+                                      f"{(res.stderr or res.stdout).strip()[-300:]}")
+            out.files_examined += 1
+            lock_rel = os.path.join(d, "bun.lock") if d else "bun.lock"
+            for name, advisories in sorted(data.items()):
+                for a in advisories if isinstance(advisories, list) else []:
+                    cwes = a.get("cwe") or []
+                    out.findings.append(Finding(
+                        check_id=self.id, rule_id=str(a.get("url", "")).rsplit("/", 1)[-1] or f"npm:{name}",
+                        severity=NPM_SEVERITY.get(a.get("severity", "low"), Severity.LOW),
+                        message=f"{name} ({a.get('vulnerable_versions', '?')}): {a.get('title', '')}",
+                        file=lock_rel, cwe=cwes[0] if cwes else None))
+        return out

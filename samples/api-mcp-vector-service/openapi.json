@@ -1,0 +1,26 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Fleet document search", "version": "0.1.0" },
+  "servers": [{ "url": "http://api.fleet.example/v1" }, { "url": "http://localhost:8000" }],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" },
+      "legacyKey": { "type": "apiKey", "in": "query", "name": "api_key" }
+    }
+  },
+  "paths": {
+    "/documents/{doc_id}": {
+      "get": {
+        "security": [{ "bearer": [] }],
+        "responses": { "200": { "description": "ok" }, "401": { "description": "unauthorised" } }
+      },
+      "delete": { "responses": { "204": { "description": "deleted" } } }
+    },
+    "/search": {
+      "post": { "security": [], "responses": { "200": { "description": "ok" } } }
+    },
+    "/health": {
+      "get": { "responses": { "200": { "description": "ok" } } }
+    }
+  }
+}

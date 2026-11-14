@@ -3,7 +3,7 @@
 
 [policy]
 id = "eaf-baseline"
-version = "1.0.0"
+version = "1.1.0"
 title = "EAF Baseline Engineering Hygiene Policy"
 status = "active"
 adapter = "threshold"
@@ -43,6 +43,14 @@ fail_at = "never"
 warn_at = "medium"
 [checks."dependencies.pinning"]
 fail_at = "never"
+[checks."hygiene.tracked-artifacts"]
+fail_at = "never"
+[checks."quality.squawk"]
+# migration-safety advice; relevant once a database is live
+fail_at = "never"
+[checks."practice.*"]
+# engineering practices guide, they do not block
+fail_at = "never"
 
 # --- strictness by profile criticality ---------------------------------------------------
 [criticality.prototype.defaults]
@@ -56,6 +64,8 @@ fail_at = "medium"
 fail_at = "medium"
 [criticality.elevated.checks."dependencies.pinning"]
 fail_at = "medium"
+[criticality.elevated.checks."practice.*"]
+fail_at = "medium"     # a missing specification or API contract fails at elevated criticality
 [criticality.elevated.checks."security.flawfinder"]
 fail_at = "high"
 warn_at = "medium"
@@ -64,12 +74,22 @@ warn_at = "medium"
 [[controls]]
 id = "EAF-QUAL-01"
 title = "Static code quality analysis shows no blocking defects"
-checks = ["quality.ruff", "quality.cppcheck", "quality.eslint-js", "quality.eslint-ts"]
+checks = ["quality.ruff", "quality.cppcheck", "quality.eslint-js", "quality.eslint-ts", "quality.squawk"]
 
 [[controls]]
 id = "EAF-SEC-01"
 title = "Static security analysis shows no blocking weaknesses"
-checks = ["security.bandit", "security.flawfinder"]
+checks = ["security.bandit", "security.flawfinder", "security.semgrep"]
+
+[[controls]]
+id = "EAF-SEC-03"
+title = "Database access control is defined in versioned SQL (PostgreSQL, vector tables)"
+checks = ["security.sql-postgres"]
+
+[[controls]]
+id = "EAF-SEC-04"
+title = "API and MCP interfaces declare authentication and secure transport"
+checks = ["security.openapi", "security.mcp-config"]
 
 [[controls]]
 id = "EAF-SEC-02"
@@ -79,10 +99,25 @@ checks = ["secrets.detect-secrets", "secrets.sensitive-files"]
 [[controls]]
 id = "EAF-DEP-01"
 title = "Third-party dependencies are pinned and free of known vulnerabilities"
-checks = ["dependencies.pinning", "dependencies.pip-audit", "dependencies.npm-audit"]
+checks = ["dependencies.pinning", "dependencies.pip-audit", "dependencies.npm-audit", "dependencies.bun-audit"]
 
 [[controls]]
 id = "EAF-HYG-01"
 title = "Basic engineering hygiene (docs, license, tests, CI, VCS hygiene)"
 checks = ["hygiene.readme", "hygiene.license", "hygiene.gitignore", "hygiene.tests-present",
-          "hygiene.ci-config", "hygiene.large-files"]
+          "hygiene.ci-config", "hygiene.large-files", "hygiene.tracked-artifacts"]
+
+[[controls]]
+id = "EAF-PRA-01"
+title = "Specification-driven development: written, testable specifications"
+checks = ["practice.spec.*"]
+
+[[controls]]
+id = "EAF-PRA-02"
+title = "Project documentation exists and is maintained"
+checks = ["practice.docs.*"]
+
+[[controls]]
+id = "EAF-PRA-03"
+title = "AI-assisted development is governed by project instructions"
+checks = ["practice.ai.*"]

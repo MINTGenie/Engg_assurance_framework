@@ -15,7 +15,7 @@ def test_assess_writes_json_and_html_and_sets_exit_code(tmp_path, capsys):
     stdout = capsys.readouterr().out
     assert code == 1 and "OVERALL: FAIL" in stdout
     report = json.loads((out / "eaf-report.json").read_text())
-    assert report["schema_version"] == "1.0"
+    assert report["schema_version"] == "1.1"
     assert report["summary"]["overall_status"] == "FAIL"
     assert report["assessment"]["depth"] == 1
     assert "python" in report["inventory"]["languages"]
@@ -28,6 +28,9 @@ def test_assess_writes_json_and_html_and_sets_exit_code(tmp_path, capsys):
     assert "NOT a security certification" in html
     assert "<script" not in html and "http://" not in html and "https://" not in html
     assert (out / "evidence").is_dir()
+    md = (out / "eaf-evidence.md").read_text()
+    assert "Overall: FAIL" in md and "NOT a security certification" in md
+    assert "OWASP Top 10 (2021)" in md and "Engineering practices" in md
 
 
 def test_fail_on_and_formats(tmp_path):
@@ -49,7 +52,7 @@ def test_unimplemented_depth_is_a_usage_error(tmp_path, capsys):
 def test_scanners_and_policies_commands(capsys):
     assert main(["scanners"]) == 0 and main(["policies"]) == 0
     out = capsys.readouterr().out
-    assert "quality.ruff" in out and "eaf-baseline@1.0.0" in out
+    assert "quality.ruff" in out and "eaf-baseline@1.1.0" in out
 
 
 def test_init_profile(tmp_path):

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from eaf import DISCLAIMER, __version__
 from eaf.engine import AssessmentError, Options, assess
+from eaf.guidance import GuidanceError, bundled_guidance, load_guidance
 from eaf.models import DEPTHS, SCOPES
 from eaf.policy import PolicyError, bundled_policies, load_policy
 from eaf.profile import PROFILE_TEMPLATE, ProfileError
@@ -38,7 +39,10 @@ def _parser() -> argparse.ArgumentParser:
     a.add_argument("--output", "-o", type=Path, default=Path("eaf-reports"),
                    help="report directory (default: ./eaf-reports; never inside the assessed tree "
                         "unless you point it there)")
-    a.add_argument("--format", default="json,html", help="comma list of: json, html")
+    a.add_argument("--guidance", help="bundled guidance pack id or path to your own pack (TOML): "
+                   "which engineering practices are checked and what advice is given")
+    a.add_argument("--format", default="json,html,md",
+                   help="comma list of: json, html, md (md = short evidence summary)")
     a.add_argument("--allow-network", action="store_true", default=None,
                    help="permit dependency vulnerability lookups (sends package names and "
                         "versions, never source code, to PyPI/npm advisory services)")
@@ -55,6 +59,8 @@ def _parser() -> argparse.ArgumentParser:
 
     sub.add_parser("scanners", help="list scanner adapters and whether their tools are installed")
     sub.add_parser("policies", help="list bundled policies")
+    g = sub.add_parser("guidance", help="show the practices and advice of a guidance pack")
+    g.add_argument("pack", nargs="?", default="eaf-practices")
     ip = sub.add_parser("init-profile", help="write a profile template")
     ip.add_argument("target", nargs="?", default="eaf-profile.toml")
     return p
@@ -62,17 +68,17 @@ def _parser() -> argparse.ArgumentParser:
 
 def _cmd_assess(args) -> int:
     formats = [f.strip() for f in args.format.split(",") if f.strip()]
-    if not formats or any(f not in ("json", "html") for f in formats):
-        print("error: --format accepts json and/or html", file=sys.stderr)
+    if not formats or any(f not in ("json", "html", "md") for f in formats):
+        print("error: --format accepts json, html and/or md", file=sys.stderr)
         return EXIT_USAGE
     out_dir = args.output.resolve()
     options = Options(depth=args.depth, scope=args.scope, profile_path=args.profile,
-                      policy=args.policy, allow_network=args.allow_network, timeout=args.timeout,
+                      policy=args.policy, guidance=args.guidance, allow_network=args.allow_network, timeout=args.timeout,
                       only=args.only, skip=args.skip,
                       evidence_dir=None if args.no_evidence else out_dir / "evidence")
     try:
         report = assess(args.path, options)
-    except (AssessmentError, PolicyError, ProfileError) as exc:
+    except (AssessmentError, PolicyError, ProfileError, GuidanceError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return EXIT_USAGE
     report["tool"]["command_line"] = sys.argv[1:]
@@ -88,7 +94,7 @@ def _cmd_assess(args) -> int:
         print()
         for c in report["checks"]:
             n = sum(c["finding_counts"].values())
-            print(f"  {LABEL.get(c['status'], c['status']):<15} {c['id']:<28} "
+            print(f"  {LABEL.get(c['status'], c['status']):<15} {c['id']:<34} "
                   f"{(str(n) + ' finding(s)') if n else '':<16} {c['reason'][:90]}")
         print()
         print(f"OVERALL: {LABEL.get(summary['overall_status'], summary['overall_status'])} - "
@@ -131,6 +137,23 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_scanners()
     if args.command == "policies":
         return _cmd_policies()
+    if args.command == "guidance":
+        try:
+            pack = load_guidance(args.pack)
+        except GuidanceError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return EXIT_USAGE
+        d = pack.describe()
+        print(f"{d['id']}@{d['version']} - {d['title']}  (bundled: {', '.join(sorted(bundled_guidance()))})")
+        for p in pack.practices:
+            print(f"\n  practice.{p['id']}  [{p.get('severity', 'low')}]  {p.get('title', '')}")
+            print(f"    applies when: {', '.join(p.get('applies_when', ['code']))}")
+            if p.get("why"):
+                print(f"    why: {p['why']}")
+            if p.get("how"):
+                print(f"    how: {p['how']}")
+        print(f"\n{len(pack.remediations)} remediation entries for scanner findings.")
+        return EXIT_OK
     if args.command == "init-profile":
         target = Path(args.target)
         if target.exists():

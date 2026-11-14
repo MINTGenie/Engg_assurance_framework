@@ -45,7 +45,9 @@ def build_env(allow_network: bool, extra: dict[str, str] | None = None) -> dict[
     env = dict(os.environ)
     if not allow_network:
         env = {k: v for k, v in env.items() if k.lower() not in _PROXY_VARS}
-    env.update({"PYTHONDONTWRITEBYTECODE": "1", "NO_COLOR": "1", "CI": "1"})
+    env.update({"PYTHONDONTWRITEBYTECODE": "1", "NO_COLOR": "1", "CI": "1",
+                "SEMGREP_ENABLE_VERSION_CHECK": "0", "SEMGREP_SEND_METRICS": "off",
+                "DO_NOT_TRACK": "1"})
     env.update(extra or {})
     return env
 

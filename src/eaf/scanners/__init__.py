@@ -5,18 +5,25 @@ from importlib import metadata
 
 from eaf.scanners.base import ScannerAdapter
 from eaf.scanners.c_cpp_tools import CppcheckAdapter, FlawfinderAdapter
+from eaf.scanners.api_tools import McpConfigAdapter, OpenApiAdapter
+from eaf.scanners.data_tools import PostgresRulesAdapter, SquawkAdapter
 from eaf.scanners.hygiene import (CiConfigCheck, DependencyPinningCheck, GitignoreCheck,
-                                  LargeFilesCheck, LicenseCheck, ReadmeCheck, TestsPresentCheck)
-from eaf.scanners.js_tools import EslintJsAdapter, EslintTsAdapter, NpmAuditAdapter
+                                  LargeFilesCheck, LicenseCheck, ReadmeCheck, TestsPresentCheck,
+                                  TrackedArtifactsCheck)
+from eaf.scanners.js_tools import (BunAuditAdapter, EslintJsAdapter, EslintTsAdapter,
+                                   NpmAuditAdapter)
+from eaf.scanners.semgrep_tool import SemgrepAdapter
 from eaf.scanners.python_tools import BanditAdapter, PipAuditAdapter, RuffAdapter
 from eaf.scanners.secrets import DetectSecretsAdapter, SensitiveFilesAdapter
 
 BUILTIN_ADAPTERS: list[type[ScannerAdapter]] = [
-    RuffAdapter, CppcheckAdapter, EslintJsAdapter, EslintTsAdapter,
-    BanditAdapter, FlawfinderAdapter,
+    RuffAdapter, CppcheckAdapter, EslintJsAdapter, EslintTsAdapter, SquawkAdapter,
+    BanditAdapter, FlawfinderAdapter, SemgrepAdapter, PostgresRulesAdapter, OpenApiAdapter,
+    McpConfigAdapter,
     DetectSecretsAdapter, SensitiveFilesAdapter,
-    DependencyPinningCheck, PipAuditAdapter, NpmAuditAdapter,
+    DependencyPinningCheck, PipAuditAdapter, NpmAuditAdapter, BunAuditAdapter,
     ReadmeCheck, LicenseCheck, GitignoreCheck, TestsPresentCheck, CiConfigCheck, LargeFilesCheck,
+    TrackedArtifactsCheck,
 ]
 
 

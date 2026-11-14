@@ -14,7 +14,11 @@ Policies: `src/eaf/data/policies/*.toml`. Tests: `tests/` (pytest).
 - Never add network access to a check unless it sets `requires_network = True`.
 - Run every external tool through `ScanContext.run` (argv list, no shell).
 - Never write secret values into findings or reports.
-- Changing thresholds or controls in a policy requires a policy version bump.
+- Changing thresholds or controls in a policy requires a policy version bump; changing
+  practices or advice text requires a guidance pack version bump.
+- The specification is `specs/level1-source-assessment.md`. Read it first; change it first
+  when requirements change; name the requirement ID in the test that covers it.
+- Update `CHANGELOG.md` in the same change.
 - Changing the JSON report structure requires a `REPORT_SCHEMA_VERSION` bump.
 - Add or update tests for every behaviour change: `pytest`.
 

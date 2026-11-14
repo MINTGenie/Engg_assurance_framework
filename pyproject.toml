@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eaf"
-version = "0.1.0"
+version = "0.2.0"
 description = "Engineering Assurance Framework (EAF) - Level 1 source assessment prototype"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,6 +19,9 @@ scanners = [
     "flawfinder>=2.0.19",
     "detect-secrets>=1.5",
     "pip-audit>=2.7",
+    "semgrep>=1.80",
+    "squawk-cli>=2.0",
+    "pyyaml>=6",   # only needed to read YAML OpenAPI documents
 ]
 dev = ["pytest>=7"]
 
@@ -29,7 +32,7 @@ eaf = "eaf.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-eaf = ["data/*", "data/policies/*"]
+eaf = ["data/*", "data/policies/*", "data/guidance/*", "data/standards/*", "data/semgrep/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -14,6 +14,8 @@ from pathlib import Path
 from eaf import DISCLAIMER, REPORT_SCHEMA_VERSION, __version__
 from eaf.discovery import discover, tree_digest
 from eaf.gitinfo import git_info
+from eaf.guidance import load_guidance
+from eaf.standards import standards_coverage
 from eaf.models import DEPTHS, IMPLEMENTED_SCOPES, CheckResult, Status
 from eaf.policy import load_policy
 from eaf.profile import Profile, load_profile
@@ -31,6 +33,7 @@ class Options:
     scope: str = "repository"
     profile_path: Path | None = None
     policy: str | None = None          # overrides the profile's policy
+    guidance: str | None = None        # overrides the profile's guidance pack
     allow_network: bool | None = None  # None = take from profile
     timeout: int = 300
     only: list[str] = field(default_factory=list)   # glob patterns of check ids
@@ -44,7 +47,7 @@ def _selected(check_id: str, patterns: list[str]) -> bool:
 
 
 def _run_check(adapter: ScannerAdapter, ctx: ScanContext, options: Options, profile: Profile,
-               policy, allow_network: bool) -> CheckResult:
+               policy, allow_network: bool, guidance=None) -> CheckResult:
     start = time.monotonic()
     result = CheckResult(id=adapter.id, title=adapter.title, category=adapter.category,
                          status=Status.NOT_EXECUTED, scanner=adapter.scanner_name,
@@ -85,6 +88,8 @@ def _run_check(adapter: ScannerAdapter, ctx: ScanContext, options: Options, prof
         unique.setdefault(f.fingerprint, f)
     output.findings = list(unique.values())
     for f in output.findings:
+        if guidance is not None:
+            guidance.enrich(f)
         for s in profile.suppressions:
             if s.matches(f.check_id, f.rule_id, f.file):
                 f.suppressed, f.suppression_reason = True, s.reason
@@ -122,11 +127,13 @@ def assess(path: str | Path, options: Options | None = None) -> dict:
     t0 = time.monotonic()
     profile = load_profile(options.profile_path, root)
     policy = load_policy(options.policy or profile.policy)
+    guidance = load_guidance(options.guidance or profile.guidance)
     allow_network = profile.allow_network if options.allow_network is None else options.allow_network
 
     inventory = discover(root, profile.exclude)
     digest_before = tree_digest(root, inventory.files)
-    adapters = options.adapters if options.adapters is not None else all_adapters()
+    adapters = options.adapters if options.adapters is not None else \
+        [*all_adapters(), *guidance.adapters()]
 
     results: list[CheckResult] = []
     with tempfile.TemporaryDirectory(prefix="eaf-") as tmp:
@@ -134,7 +141,8 @@ def assess(path: str | Path, options: Options | None = None) -> dict:
                           allow_network=allow_network, timeout=options.timeout,
                           evidence_dir=options.evidence_dir)
         for adapter in adapters:
-            results.append(_run_check(adapter, ctx, options, profile, policy, allow_network))
+            results.append(_run_check(adapter, ctx, options, profile, policy, allow_network,
+                                      guidance))
 
     digest_after = tree_digest(root, discover(root, profile.exclude).files)
     overall, overall_reason = policy.overall(results)
@@ -153,6 +161,12 @@ def assess(path: str | Path, options: Options | None = None) -> dict:
     if inventory.unsupported_languages:
         limitations.append("Languages detected but NOT assessed by language-specific scanners: "
                            + ", ".join(inventory.unsupported_languages))
+    limitations.append("Engineering-practice checks establish that a document exists and has "
+                       "minimal substance. They do not judge whether it is correct, complete "
+                       "or followed.")
+    limitations.append("Standards coverage is partial by construction: a mapped category means "
+                       "some checks look for instances of that weakness class, not that the "
+                       "category is satisfied.")
     if not allow_network:
         limitations.append("Known-vulnerability lookups for dependencies were not performed "
                            "(network disabled).")
@@ -180,6 +194,7 @@ def assess(path: str | Path, options: Options | None = None) -> dict:
             },
             "network_allowed": allow_network,
             "policy": policy.describe(),
+            "guidance": guidance.describe(),
             "profile": profile.to_dict(),
         },
         "inventory": inventory.to_dict(),
@@ -192,6 +207,7 @@ def assess(path: str | Path, options: Options | None = None) -> dict:
             "results_digest": f"sha256:{results_digest(checks)}",
         },
         "controls": policy.controls(results),
+        "standards_coverage": standards_coverage(results),
         "checks": checks,
         "limitations": limitations,
     }

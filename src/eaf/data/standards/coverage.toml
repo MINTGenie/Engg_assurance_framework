@@ -1,0 +1,164 @@
+# Which EAF checks contribute evidence to which category of a public standard.
+#
+# IMPORTANT: "contributes evidence" is not "covers". Every mapping below is PARTIAL: static
+# Level 1 checks can find instances of a weakness class; they cannot show its absence, and
+# several categories (access-control logic, design, logging, business flows) are largely
+# outside what static inspection can evaluate. `aspect` says what the checks look at;
+# `not_covered` says what they do not.
+
+[[standard]]
+id = "OWASP-2021"
+title = "OWASP Top 10 (2021)"
+
+  [[standard.category]]
+  id = "OWASP-2021-A01"
+  title = "Broken Access Control"
+  checks = ["security.sql-postgres", "security.openapi", "security.semgrep"]
+  aspect = "PostgreSQL row level security, grants and policies in SQL files; unauthenticated operations in OpenAPI documents; CORS wildcards"
+  not_covered = "Authorisation logic in application code; object-level access checks; anything decided at runtime"
+
+  [[standard.category]]
+  id = "OWASP-2021-A02"
+  title = "Cryptographic Failures"
+  checks = ["security.bandit", "security.semgrep", "security.openapi", "security.mcp-config"]
+  aspect = "Weak hash/cipher use in Python; disabled TLS verification; unverified JWTs; plain-http endpoints in API and MCP configuration"
+  not_covered = "Key management, data-at-rest encryption, protocol configuration of deployed systems; C/C++ cryptography"
+
+  [[standard.category]]
+  id = "OWASP-2021-A03"
+  title = "Injection"
+  checks = ["security.bandit", "security.semgrep", "security.flawfinder", "security.sql-postgres",
+            "quality.eslint-js", "quality.eslint-ts"]
+  aspect = "Known injection sinks: shell, eval, SQL string building, format strings, dynamic SQL, unsafe HTML"
+  not_covered = "Data-flow across files or services; whether a flagged sink is reachable with untrusted data"
+
+  [[standard.category]]
+  id = "OWASP-2021-A04"
+  title = "Insecure Design"
+  all_findings_of = ["practice.spec.present", "practice.docs.architecture", "practice.docs.security-policy"]
+  checks = ["practice.spec.present", "practice.docs.architecture", "practice.docs.security-policy"]
+  aspect = "Existence of a specification, architecture documentation and a threat model"
+  not_covered = "Whether the design is secure. No tool evaluates this; it needs review"
+
+  [[standard.category]]
+  id = "OWASP-2021-A05"
+  title = "Security Misconfiguration"
+  checks = ["security.bandit", "security.semgrep", "security.openapi", "security.mcp-config",
+            "security.sql-postgres"]
+  aspect = "Debug/bind-all settings, CORS, permissive database grants, API and MCP configuration files in the repository"
+  not_covered = "Configuration of deployed infrastructure, cloud resources, containers, headers at runtime"
+
+  [[standard.category]]
+  id = "OWASP-2021-A06"
+  title = "Vulnerable and Outdated Components"
+  all_findings_of = ["dependencies.pinning", "dependencies.pip-audit", "dependencies.npm-audit", "dependencies.bun-audit"]
+  checks = ["dependencies.pinning", "dependencies.pip-audit", "dependencies.npm-audit",
+            "dependencies.bun-audit"]
+  aspect = "Pinned/locked dependencies; known advisories for pip, npm and Bun lockfiles (needs --allow-network)"
+  not_covered = "C/C++ and vendored dependencies, container base images, yarn/pnpm/Poetry/uv lockfiles, licence compliance"
+
+  [[standard.category]]
+  id = "OWASP-2021-A07"
+  title = "Identification and Authentication Failures"
+  checks = ["secrets.detect-secrets", "secrets.sensitive-files", "security.semgrep",
+            "security.mcp-config", "security.openapi"]
+  aspect = "Hardcoded credentials and key files; credentials in MCP configuration; missing or weak security schemes in OpenAPI documents"
+  not_covered = "Session handling, password policy, MFA, token lifetime, the authentication implementation itself"
+
+  [[standard.category]]
+  id = "OWASP-2021-A08"
+  title = "Software and Data Integrity Failures"
+  checks = ["security.bandit", "security.semgrep", "security.mcp-config", "dependencies.pinning",
+            "hygiene.ci-config"]
+  aspect = "Unsafe deserialisation; unpinned packages launched by MCP configuration; lockfiles; presence of a CI pipeline"
+  not_covered = "Build pipeline integrity, artefact signing, update mechanisms"
+
+  [[standard.category]]
+  id = "OWASP-2021-A09"
+  title = "Security Logging and Monitoring Failures"
+  checks = []
+  aspect = ""
+  not_covered = "Not assessed at Level 1"
+
+  [[standard.category]]
+  id = "OWASP-2021-A10"
+  title = "Server-Side Request Forgery (SSRF)"
+  checks = []
+  aspect = ""
+  not_covered = "Not assessed at Level 1 (needs data-flow analysis)"
+
+[[standard]]
+id = "OWASP-API-2023"
+title = "OWASP API Security Top 10 (2023)"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API1"
+  title = "Broken Object Level Authorization"
+  checks = ["security.sql-postgres"]
+  aspect = "Only where authorisation is implemented as PostgreSQL row level security in SQL files"
+  not_covered = "Object-level checks in API handlers"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API2"
+  title = "Broken Authentication"
+  checks = ["security.openapi", "security.semgrep", "secrets.detect-secrets"]
+  aspect = "Operations without a security requirement in the OpenAPI document; disabled JWT verification; hardcoded credentials"
+  not_covered = "The authentication implementation; endpoints that are not in an OpenAPI document"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API3"
+  title = "Broken Object Property Level Authorization"
+  checks = []
+  aspect = ""
+  not_covered = "Not assessed at Level 1"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API4"
+  title = "Unrestricted Resource Consumption"
+  checks = ["security.openapi"]
+  aspect = "Whether the OpenAPI document mentions rate limiting (HTTP 429) at all"
+  not_covered = "Actual rate limits, payload limits, timeouts, cost controls"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API5"
+  title = "Broken Function Level Authorization"
+  checks = ["security.openapi"]
+  aspect = "Operations without a security requirement in the OpenAPI document"
+  not_covered = "Role checks in handlers; admin functions not described in the document"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API6"
+  title = "Unrestricted Access to Sensitive Business Flows"
+  checks = []
+  aspect = ""
+  not_covered = "Not assessable by static tools"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API7"
+  title = "Server Side Request Forgery"
+  checks = []
+  aspect = ""
+  not_covered = "Not assessed at Level 1"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API8"
+  title = "Security Misconfiguration"
+  checks = ["security.openapi", "security.semgrep", "security.bandit"]
+  aspect = "Plain-http servers in the OpenAPI document; CORS wildcards; disabled TLS verification; debug/bind-all settings"
+  not_covered = "Deployed gateway, TLS and header configuration"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API9"
+  title = "Improper Inventory Management"
+  all_findings_of = ["practice.docs.api-contract"]
+  checks = ["practice.docs.api-contract"]
+  aspect = "Whether an API contract exists in the repository"
+  not_covered = "Whether the contract matches the deployed API; old versions still running"
+
+  [[standard.category]]
+  id = "OWASP-API-2023-API10"
+  title = "Unsafe Consumption of APIs"
+  checks = ["security.semgrep", "dependencies.pip-audit", "dependencies.npm-audit",
+            "dependencies.bun-audit"]
+  aspect = "Disabled TLS verification for outbound calls; known-vulnerable client libraries"
+  not_covered = "Validation of third-party API responses"

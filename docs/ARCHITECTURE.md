@@ -5,6 +5,7 @@ eaf assess <path>
    │
    ├─ profile.py     load engineering context profile (TOML)
    ├─ policy.py      load versioned policy → PolicyAdapter
+   ├─ guidance.py    load guidance pack → practice checks + remediation text
    ├─ discovery.py   walk tree (no symlinks) → Inventory: languages, manifests,
    │                 frameworks, build systems, CI; source digest
    ├─ gitinfo.py     revision from .git files; dirty state via hardened git
@@ -13,7 +14,7 @@ eaf assess <path>
    │                    deselected / depth / network / tool missing → NOT_EXECUTED
    │                    scan() → findings → suppressions → policy.evaluate() → PASS/WARNING/FAIL
    │                 then: controls, overall status, results digest, limitations
-   └─ report/        JSON (canonical) and HTML (rendered from the same dict)
+   └─ report/        JSON (canonical); HTML and Markdown evidence summary rendered from it
 ```
 
 Design rules:
@@ -26,6 +27,18 @@ Design rules:
   proxy variables stripped unless the adapter declares `requires_network` and the user
   passed `--allow-network`, output hashed and stored as evidence.
 - **The JSON report is the contract** (`schema_version`). HTML is a view of it.
+
+## Guidance packs and standards mapping
+
+- `guidance.py` loads a versioned TOML pack. Each `[[practice]]` becomes a `practice.<id>`
+  check evaluated on the file inventory; `[[remediation]]` entries and `[cwe_standards]`
+  attach fix text and standard references to every scanner finding (`GuidancePack.enrich`).
+  A pack may `extend` another; own entries override.
+- `standards.py` reads `data/standards/coverage.toml` and reports, per standard category,
+  the mapped checks, findings tagged with that category, and what is not covered. Coverage
+  is `partial` or `none` by design.
+- Adapters may set `Finding.guidance` and `Finding.standards` themselves (built-in rules and
+  semgrep rule metadata do); a matching pack entry replaces the adapter's text.
 
 ## Adding a scanner adapter
 

@@ -27,7 +27,7 @@ def test_adapter_ids_are_unique_and_categorised():
     assert len({a.id for a in adapters}) == len(adapters)
     assert {a.category for a in adapters} == {"code_quality", "security", "secrets",
                                               "dependencies", "hygiene"}
-    for lang in ("python", "c", "cpp", "javascript", "typescript"):
+    for lang in ("python", "c", "cpp", "javascript", "typescript", "sql"):
         assert any(lang in a.languages and a.tool for a in adapters), lang
 
 

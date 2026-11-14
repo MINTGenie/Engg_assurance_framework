@@ -7,6 +7,7 @@ under the "eaf.policy_adapters" entry-point group.
 """
 from __future__ import annotations
 
+import fnmatch
 import hashlib
 import tomllib
 from importlib import metadata, resources
@@ -49,8 +50,15 @@ class ThresholdPolicyAdapter:
     def thresholds(self, check_id: str, criticality: str) -> dict:
         merged = {"fail_at": "high", "warn_at": "low"}
         crit = self.doc.get("criticality", {}).get(criticality, {})
-        for layer in (self.doc.get("defaults", {}), self.doc.get("checks", {}).get(check_id, {}),
-                      crit.get("defaults", {}), crit.get("checks", {}).get(check_id, {})):
+
+        def lookup(table: dict) -> dict:
+            """Exact check id first, then glob keys such as "practice.*"."""
+            if check_id in table:
+                return table[check_id]
+            return next((v for k, v in table.items() if fnmatch.fnmatchcase(check_id, k)), {})
+
+        for layer in (self.doc.get("defaults", {}), lookup(self.doc.get("checks", {})),
+                      crit.get("defaults", {}), lookup(crit.get("checks", {}))):
             for key in ("fail_at", "warn_at"):
                 if key in layer:
                     merged[key] = str(layer[key]).lower()
@@ -104,8 +112,12 @@ class ThresholdPolicyAdapter:
                  Status.NOT_APPLICABLE]
         out = []
         for c in self.doc.get("controls", []):
-            mapped = [by_id[i] for i in c.get("checks", []) if i in by_id]
-            missing = [i for i in c.get("checks", []) if i not in by_id]
+            mapped, missing = [], []
+            for pattern in c.get("checks", []):
+                hits = [r for r in results if fnmatch.fnmatchcase(r.id, pattern) and r not in mapped]
+                mapped += hits
+                if not hits and pattern not in by_id:
+                    missing.append(pattern)
             if not mapped:
                 status, reason = Status.NOT_EXECUTED, (
                     "No Level 1 check is mapped to this control; it needs manual evidence "

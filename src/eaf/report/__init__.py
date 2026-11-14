@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from eaf.report.html_report import render_html
+from eaf.report.md_report import render_markdown
 
 
 def write_reports(report: dict, out_dir: Path, formats: list[str], basename: str = "eaf-report") -> dict:
@@ -18,4 +19,8 @@ def write_reports(report: dict, out_dir: Path, formats: list[str], basename: str
         target = out_dir / f"{basename}.html"
         target.write_text(render_html(report), encoding="utf-8")
         written["html"] = target
+    if "md" in formats:
+        target = out_dir / "eaf-evidence.md"
+        target.write_text(render_markdown(report), encoding="utf-8")
+        written["md"] = target
     return written

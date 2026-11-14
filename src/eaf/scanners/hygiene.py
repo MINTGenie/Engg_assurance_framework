@@ -4,7 +4,9 @@ from __future__ import annotations
 import json
 import os
 
-from eaf.discovery import SUPPORTED_LANGUAGES, is_test_file, parse_requirements
+from eaf.discovery import (DEFAULT_EXCLUDED_DIRS, SUPPORTED_LANGUAGES, is_test_file,
+                           parse_requirements)
+from eaf.gitinfo import hardened_git
 from eaf.models import Finding, Severity
 from eaf.scanners.base import ScanContext, ScannerAdapter, ScanOutput
 
@@ -122,6 +124,45 @@ class LargeFilesCheck(_Builtin):
         return out
 
 
+# Directories that hold generated or downloaded content and should not be version controlled.
+GENERATED_DIRS = DEFAULT_EXCLUDED_DIRS - {".git", ".hg", ".svn", ".idea", "env", "out",
+                                          "eaf-reports", "coverage", "target", "build", "dist"}
+GENERATED_SUFFIXES = (".pyc", ".pyo", ".class", ".o", ".obj")
+
+
+class TrackedArtifactsCheck(_Builtin):
+    id = "hygiene.tracked-artifacts"
+    title = "No generated files or caches under version control"
+
+    def applicable(self, ctx: ScanContext) -> tuple[bool, str]:
+        if hardened_git(ctx.root, ["rev-parse", "--is-inside-work-tree"]) is None:
+            return False, "Not a git work tree"
+        return True, ""
+
+    def scan(self, ctx: ScanContext) -> ScanOutput:
+        listing = hardened_git(ctx.root, ["ls-files", "-z", "--", "."])
+        if listing is None:
+            from eaf.scanners.base import ScanNotExecuted
+            raise ScanNotExecuted("git ls-files failed")
+        tracked = [p for p in listing.split("\0") if p]
+        out = ScanOutput(files_examined=len(tracked), notes=[
+            "Looks at files tracked by git, including directories that the other checks exclude "
+            "from their scope (caches, dependency folders)."])
+        by_dir: dict[str, int] = {}
+        for path in tracked:
+            parts = path.split("/")
+            hit = next((d for d in parts[:-1] if d in GENERATED_DIRS or d.endswith(".egg-info")), None)
+            if hit or path.endswith(GENERATED_SUFFIXES):
+                key = "/".join(parts[:parts.index(hit) + 1]) + "/" if hit else path
+                by_dir[key] = by_dir.get(key, 0) + 1
+        for key, n in sorted(by_dir.items()):
+            out.findings.append(self.finding(
+                "tracked-generated-files", Severity.LOW,
+                f"{n} generated/cache file(s) are committed under '{key}'" if key.endswith("/")
+                else "Generated file is committed", key))
+        return out
+
+
 class DependencyPinningCheck(_Builtin):
     id = "dependencies.pinning"
     title = "Dependencies are pinned / locked"
@@ -145,7 +186,8 @@ class DependencyPinningCheck(_Builtin):
                         "unpinned-python-dependency", Severity.MEDIUM,
                         f"'{r['name']}{r['spec']}' is not pinned to an exact version (==)", rel))
         npm_locks = {os.path.dirname(p) for g in ("package-lock.json", "npm-shrinkwrap.json",
-                                                   "yarn.lock", "pnpm-lock.yaml")
+                                                   "yarn.lock", "pnpm-lock.yaml", "bun.lock",
+                                                   "bun.lockb")
                      for p in inv.manifest_paths(g)}
         for rel in inv.manifest_paths("package.json"):
             out.files_examined += 1

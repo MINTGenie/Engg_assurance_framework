@@ -17,7 +17,7 @@ from pathlib import Path
 DEFAULT_EXCLUDED_DIRS = {
     ".git", ".hg", ".svn", "node_modules", "bower_components", ".venv", "venv", "env",
     "__pycache__", ".tox", ".nox", ".mypy_cache", ".pytest_cache", ".ruff_cache",
-    "build", "dist", "out", "target", ".eggs", ".idea", ".vscode", "eaf-reports",
+    "build", "dist", "out", "target", ".eggs", ".idea", "eaf-reports",
     "cmake-build-debug", "cmake-build-release", ".gradle", "coverage", ".next",
 }
 DEFAULT_EXCLUDED_FILE_GLOBS = ["*.min.js", "*.min.css", "*.map", "*.egg-info"]
@@ -29,12 +29,13 @@ LANGUAGE_BY_EXT = {
     ".cc": "cpp", ".cpp": "cpp", ".cxx": "cpp", ".hpp": "cpp", ".hh": "cpp", ".hxx": "cpp",
     ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript", ".jsx": "javascript",
     ".ts": "typescript", ".tsx": "typescript", ".mts": "typescript", ".cts": "typescript",
+    ".sql": "sql", ".psql": "sql", ".pgsql": "sql",
     # detected but not assessed in this version
     ".java": "java", ".kt": "kotlin", ".go": "go", ".rs": "rust", ".cs": "csharp",
     ".swift": "swift", ".rb": "ruby", ".php": "php", ".sh": "shell", ".bash": "shell",
     ".m": "matlab/objc", ".slx": "simulink", ".arxml": "autosar-arxml", ".scala": "scala",
 }
-SUPPORTED_LANGUAGES = {"python", "c", "cpp", "javascript", "typescript"}
+SUPPORTED_LANGUAGES = {"python", "c", "cpp", "javascript", "typescript", "sql"}
 
 MANIFEST_PATTERNS = {
     # filename glob -> (ecosystem, kind)
@@ -51,6 +52,8 @@ MANIFEST_PATTERNS = {
     "npm-shrinkwrap.json": ("npm", "lockfile"),
     "yarn.lock": ("npm", "lockfile"),
     "pnpm-lock.yaml": ("npm", "lockfile"),
+    "bun.lock": ("npm", "lockfile"),
+    "bun.lockb": ("npm", "lockfile"),
     "conanfile.txt": ("conan", "manifest"),
     "conanfile.py": ("conan", "manifest"),
     "conan.lock": ("conan", "lockfile"),
@@ -81,6 +84,41 @@ JS_FRAMEWORKS = {
     "typescript": "TypeScript compiler", "webpack": "webpack", "vite": "Vite",
     "eslint": "ESLint",
 }
+# --- technology detection: dependency name -> technology -------------------------------
+API_FRAMEWORKS = {
+    "python": {"fastapi": "FastAPI", "flask": "Flask", "django": "Django",
+               "djangorestframework": "Django REST framework", "starlette": "Starlette",
+               "aiohttp": "aiohttp", "tornado": "Tornado", "falcon": "Falcon",
+               "connexion": "Connexion", "grpcio": "gRPC"},
+    "npm": {"express": "Express", "fastify": "Fastify", "koa": "Koa", "hono": "Hono",
+            "@nestjs/core": "NestJS", "next": "Next.js", "@tanstack/react-start": "TanStack Start",
+            "@hapi/hapi": "hapi", "@trpc/server": "tRPC", "restify": "restify"},
+}
+DATA_STORES = {
+    "python": {"psycopg2": "postgresql", "psycopg2-binary": "postgresql", "psycopg": "postgresql",
+               "asyncpg": "postgresql", "pg8000": "postgresql", "supabase": "supabase",
+               "pgvector": "pgvector", "pinecone": "pinecone", "pinecone-client": "pinecone",
+               "qdrant-client": "qdrant", "weaviate-client": "weaviate", "chromadb": "chroma",
+               "pymilvus": "milvus", "faiss-cpu": "faiss", "faiss-gpu": "faiss",
+               "lancedb": "lancedb", "redis": "redis", "pymongo": "mongodb",
+               "elasticsearch": "elasticsearch", "opensearch-py": "opensearch"},
+    "npm": {"pg": "postgresql", "postgres": "postgresql", "pg-promise": "postgresql",
+            "@supabase/supabase-js": "supabase", "pgvector": "pgvector",
+            "@pinecone-database/pinecone": "pinecone", "@qdrant/js-client-rest": "qdrant",
+            "weaviate-ts-client": "weaviate", "weaviate-client": "weaviate",
+            "chromadb": "chroma", "@zilliz/milvus2-sdk-node": "milvus",
+            "@lancedb/lancedb": "lancedb", "redis": "redis", "ioredis": "redis",
+            "mongodb": "mongodb", "mongoose": "mongodb"},
+}
+VECTOR_STORES = {"pgvector", "pinecone", "qdrant", "weaviate", "chroma", "milvus", "faiss",
+                 "lancedb"}
+MCP_PACKAGES = {"python": {"mcp", "fastmcp"},
+                "npm": {"@modelcontextprotocol/sdk", "fastmcp", "mcp-framework"}}
+MCP_CONFIG_NAMES = {".mcp.json", "mcp.json", "mcp_config.json", "claude_desktop_config.json"}
+OPENAPI_NAME_RE = re.compile(r"^(openapi|swagger)[\w.-]*\.(json|ya?ml)$", re.IGNORECASE)
+_OPENAPI_SNIFF_RE = re.compile(r"""^\s*\{?\s*["']?(openapi|swagger)["']?\s*:""")
+_PGVECTOR_RE = re.compile(r"create\s+extension[^;]*\bvector\b|\bvector\s*\(\s*\d+\s*\)", re.I)
+
 TEST_FILE_RE = re.compile(
     r"(^|/)(tests?|__tests__|spec|unittest|gtest)(/|$)|(^|/)test_[^/]+$|_test\.[a-z]+$"
     r"|\.(test|spec)\.[cm]?[jt]sx?$|(^|/)[^/]*Test\.(cpp|cc|java)$",
@@ -105,6 +143,8 @@ class Inventory:
     build_systems: list[dict] = field(default_factory=list)
     frameworks: list[dict] = field(default_factory=list)
     ci: list[str] = field(default_factory=list)
+    technologies: dict = field(default_factory=dict)
+    dependencies: dict[str, set] = field(default_factory=dict)  # ecosystem -> package names
     excluded: list[str] = field(default_factory=list)
     exclude_patterns: list[str] = field(default_factory=list)
     skipped_symlinks: int = 0
@@ -138,6 +178,7 @@ class Inventory:
             "dependency_manifests": self.manifests,
             "build_systems": self.build_systems,
             "ci_configuration": self.ci,
+            "technologies": self.technologies,
             "excluded_paths": self.excluded,
             "exclude_patterns": self.exclude_patterns,
             "skipped_symlinks": self.skipped_symlinks,
@@ -212,6 +253,7 @@ def discover(root: Path, extra_excludes: list[str] | None = None) -> Inventory:
             inv.ci.append(ci)
     _detect_build_backends(inv)
     _detect_frameworks(inv)
+    _detect_technologies(inv)
     inv.languages = dict(sorted(inv.languages.items()))
     return inv
 
@@ -267,8 +309,12 @@ def _detect_frameworks(inv: Inventory) -> None:
     def add(name: str, ecosystem: str, source: str) -> None:
         found.setdefault((name, ecosystem), source)
 
+    def dep(ecosystem: str, name: str) -> None:
+        inv.dependencies.setdefault(ecosystem, set()).add(name.lower())
+
     for rel in inv.manifest_paths("requirements*.txt"):
         for req in parse_requirements(_read_text(inv.root / rel)):
+            dep("python", req["name"])
             if req["name"] in PY_FRAMEWORKS:
                 add(PY_FRAMEWORKS[req["name"]], "python", rel)
     for rel in inv.manifest_paths("pyproject.toml"):
@@ -280,8 +326,10 @@ def _detect_frameworks(inv: Inventory) -> None:
         for extra in (data.get("project", {}).get("optional-dependencies", {}) or {}).values():
             deps += list(extra or [])
         deps += list((data.get("tool", {}).get("poetry", {}).get("dependencies", {}) or {}))
-        for dep in deps:
-            m = _REQ_NAME_RE.match(str(dep))
+        for dep_spec in deps:
+            m = _REQ_NAME_RE.match(str(dep_spec))
+            if m:
+                dep("python", m.group(1))
             if m and m.group(1).lower() in PY_FRAMEWORKS:
                 add(PY_FRAMEWORKS[m.group(1).lower()], "python", rel)
     for rel in inv.manifest_paths("package.json"):
@@ -292,9 +340,10 @@ def _detect_frameworks(inv: Inventory) -> None:
         if not isinstance(data, dict):
             continue
         for key in ("dependencies", "devDependencies", "peerDependencies"):
-            for dep in (data.get(key) or {}):
-                if dep in JS_FRAMEWORKS:
-                    add(JS_FRAMEWORKS[dep], "npm", rel)
+            for name in (data.get(key) or {}):
+                dep("npm", name)
+                if name in JS_FRAMEWORKS:
+                    add(JS_FRAMEWORKS[name], "npm", rel)
     for bs in inv.build_systems:
         if bs["system"] == "cmake":
             text = _read_text(inv.root / bs["path"])
@@ -302,6 +351,51 @@ def _detect_frameworks(inv: Inventory) -> None:
                 add(m.group(1), "cmake", bs["path"])
     inv.frameworks = [{"name": n, "ecosystem": e, "detected_in": s}
                       for (n, e), s in sorted(found.items())]
+
+
+def _detect_technologies(inv: Inventory) -> None:
+    """API frameworks, API contracts, data stores (incl. vector stores) and MCP usage."""
+    apis, stores, mcp_pkgs = set(), set(), set()
+    for eco, names in inv.dependencies.items():
+        for name in names:
+            if name in API_FRAMEWORKS.get(eco, {}):
+                apis.add(API_FRAMEWORKS[eco][name])
+            if name in DATA_STORES.get(eco, {}):
+                stores.add(DATA_STORES[eco][name])
+            if name in MCP_PACKAGES.get(eco, set()):
+                mcp_pkgs.add(name)
+    sql_files = inv.files_for("sql")
+    if sql_files:
+        stores.add("postgresql")  # SQL is assessed with PostgreSQL rules
+        if any(_PGVECTOR_RE.search(_read_text(inv.root / f, 500_000)) for f in sql_files):
+            stores.add("pgvector")
+    if any(f.rel.startswith("supabase/") or "/supabase/" in f.rel for f in inv.files):
+        stores.update({"supabase", "postgresql"})
+
+    openapi, mcp_configs = [], []
+    for f in inv.files:
+        name = f.rel.rsplit("/", 1)[-1]
+        low = name.lower()
+        if low in MCP_CONFIG_NAMES:
+            mcp_configs.append(f.rel)
+        if low.endswith((".json", ".yaml", ".yml")) and f.size < 5_000_000:
+            if OPENAPI_NAME_RE.match(name):
+                openapi.append(f.rel)
+            elif low not in ("package.json", "package-lock.json", "tsconfig.json"):
+                try:
+                    with open(inv.root / f.rel, "r", encoding="utf-8", errors="replace") as fh:
+                        if _OPENAPI_SNIFF_RE.match(fh.read(300)):
+                            openapi.append(f.rel)
+                except OSError:
+                    pass
+    inv.technologies = {
+        "api_frameworks": sorted(apis),
+        "openapi_documents": sorted(openapi),
+        "data_stores": sorted(stores),
+        "vector_stores": sorted(stores & VECTOR_STORES),
+        "mcp_packages": sorted(mcp_pkgs),
+        "mcp_config_files": sorted(mcp_configs),
+    }
 
 
 def is_test_file(rel: str) -> bool:

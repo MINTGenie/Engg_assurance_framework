@@ -43,6 +43,9 @@ details>div{padding:0 14px 14px}
 .suppressed td{opacity:.55}
 ul{margin:6px 0;padding-left:20px}
 .nw{white-space:nowrap}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;white-space:nowrap}
+.guide{margin-top:4px;padding:6px 9px;border-left:3px solid var(--pass);background:var(--code);border-radius:0 4px 4px 0}
+h3{font-size:14px;margin:18px 0 6px}
 """
 
 
@@ -61,15 +64,20 @@ def _findings_table(findings: list[dict]) -> str:
     rows = []
     for f in findings[:MAX_FINDINGS_SHOWN]:
         loc = e(f.get("file") or "-") + (f":{f['line']}" if f.get("line") else "")
-        extra = " ".join(x for x in [e(f.get("cwe") or ""),
+        extra = " ".join(x for x in [f"<span class='tag'>{e(f['cwe'])}</span>" if f.get("cwe") else "",
                                      f"confidence: {e(f['confidence'])}" if f.get("confidence") else ""] if x)
+        if f.get("standards"):
+            extra = (extra + " " if extra else "") + " ".join(
+                f"<span class='tag'>{e(x)}</span>" for x in f["standards"] if x != f.get("cwe"))
+        guide = (f'<div class="guide"><strong>How to fix:</strong> {e(f["guidance"])}</div>'
+                 if f.get("guidance") else "")
         supp = (f'<br><span class="muted">suppressed: {e(f.get("suppression_reason") or "")}</span>'
                 if f.get("suppressed") else "")
         rows.append(
             f'<tr class="{"suppressed" if f.get("suppressed") else ""}">'
             f'<td><span class="sev sev-{e(f["severity"])}">{e(f["severity"])}</span></td>'
             f'<td><code>{e(f["rule_id"])}</code></td><td class="mono">{loc}</td>'
-            f'<td>{e(f["message"])}{" <span class=muted>" + extra + "</span>" if extra else ""}{supp}</td></tr>')
+            f'<td>{e(f["message"])}{" <span class=muted>" + extra + "</span>" if extra else ""}{guide}{supp}</td></tr>')
     more = (f'<p class="muted">Showing {MAX_FINDINGS_SHOWN} of {len(findings)} findings; '
             'the JSON report contains all of them.</p>' if len(findings) > MAX_FINDINGS_SHOWN else "")
     return ('<div class="scroll"><table><thead><tr><th>Severity</th><th>Rule</th><th>Location</th>'
@@ -130,7 +138,47 @@ def render_html(report: dict) -> str:
     def lst(items):
         return ", ".join(e(str(i)) for i in items) or "none detected"
 
-    checks_sorted = sorted(report["checks"], key=lambda c: (STATUS_ORDER.index(c["status"]), c["id"]))
+    all_sorted = sorted(report["checks"], key=lambda c: (STATUS_ORDER.index(c["status"]), c["id"]))
+    checks_sorted = [c for c in all_sorted if c["category"] != "practices"]
+    practices = [c for c in all_sorted if c["category"] == "practices"]
+    guid = a.get("guidance", {})
+    tech = inv.get("technologies", {})
+
+    def practice_row(c):
+        f = next((x for x in c["findings"] if not x["suppressed"]), None)
+        if f:
+            detail = f"{e(f['message'])}" + (f"<div class='guide'><strong>What to do:</strong> {e(f['guidance'])}</div>" if f.get("guidance") else "")
+        else:
+            detail = e(c["reason"]) + ("<br><span class='muted'>" + e("; ".join(n for n in c["notes"] if n.startswith(("Evidence", "Last doc", "Shallow")))) + "</span>" if c["notes"] else "")
+        return (f"<tr><td>{_badge(c['status'])}</td><td><a href='#{e(c['id'])}'>{e(c['title'])}</a><br>"
+                f"<code>{e(c['id'])}</code></td><td>{detail}</td></tr>")
+
+    n_ok = sum(1 for c in practices if c["status"] == "PASS")
+    n_app = sum(1 for c in practices if c["status"] not in ("NOT_APPLICABLE",))
+    practices_html = (f"<p class='muted'>{n_ok} of {n_app} applicable practices evidenced. Guidance pack: "
+                      f"<code>{e(guid.get('id', '?'))}@{e(guid.get('version', '?'))}</code>"
+                      f"{' (extends ' + e(', '.join(guid.get('extends', []))) + ')' if guid.get('extends') else ''}. "
+                      "These checks look for evidence that a practice is followed (a document exists and has "
+                      "substance); they do not review its content.</p>"
+                      "<div class='card scroll'><table><thead><tr><th>Status</th><th>Practice</th><th>Result and guidance</th>"
+                      f"</tr></thead><tbody>{''.join(practice_row(c) for c in practices)}</tbody></table></div>") if practices else ""
+
+    def coverage_table(std):
+        rows = "".join(
+            f"<tr><td class='nw'><code>{e(c['id'].rsplit('-', 1)[-1])}</code> {e(c['title'])}</td>"
+            f"<td>{'<strong>partial</strong>' if c['coverage'] == 'partial' else '<span class=NOT_EXECUTED>none</span>'}</td>"
+            f"<td>{_badge(c['status']) if c['coverage'] == 'partial' else ''}</td>"
+            f"<td class='num'>{c['findings_tagged'] or ''}</td>"
+            f"<td>{e(c['aspect']) or '–'}<br><span class='muted'>Not covered: {e(c['not_covered'])}</span></td></tr>"
+            for c in std["categories"])
+        return (f"<h3>{e(std['title'])}</h3><div class='card scroll'><table><thead><tr><th>Category</th><th>Level 1 evidence</th>"
+                f"<th>Status of mapped checks</th><th>Findings</th><th>What is and is not looked at</th></tr></thead><tbody>{rows}</tbody></table></div>")
+
+    standards_html = ("<p class='muted'>This table shows which categories of public standards the executed checks "
+                      "contribute evidence to. <strong>No category is fully covered by static inspection.</strong> "
+                      "\"partial\" means some checks look for instances of that weakness class; a PASS there means "
+                      "none were found by those checks, not that the category is satisfied.</p>"
+                      + "".join(coverage_table(sd) for sd in report.get("standards_coverage", [])))
     check_rows = "".join(
         f"<tr><td>{_badge(c['status'])}</td><td><a href='#{e(c['id'])}'>{e(c['title'])}</a><br>"
         f"<code>{e(c['id'])}</code></td><td>{e(c['category'])}</td>"
@@ -173,6 +221,7 @@ def render_html(report: dict) -> str:
     ("Files in scope", scope["files_in_scope"]),
     ("Tree unmodified by assessment", "yes" if scope["source_tree_unmodified"] else "<strong class='FAIL'>NO</strong>"),
     ("Policy", f"{e(pol['title'])} – <code>{e(pol['id'])}@{e(pol['version'])}</code> (sha256 {e(pol['sha256'][:16])}…)"),
+    ("Guidance pack", f"{e(guid.get('title', ''))} – <code>{e(guid.get('id', '?'))}@{e(guid.get('version', '?'))}</code> (sha256 {e(guid.get('sha256', '')[:16])}…)"),
     ("Network lookups", "allowed" if a["network_allowed"] else "disabled"),
     ("Results digest", f"<code>{e(s['results_digest'])}</code>"),
     ("Duration", f"{a['duration_s']} s"),
@@ -200,20 +249,31 @@ def render_html(report: dict) -> str:
     ("Build systems", lst(sorted({b["system"] for b in inv["build_systems"]}))),
     ("Dependency manifests", lst(m["path"] for m in inv["dependency_manifests"])),
     ("CI configuration", lst(inv["ci_configuration"])),
+    ("API frameworks", lst(tech.get("api_frameworks", []))),
+    ("API contracts", lst(tech.get("openapi_documents", []))),
+    ("Data stores", lst(tech.get("data_stores", []))),
+    ("Vector stores", lst(tech.get("vector_stores", []))),
+    ("MCP", lst(tech.get("mcp_packages", []) + tech.get("mcp_config_files", []))),
     ("Excluded paths", lst(inv["excluded_paths"][:20])),
  ])}</div>
 </div>
+
+<h2>Engineering practices</h2>
+{practices_html}
+
+<h2>Standards coverage (evidence, not compliance)</h2>
+{standards_html}
 
 <h2>Policy controls</h2>
 <div class="card scroll"><table><thead><tr><th>Status</th><th>Control</th><th>Title</th><th>Mapped checks</th></tr></thead>
 <tbody>{control_rows}</tbody></table></div>
 
-<h2>Checks</h2>
+<h2>Technical checks</h2>
 <div class="card scroll"><table><thead><tr><th>Status</th><th>Check</th><th>Category</th><th>Scanner</th>
 {''.join(f'<th>{k[:4]}</th>' for k in SEVERITIES)}<th>Reason</th></tr></thead><tbody>{check_rows}</tbody></table></div>
 
 <h2>Check details and evidence</h2>
-{''.join(_check_detail(c) for c in checks_sorted)}
+{''.join(_check_detail(c) for c in all_sorted)}
 
 <h2>Limitations of this assessment</h2>
 <div class="card"><ul>{''.join(f'<li>{e(x)}</li>' for x in report['limitations'])}</ul></div>

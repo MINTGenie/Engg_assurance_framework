@@ -1,7 +1,7 @@
 """Engineering Assurance Framework (EAF) - Level 1 source assessment prototype."""
 
-__version__ = "0.1.0"
-REPORT_SCHEMA_VERSION = "1.0"
+__version__ = "0.2.0"
+REPORT_SCHEMA_VERSION = "1.1"
 
 DISCLAIMER = (
     "This report is an automated engineering quality indication produced by a prototype. "

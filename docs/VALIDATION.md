@@ -1,4 +1,9 @@
-# Validation results – EAF 0.1.0, Level 1
+# Validation results – EAF Level 1
+
+Sections 1–5 record version 0.1.0. Section 6 records what changed in 0.2.0 and the results
+of the new checks. Numbers in sections 1–5 were not re-measured except where section 6 says so.
+
+## 0.1.0
 
 Recorded 2026-11-13 on Linux x86_64, Python 3.13.18, Node 22.23.4.
 Scanner versions: ruff 0.16.9, bandit 1.9.4, cppcheck 2.13.0, flawfinder 2.0.20,
@@ -169,3 +174,89 @@ code. Only detect-secrets has a self-test today.
 - Git history is not scanned for secrets.
 - Not tested: Windows, macOS, repositories above ~185k lines, monorepos with several
   package roots, a live GitHub Copilot session using the skill.
+
+## 6. Version 0.2.0 (2026-11-14)
+
+Added scanner versions: semgrep 1.185.0, squawk 2.71.0, bun 1.4.4. Policy `eaf-baseline@1.1.0`,
+guidance pack `eaf-practices@1.0.0`. 72 tests (71 passed, 1 skipped where PyYAML is absent).
+
+### 6.1 Summary (median of 3 offline runs / 2 network runs)
+
+| Target | Overall offline | Overall network | Findings c/h/m/l/i (network) | Time offline / network |
+|---|---|---|---|---|
+| `samples/api-mcp-vector-service` (new; 72 Python, 69 SQL, 41 TS lines) | FAIL | FAIL | 0 / 37 / 23 / 27 / 2 | 5.7 s / 7.0 s |
+| `samples/vuln-python-service` | FAIL | FAIL | 0 / 22 / 13 / 19 / 0 | 5.3 s / 6.0 s |
+| `samples/embedded-c-cpp` | FAIL | FAIL | 0 / 8 / 8 / 18 / 0 | 0.7 s / 0.8 s |
+| `samples/web-ts-node` | FAIL | FAIL | 1 / 9 / 9 / 22 / 0 | 5.5 s / 6.3 s |
+| `samples/clean-python-lib` (now with spec, architecture, changelog, …) | WARNING (pip-audit not executed) | PASS | 0 / 0 / 0 / 0 / 0 | 4.8 s / 5.7 s |
+| EAF itself | WARNING | WARNING | 0 / 0 / 0 / 14 / 0 | 6.6 s / 6.8 s |
+| A private React + Supabase web application (86 TS/JS files, 9.6k lines, 5 SQL migrations, 4 Python scripts) | FAIL | not run | 0 / 1 / 7 / 204 / 0 | 8.7 s |
+
+Run time rose by about 4 s for Python/JS/TS targets: semgrep start-up, its self-test and
+its version probe. All 12 sample configurations again produced one `results_digest` each and
+left the source tree unmodified.
+
+The increase in "low" findings on the old samples is the practice checks: the three defective
+fixtures have no specification, architecture document, changelog, and so on.
+
+### 6.2 New sample: api-mcp-vector-service
+
+The fixture and the rules were written together, so detection here is by construction and
+says nothing about recall on real code. What it does show is that each rule fires on its
+target and stays silent on the adjacent correct example.
+
+| Area | Planted | Reported |
+|---|---|---|
+| REST API code (Python) | CORS wildcard with credentials; JWT decoded without signature check; `verify=False` | semgrep ×3 (bandit also reports `verify=False`) |
+| REST API contract | 3 operations without security; plain-http server; API key in query; no 429 | `security.openapi` OA002 ×3, OA003, OA005, OA006. The localhost server URL is not flagged |
+| MCP server code | tool argument reaches a shell; tool opens an arbitrary path; HTTP transport on 0.0.0.0 | semgrep ×3. The harmless `add` tool is not flagged |
+| MCP configuration | literal bearer token; plain-http remote server; unpinned `npx` package; shell launcher | `security.mcp-config` MCP001–MCP004. The pinned package and the `${env:…}` reference are not flagged; the token value is not in the report |
+| PostgreSQL | write-all policy; `GRANT ALL … TO anon`; role password literal; `SECURITY DEFINER` without `search_path`; dynamic SQL by concatenation; RLS enabled without policy | PG003, PG005, PG006, PG004, PG007, PG002. The `format('%I')` function with pinned `search_path` is not flagged |
+| pgvector | embeddings table without RLS and without ANN index; `SECURITY DEFINER` similarity search | VEC003, VEC001, VEC002 |
+| Vector clients | plain-http Qdrant URL; FAISS index loaded with pickle enabled | semgrep ×2 |
+| TypeScript client | `rejectUnauthorized: false`; SQL from template string; `jwt.decode`; `exec` with template; hardcoded password; unsanitised `dangerouslySetInnerHTML` | semgrep ×6. The parameterised query and the constant HTML are not flagged |
+| Dependencies (network) | pinned 2024 versions | pip-audit: 26 advisories |
+
+Fixture defect found by the tool: the first version of `001_init.sql` contained a stray `;`
+that made it invalid SQL. squawk reported the syntax error; the built-in rules had silently
+tolerated it. Invalid SQL is therefore only caught when squawk is installed.
+
+### 6.3 Real application (private, not in this repository)
+
+A React / TanStack Start / Supabase application, mostly generated with an AI app builder.
+Compared with the 0.1.0 run on the same commit:
+
+- **Fixed:** `bun.lock` is recognised (pinning PASS instead of a false "no lockfile");
+  committed `__pycache__` files are reported; SQL is assessed instead of ignored.
+- **`security.sql-postgres`:** 14 tables tracked, all with row level security enabled. Nine
+  policies let the anonymous role read every row of content tables. Rated low because public
+  read can be intentional; it needs a decision by the owner, which is the right outcome.
+- **`security.semgrep`:** 2 findings. A hardcoded demo password in client code (true
+  positive, previously only a generic "Secret Keyword" hit). `dangerouslySetInnerHTML` in a
+  generated chart component that injects CSS built from a constant theme table (false
+  positive in effect: no user input reaches it).
+- **`quality.squawk`:** 73 low findings, 39 of them "missing IF NOT EXISTS". Noise for a
+  database that is not yet live.
+- **Practices:** 9 of 11 applicable practices not evidenced: no specification, no
+  architecture document, no changelog, no contribution process, no security policy, README
+  without usage and testing sections, no API contract, assistant instructions present but
+  below the 80-word threshold (76 words).
+  - Questionable: the API-contract practice fired because TanStack Start is classed as an API
+    framework. Its server functions are not a REST API, so OpenAPI is the wrong ask here.
+  - Questionable: the 80-word threshold is arbitrary; 76 words that say the right things
+    should pass. Thresholds are configurable but the default has no empirical basis.
+- **Still FAIL for a weak reason:** the overall FAIL is still caused by a committed `.env`
+  that holds only public identifiers.
+- **Dependencies:** `bun audit` works on this lockfile and reports advisories, including a
+  critical one in the web framework, but only with `--allow-network`.
+
+### 6.4 Not validated in 0.2.0
+
+- No real project with an MCP server, an OpenAPI document, pgvector, or a dedicated vector
+  database was assessed. Those checks have only seen the fixture.
+- No project that actually practises spec-driven development was assessed, so false
+  negatives of the practice checks (a project that has a spec in a place EAF does not look)
+  are unmeasured.
+- `docs.freshness` was exercised only on shallow or single-commit histories, where it
+  reports that it cannot decide.
+- YAML OpenAPI documents are covered by one unit test only.

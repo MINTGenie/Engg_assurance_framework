@@ -1,0 +1,274 @@
+# EAF bundled semgrep rules. Stored locally: nothing is fetched from a rule registry.
+# metadata.cwe / metadata.standards / metadata.guidance are copied into the finding.
+# Severity: ERROR -> high, WARNING -> medium, INFO -> low.
+rules:
+  # ------------------------------------------------------------------ transport / TLS
+  - id: eaf.py.tls-verification-disabled
+    languages: [python]
+    severity: ERROR
+    message: "TLS certificate verification is disabled for an outbound HTTP call"
+    metadata:
+      cwe: CWE-295
+      standards: [OWASP-API-2023-API10]
+      guidance: "Remove verify=False. If an internal CA is used, pass its bundle (verify=\"/path/ca.pem\")."
+    pattern-either:
+      - pattern: requests.$F(..., verify=False, ...)
+      - pattern: httpx.$F(..., verify=False, ...)
+      - pattern: httpx.Client(..., verify=False, ...)
+      - pattern: httpx.AsyncClient(..., verify=False, ...)
+      - pattern: '$S.$F(..., verify=False, ...)'
+      - pattern: ssl._create_unverified_context(...)
+
+  - id: eaf.js.tls-verification-disabled
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "TLS certificate verification is disabled"
+    metadata:
+      cwe: CWE-295
+      standards: [OWASP-API-2023-API10]
+      guidance: "Remove rejectUnauthorized false / NODE_TLS_REJECT_UNAUTHORIZED=0 and trust the internal CA explicitly (ca option or NODE_EXTRA_CA_CERTS)."
+    pattern-either:
+      - pattern: "{..., rejectUnauthorized: false, ...}"
+      - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+      - pattern: process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"
+      - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
+
+  # ------------------------------------------------------------------ CORS
+  - id: eaf.py.cors-wildcard-with-credentials
+    languages: [python]
+    severity: WARNING
+    message: "CORS allows every origin together with credentials"
+    metadata:
+      cwe: CWE-942
+      guidance: "List the allowed origins explicitly. A wildcard origin with credentials lets any website call the API as the logged-in user."
+    pattern-either:
+      - pattern: '$APP.add_middleware(CORSMiddleware, ..., allow_origins=["*"], ..., allow_credentials=True, ...)'
+      - pattern: '$APP.add_middleware(CORSMiddleware, ..., allow_credentials=True, ..., allow_origins=["*"], ...)'
+      - pattern: CORS($APP, ..., supports_credentials=True, ...)
+
+  - id: eaf.py.cors-wildcard
+    languages: [python]
+    severity: INFO
+    message: "CORS allows every origin"
+    metadata:
+      cwe: CWE-942
+      guidance: "Restrict allow_origins to the front-ends that need the API unless the API is intentionally public."
+    patterns:
+      - pattern: '$APP.add_middleware(CORSMiddleware, ..., allow_origins=["*"], ...)'
+      - pattern-not: '$APP.add_middleware(CORSMiddleware, ..., allow_credentials=True, ...)'
+
+  - id: eaf.js.cors-wildcard
+    languages: [javascript, typescript]
+    severity: INFO
+    message: "CORS allows every origin"
+    metadata:
+      cwe: CWE-942
+      guidance: "Configure cors({ origin: [...] }) with the origins that need the API unless it is intentionally public."
+    pattern-either:
+      - pattern: '$APP.use(cors())'
+      - pattern: 'cors({..., origin: "*", ...})'
+      - pattern: 'cors({..., origin: true, ...})'
+      - pattern: '$RES.setHeader("Access-Control-Allow-Origin", "*")'
+      - pattern: '$RES.header("Access-Control-Allow-Origin", "*")'
+      - pattern: '{..., "Access-Control-Allow-Origin": "*", ...}'
+
+  # ------------------------------------------------------------------ authentication
+  - id: eaf.py.jwt-signature-not-verified
+    languages: [python]
+    severity: ERROR
+    message: "JWT is decoded without verifying its signature"
+    metadata:
+      cwe: CWE-347
+      guidance: "Verify the signature with the issuer's key and pin the accepted algorithms (algorithms=[\"RS256\"])."
+    pattern-either:
+      - pattern: 'jwt.decode(..., options={..., "verify_signature": False, ...}, ...)'
+      - pattern: jwt.decode(..., verify=False, ...)
+      - pattern: jwt.decode(..., algorithms=[..., "none", ...], ...)
+      - pattern: jwt.get_unverified_claims(...)
+
+  - id: eaf.js.jwt-signature-not-verified
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "JWT is accepted without verifying its signature"
+    metadata:
+      cwe: CWE-347
+      guidance: "Use jwt.verify with the issuer's key and an explicit algorithms list that does not contain \"none\". jwt.decode does not check the signature."
+    pattern-either:
+      - pattern: 'jwt.verify($T, $K, {..., algorithms: [..., "none", ...], ...})'
+      - pattern: jsonwebtoken.decode(...)
+      - patterns:
+          - pattern: jwt.decode($T, ...)
+          - pattern-not-inside: |
+              jwt.verify(...);
+              ...
+
+  - id: eaf.js.hardcoded-password
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: "A password is hardcoded in source"
+    metadata:
+      cwe: CWE-798
+      guidance: "Do not ship credentials in client or server code. For a demo login, create the session server-side or use a restricted, rate-limited demo account whose credentials are not in the bundle."
+    patterns:
+      - pattern-either:
+          - pattern: '{..., password: "$P", ...}'
+          - pattern: '{..., passwd: "$P", ...}'
+          - pattern: '{..., apiKey: "$P", ...}'
+          - pattern: '{..., clientSecret: "$P", ...}'
+      - metavariable-regex:
+          metavariable: $P
+          regex: ^(?!.*(\$\{|<|example|changeme|password|\*\*\*)).{6,}$
+
+  # ------------------------------------------------------------------ injection
+  - id: eaf.js.sql-built-from-template
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: "SQL statement is built from a template string or concatenation"
+    metadata:
+      cwe: CWE-89
+      guidance: "Use parameterised queries ($1, $2 with a values array) or the query builder; never interpolate values into SQL text."
+    pattern-either:
+      - pattern: '$DB.query(`...${$X}...`, ...)'
+      - pattern: '$DB.query("..." + $X, ...)'
+      - pattern: '$DB.execute(`...${$X}...`, ...)'
+      - pattern: '$DB.raw(`...${$X}...`, ...)'
+      - pattern: '$DB.unsafe(`...${$X}...`, ...)'
+      - pattern: '$DB.$queryRawUnsafe(...)'
+      - pattern: '$DB.$executeRawUnsafe(...)'
+
+  - id: eaf.js.command-built-from-input
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: "Shell command is built from a template string or concatenation"
+    metadata:
+      cwe: CWE-78
+      guidance: "Use execFile/spawn with an argument array and no shell, and validate each argument against an allow-list."
+    pattern-either:
+      - pattern: exec(`...${$X}...`, ...)
+      - pattern: exec("..." + $X, ...)
+      - pattern: execSync(`...${$X}...`, ...)
+      - pattern: execSync("..." + $X, ...)
+      - pattern: '$CP.exec(`...${$X}...`, ...)'
+      - pattern: '$CP.exec("..." + $X, ...)'
+      - pattern: '$CP.execSync(`...${$X}...`, ...)'
+      - pattern: 'spawn($C, $A, {..., shell: true, ...})'
+
+  - id: eaf.js.unsafe-html
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: "HTML is rendered from a non-constant value"
+    metadata:
+      cwe: CWE-79
+      guidance: "Render text, not HTML. If HTML is required, sanitise it with a maintained sanitiser (DOMPurify) immediately before rendering."
+    pattern-either:
+      - patterns:
+          - pattern: '<$EL ... dangerouslySetInnerHTML={{__html: $X}} ... />'
+          - pattern-not: '<$EL ... dangerouslySetInnerHTML={{__html: "..."}} ... />'
+          - pattern-not: '<$EL ... dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(...)}} ... />'
+      - patterns:
+          - pattern: '$E.innerHTML = $X'
+          - pattern-not: '$E.innerHTML = "..."'
+          - pattern-not: '$E.innerHTML = DOMPurify.sanitize(...)'
+
+  # ------------------------------------------------------------------ MCP servers
+  - id: eaf.py.mcp-tool-executes-command
+    languages: [python]
+    severity: ERROR
+    message: "MCP tool runs a shell command or evaluates code; its arguments are chosen by an AI model"
+    metadata:
+      cwe: CWE-78
+      standards: [OWASP-2021-A03]
+      guidance: "Treat every tool argument as untrusted. Remove shell/eval, call a fixed program with an argument list, and validate arguments against an allow-list. If command execution is the tool's purpose, run it in a sandbox and require human approval."
+    patterns:
+      - pattern-inside: |
+          @$MCP.tool(...)
+          def $F(...):
+              ...
+      - pattern-either:
+          - pattern: subprocess.$M(..., shell=True, ...)
+          - pattern: os.system(...)
+          - pattern: os.popen(...)
+          - pattern: eval(...)
+          - pattern: exec(...)
+
+  - id: eaf.py.mcp-tool-reads-arbitrary-path
+    languages: [python]
+    severity: WARNING
+    message: "MCP tool opens a file path taken directly from a tool argument"
+    metadata:
+      cwe: CWE-22
+      guidance: "Resolve the path against a fixed base directory and reject anything outside it (Path.resolve().is_relative_to(base))."
+    patterns:
+      - pattern-inside: |
+          @$MCP.tool(...)
+          def $F(..., $ARG, ...):
+              ...
+      - pattern-either:
+          - pattern: open($ARG, ...)
+          - pattern: pathlib.Path($ARG).$M(...)
+          - pattern: Path($ARG).$M(...)
+
+  - id: eaf.py.mcp-http-bound-to-all-interfaces
+    languages: [python]
+    severity: WARNING
+    message: "MCP server HTTP transport listens on all network interfaces"
+    metadata:
+      cwe: CWE-605
+      guidance: "Bind to 127.0.0.1 for local use. If the server must be reachable over the network, put authentication (OAuth 2.1 per the MCP authorization spec) and TLS in front of it."
+    pattern-either:
+      - pattern: FastMCP(..., host="0.0.0.0", ...)
+      - pattern: '$MCP.run(..., transport=$T, ..., host="0.0.0.0", ...)'
+      - pattern: '$MCP.run(..., host="0.0.0.0", ..., transport=$T, ...)'
+
+  # ------------------------------------------------------------------ vector stores / RAG
+  - id: eaf.py.vector-index-unsafe-deserialization
+    languages: [python]
+    severity: ERROR
+    message: "Vector index is loaded with pickle deserialisation enabled"
+    metadata:
+      cwe: CWE-502
+      standards: [OWASP-LLM-2025-LLM08]
+      guidance: "Only load index files you created and whose integrity you verify (checksum/signature); prefer a store that does not rely on pickle. A tampered index file executes code on load."
+    pattern-either:
+      - pattern: '$X.load_local(..., allow_dangerous_deserialization=True, ...)'
+      - pattern: '$X(..., allow_dangerous_deserialization=True, ...)'
+
+  - id: eaf.py.vector-store-insecure-connection
+    languages: [python]
+    severity: WARNING
+    message: "Vector database client connects without TLS or without credentials"
+    metadata:
+      cwe: CWE-319
+      standards: [OWASP-LLM-2025-LLM08]
+      guidance: "Connect over HTTPS with an API key or token taken from the environment. Embeddings and the documents stored with them are sensitive data."
+    pattern-either:
+      - pattern: QdrantClient(..., https=False, ...)
+      - patterns:
+          - pattern-either:
+              - pattern: QdrantClient(url="$U", ...)
+              - pattern: QdrantClient("$U", ...)
+              - pattern: weaviate.Client("$U", ...)
+              - pattern: weaviate.Client(url="$U", ...)
+              - pattern: chromadb.HttpClient(host="$U", ...)
+              - pattern: MilvusClient(uri="$U", ...)
+          - metavariable-regex:
+              metavariable: $U
+              regex: ^http://(?!localhost|127\.0\.0\.1).*
+      - pattern: chromadb.HttpClient(..., ssl=False, ...)
+
+  - id: eaf.js.vector-store-insecure-connection
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: "Vector database client connects over plain HTTP"
+    metadata:
+      cwe: CWE-319
+      standards: [OWASP-LLM-2025-LLM08]
+      guidance: "Connect over HTTPS with an API key taken from the environment."
+    patterns:
+      - pattern-either:
+          - pattern: 'new QdrantClient({..., url: "$U", ...})'
+          - pattern: 'new ChromaClient({..., path: "$U", ...})'
+          - pattern: 'weaviate.client({..., scheme: "http", ...})'
+      - metavariable-regex:
+          metavariable: $U
+          regex: ^http://(?!localhost|127\.0\.0\.1).*

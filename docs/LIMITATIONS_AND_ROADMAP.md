@@ -10,7 +10,19 @@ ISO 26262, ISO/SAE 21434, ASPICE, MISRA, AUTOSAR guidelines, or any Audi process
 a qualified tool in the sense of ISO 26262-8 clause 11, and nothing in it has been reviewed
 by Audi IT security, the SWEAP process owner, or a safety organisation.
 
-## Known limitations of 0.1.0
+## Using EAF output as evidence for IT or a review board
+
+What the evidence summary can support: "these named checks, at these tool versions, were run
+on this revision under this policy; these findings were reported; these checks did not run;
+these standard categories are not looked at."
+
+What it cannot support: "the OWASP Top 10 has been checked", "the API is secure", or any
+compliance statement. Every standards mapping in EAF is partial, the mappings and severity
+scales were chosen by the tool author and have not been reviewed by a security function,
+and no IT organisation has agreed that this format is acceptable evidence. Until that
+agreement exists, treat the summary as input to a review, not as its result.
+
+## Known limitations of 0.2.0
 
 **Analysis depth**
 - Lexical and intra-file analysis only. No taint or data-flow analysis across files.
@@ -24,11 +36,33 @@ by Audi IT security, the SWEAP process owner, or a safety organisation.
   `requirements*.txt` and `package-lock.json`. pip-audit provides no severity, so every
   advisory is rated high. No license or SBOM analysis.
 
+**New in 0.2.0 – database, API, MCP, practices**
+- PostgreSQL rules read SQL files only. Objects created in a dashboard or by hand, and the
+  state of the live database, are invisible. Rules are regular expressions over statements,
+  not a SQL parser: unusual formatting can be missed. Invalid SQL is only reported by squawk.
+- Vector databases: pgvector is assessed through SQL. Qdrant, Weaviate, Chroma, Milvus and
+  FAISS are covered only by a few client-code patterns (plain HTTP, unsafe index loading).
+  Pinecone and LanceDB are detected but have no rules. Nothing checks embedding content,
+  tenant filters in queries, or poisoning.
+- REST APIs: the OpenAPI check reads the document, not the implementation. Endpoints that
+  are missing from the document are invisible; declared security is not verified against
+  code. No GraphQL, gRPC or AsyncAPI rules.
+- MCP: configuration files and three Python code patterns. No rules for TypeScript MCP
+  servers, tool descriptions (prompt injection), authorisation flows, or what a tool is
+  allowed to reach. `.vscode/mcp.json` and `.cursor/mcp.json` are recognised by file name only.
+- The 17 semgrep rules are a small, hand-written set, tested against one fixture and one
+  real application. They are single-file pattern matches.
+- Practice checks prove existence and minimal length of documents. A project can satisfy
+  all of them with empty boilerplate, and a project that keeps its specification in a wiki
+  or a requirements tool will be reported as having none. Word-count thresholds are arbitrary.
+- The standards mapping covers OWASP Top 10 (2021) and OWASP API Security Top 10 (2023)
+  only. The 2025 Top 10, ASVS, the OWASP LLM and MCP lists, MISRA and CERT are not mapped.
+
 **Trust in results**
-- Only detect-secrets has a self-test. Any other scanner that silently skips files would
+- Only detect-secrets and semgrep have a self-test. Any other scanner that silently skips files would
   still be reported as PASS.
-- Inline suppressions in source (`# noqa`, `# nosec`, `eslint-disable`,
-  `// cppcheck-suppress`) are honoured by ruff, bandit and ESLint and are not counted or
+- Inline suppressions in source (`# noqa`, `# nosec`, `eslint-disable`, `nosemgrep`,
+  `// cppcheck-suppress`) are honoured by ruff, bandit, ESLint and semgrep and are not counted or
   listed in the report.
 - `eaf-profile.toml` is read from the assessed repository. Whoever controls the repository
   controls excludes, criticality and suppressions. All of it is recorded in the report, but
@@ -56,6 +90,9 @@ by Audi IT security, the SWEAP process owner, or a safety organisation.
 Ordered by how much each item improves the trustworthiness of a result.
 
 **1. Make results trustworthy before making them broader**
+- Agree with IT security what counts as acceptable evidence: which standard, which
+  categories, which tools, which thresholds. Have them review the standards mapping and
+  severity scales. Without this the evidence summary has no defined value.
 - Canary self-test for every scanner adapter (plant a known defect, require detection).
 - Report and count inline suppressions; option to ignore them.
 - Pin scanner versions per policy version and report NOT_EXECUTED on mismatch; ship a
@@ -66,8 +103,18 @@ Ordered by how much each item improves the trustworthiness of a result.
 - Pilot on three to five real SDV repositories and measure false-positive rates with the
   owning teams before tuning thresholds.
 
-**2. Close the analysis gaps found in validation**
-- Semgrep adapter with a pinned, locally stored rule set (JS/TS security, cross-language taint).
+**2. Make the practice guidance substantive**
+- Spec-to-test traceability: requirement IDs in specs must appear in tests (and vice versa).
+- Spec-to-change coupling: flag pull requests that change code without touching the spec.
+- Connectors for specifications held outside the repository (requirements tools, wikis).
+- Pilot the default guidance pack with two or three teams and calibrate thresholds.
+
+**3. Close the analysis gaps found in validation**
+- Replace regex SQL rules with a parser (pglast / libpg_query); optional read-only check
+  against a live database (Supabase splinter, pg_catalog queries).
+- MCP: TypeScript server rules, tool-description review, authorisation checks.
+- OpenAPI: compare the document with routes found in code; Spectral with a local OWASP ruleset.
+- Grow the semgrep rule set (or vendor a reviewed community rule set locally); add taint rules.
 - `compile_commands.json` support for cppcheck and a clang-tidy adapter; MISRA/CERT rule
   sets where licences allow.
 - OSV-Scanner or an offline advisory database mirror so dependency checks run without
@@ -76,21 +123,21 @@ Ordered by how much each item improves the trustworthiness of a result.
 - SARIF import/export so existing CI scanner output can be reused and results appear in
   code-scanning UIs.
 
-**3. Organisational policy adapters**
+**4. Organisational policy adapters**
 - Replace `sweap-placeholder` with the real control catalogue, written with the SWEAP
   process owner. Decide which controls Level 1 can evidence and which stay NOT_EXECUTED.
 - Policy signing and a central policy repository so teams cannot weaken thresholds locally.
 - Profile governance: who may set criticality and approve suppressions; expiry dates on
   suppressions.
 
-**4. Deeper levels and wider scopes**
+**5. Deeper levels and wider scopes**
 - Level 2 (build): compile in an isolated container; compiler warnings, type checking
   (tsc, mypy), build reproducibility.
 - Level 3 (runtime): run tests, coverage, sanitizers, fuzzing smoke tests.
 - Level 4 (system): integration-level evidence; needs definition with the target teams.
 - Function-level scope (changed functions from a diff) and multi-repository roll-up reports.
 
-**5. Integration**
+**6. Integration**
 - CI templates (GitHub Actions, GitLab, Jenkins) and a pre-merge gate using `--fail-on`.
 - JSON Schema for the report and a compatibility policy for `schema_version`.
 - Trend storage across runs.

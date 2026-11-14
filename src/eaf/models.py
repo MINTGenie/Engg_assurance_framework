@@ -32,7 +32,7 @@ class Severity(str, Enum):
 
 _SEVERITY_ORDER = [Severity.INFO, Severity.LOW, Severity.MEDIUM, Severity.HIGH, Severity.CRITICAL]
 
-CATEGORIES = ("code_quality", "security", "secrets", "dependencies", "hygiene")
+CATEGORIES = ("code_quality", "security", "secrets", "dependencies", "hygiene", "practices")
 
 # Assessment depths. Only depth 1 is implemented in this prototype.
 DEPTHS = {
@@ -58,6 +58,8 @@ class Finding:
     confidence: str | None = None
     suppressed: bool = False
     suppression_reason: str | None = None
+    guidance: str | None = None                          # how to fix / what good looks like
+    standards: list[str] = field(default_factory=list)   # e.g. "OWASP-2021-A03", "CWE-89"
     fingerprint: str = ""
 
     def __post_init__(self) -> None:
