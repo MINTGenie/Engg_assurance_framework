@@ -1,16 +1,14 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "disclaimer": "This report is an automated engineering quality indication produced by a prototype. A PASS result means only that the listed tools reported no findings above the policy thresholds for the assessed scope. It is NOT a security certification, does NOT establish ISO 26262 / ISO 21434 / ASPICE compliance, and is NOT an Audi IT or release approval. Checks marked NOT EXECUTED or NOT APPLICABLE provide no assurance.",
   "tool": {
     "name": "eaf",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "python": "3.13.18",
     "platform": "Linux x86_64",
     "command_line": [
       "assess",
       "samples/embedded-c-cpp",
-      "--depth",
-      "1",
       "--allow-network",
       "--no-evidence",
       "-q",
@@ -19,8 +17,8 @@
     ]
   },
   "assessment": {
-    "started_utc": "2026-11-13T21:04:06+00:00",
-    "duration_s": 0.721,
+    "started_utc": "2026-11-14T09:00:30+00:00",
+    "duration_s": 0.904,
     "depth": 1,
     "depth_description": "Level 1 - static source inspection (read-only)",
     "scope": {
@@ -29,10 +27,11 @@
       "git": {
         "is_git_repository": true,
         "toplevel": "/home/user/Engg_assurance_framework",
-        "revision": "b1441667fda466bdb2b888e7f26b428402477567",
+        "revision": "d3ac3632cb4c27b151e75284d893dc77037f42a9",
         "branch": "ccr-632b2465-ai4euc",
         "dirty": false,
-        "uncommitted_entries": 0
+        "uncommitted_entries": 0,
+        "shallow": false
       },
       "source_digest": "sha256:28e1a91c57f494ded77c49c6c7dd999d0ff81af234f435f18d7aed03164c80ba",
       "source_tree_unmodified": true,
@@ -41,12 +40,22 @@
     "network_allowed": true,
     "policy": {
       "id": "eaf-baseline",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "EAF Baseline Engineering Hygiene Policy",
       "status": "active",
       "adapter": "threshold",
       "source": "eaf-baseline",
-      "sha256": "a703fabe2001fda35adfe633cb029aabeb6d4be135dc73490c2807a9b9f5336f"
+      "sha256": "fcd25d20ad819af88b1a14b386e00a9c6b22a792376cce1fd1e9a0209f60dca6"
+    },
+    "guidance": {
+      "id": "eaf-practices",
+      "version": "1.0.0",
+      "title": "EAF engineering practice and remediation guidance",
+      "source": "eaf-practices",
+      "sha256": "c7b9e85053a5fd389eb34bf4c7cba62ed4c2870d2c2396331168ed9511f3cbe8",
+      "extends": [],
+      "practices": 12,
+      "remediation_entries": 20
     },
     "profile": {
       "source": "built-in defaults",
@@ -60,6 +69,7 @@
       "lifecycle_stage": "",
       "notes": "",
       "policy": "eaf-baseline",
+      "guidance": "eaf-practices",
       "exclude": [],
       "skip_checks": [],
       "allow_network": false,
@@ -104,6 +114,14 @@
       }
     ],
     "ci_configuration": [],
+    "technologies": {
+      "api_frameworks": [],
+      "openapi_documents": [],
+      "data_stores": [],
+      "vector_stores": [],
+      "mcp_packages": [],
+      "mcp_config_files": []
+    },
     "excluded_paths": [],
     "exclude_patterns": [
       ".eggs",
@@ -119,7 +137,6 @@
       ".svn",
       ".tox",
       ".venv",
-      ".vscode",
       "__pycache__",
       "bower_components",
       "build",
@@ -144,21 +161,21 @@
     "overall_status": "FAIL",
     "overall_reason": "2 check(s) failed",
     "check_status_counts": {
-      "PASS": 7,
+      "PASS": 9,
       "FAIL": 2,
-      "WARNING": 1,
-      "NOT_APPLICABLE": 7,
+      "WARNING": 9,
+      "NOT_APPLICABLE": 16,
       "NOT_EXECUTED": 0
     },
     "finding_severity_counts": {
       "info": 0,
-      "low": 10,
-      "medium": 7,
+      "low": 18,
+      "medium": 8,
       "high": 8,
       "critical": 0
     },
     "suppressed_findings": 0,
-    "results_digest": "sha256:1e4f7e62bba1186608cb3a73663fc6472183f50ace461ded3b0a58403b0983b9"
+    "results_digest": "sha256:9922cb4650c5b856050dd03bd138976acd26b349a8ccd097bc2609cd5fd7a653"
   },
   "controls": [
     {
@@ -182,6 +199,10 @@
         {
           "id": "quality.eslint-ts",
           "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "quality.squawk",
+          "status": "NOT_APPLICABLE"
         }
       ],
       "unknown_checks": []
@@ -199,6 +220,40 @@
         {
           "id": "security.flawfinder",
           "status": "FAIL"
+        },
+        {
+          "id": "security.semgrep",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-03",
+      "title": "Database access control is defined in versioned SQL (PostgreSQL, vector tables)",
+      "status": "NOT_APPLICABLE",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.sql-postgres",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-SEC-04",
+      "title": "API and MCP interfaces declare authentication and secure transport",
+      "status": "NOT_APPLICABLE",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "security.openapi",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "security.mcp-config",
+          "status": "NOT_APPLICABLE"
         }
       ],
       "unknown_checks": []
@@ -237,6 +292,10 @@
         {
           "id": "dependencies.npm-audit",
           "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "dependencies.bun-audit",
+          "status": "NOT_APPLICABLE"
         }
       ],
       "unknown_checks": []
@@ -270,9 +329,513 @@
         {
           "id": "hygiene.large-files",
           "status": "PASS"
+        },
+        {
+          "id": "hygiene.tracked-artifacts",
+          "status": "PASS"
         }
       ],
       "unknown_checks": []
+    },
+    {
+      "id": "EAF-PRA-01",
+      "title": "Specification-driven development: written, testable specifications",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "practice.spec.present",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.spec.acceptance-criteria",
+          "status": "WARNING"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-PRA-02",
+      "title": "Project documentation exists and is maintained",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "practice.docs.readme-sections",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.docs.architecture",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.docs.changelog",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.docs.contribution-process",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.docs.security-policy",
+          "status": "WARNING"
+        },
+        {
+          "id": "practice.docs.freshness",
+          "status": "PASS"
+        },
+        {
+          "id": "practice.docs.api-contract",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "practice.docs.data-model",
+          "status": "NOT_APPLICABLE"
+        },
+        {
+          "id": "practice.docs.mcp-tools",
+          "status": "NOT_APPLICABLE"
+        }
+      ],
+      "unknown_checks": []
+    },
+    {
+      "id": "EAF-PRA-03",
+      "title": "AI-assisted development is governed by project instructions",
+      "status": "WARNING",
+      "reason": "Worst status of mapped checks",
+      "checks": [
+        {
+          "id": "practice.ai.agent-instructions",
+          "status": "WARNING"
+        }
+      ],
+      "unknown_checks": []
+    }
+  ],
+  "standards_coverage": [
+    {
+      "id": "OWASP-2021",
+      "title": "OWASP Top 10 (2021)",
+      "categories": [
+        {
+          "id": "OWASP-2021-A01",
+          "title": "Broken Access Control",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.sql-postgres",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "PostgreSQL row level security, grants and policies in SQL files; unauthenticated operations in OpenAPI documents; CORS wildcards",
+          "not_covered": "Authorisation logic in application code; object-level access checks; anything decided at runtime"
+        },
+        {
+          "id": "OWASP-2021-A02",
+          "title": "Cryptographic Failures",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.bandit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.mcp-config",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Weak hash/cipher use in Python; disabled TLS verification; unverified JWTs; plain-http endpoints in API and MCP configuration",
+          "not_covered": "Key management, data-at-rest encryption, protocol configuration of deployed systems; C/C++ cryptography"
+        },
+        {
+          "id": "OWASP-2021-A03",
+          "title": "Injection",
+          "coverage": "partial",
+          "status": "FAIL",
+          "findings_tagged": 1,
+          "checks": [
+            {
+              "id": "security.bandit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.flawfinder",
+              "status": "FAIL"
+            },
+            {
+              "id": "security.sql-postgres",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "quality.eslint-js",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "quality.eslint-ts",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Known injection sinks: shell, eval, SQL string building, format strings, dynamic SQL, unsafe HTML",
+          "not_covered": "Data-flow across files or services; whether a flagged sink is reachable with untrusted data"
+        },
+        {
+          "id": "OWASP-2021-A04",
+          "title": "Insecure Design",
+          "coverage": "partial",
+          "status": "WARNING",
+          "findings_tagged": 3,
+          "checks": [
+            {
+              "id": "practice.spec.present",
+              "status": "WARNING"
+            },
+            {
+              "id": "practice.docs.architecture",
+              "status": "WARNING"
+            },
+            {
+              "id": "practice.docs.security-policy",
+              "status": "WARNING"
+            }
+          ],
+          "aspect": "Existence of a specification, architecture documentation and a threat model",
+          "not_covered": "Whether the design is secure. No tool evaluates this; it needs review"
+        },
+        {
+          "id": "OWASP-2021-A05",
+          "title": "Security Misconfiguration",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.bandit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.mcp-config",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.sql-postgres",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Debug/bind-all settings, CORS, permissive database grants, API and MCP configuration files in the repository",
+          "not_covered": "Configuration of deployed infrastructure, cloud resources, containers, headers at runtime"
+        },
+        {
+          "id": "OWASP-2021-A06",
+          "title": "Vulnerable and Outdated Components",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "dependencies.pinning",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.pip-audit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.npm-audit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.bun-audit",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Pinned/locked dependencies; known advisories for pip, npm and Bun lockfiles (needs --allow-network)",
+          "not_covered": "C/C++ and vendored dependencies, container base images, yarn/pnpm/Poetry/uv lockfiles, licence compliance"
+        },
+        {
+          "id": "OWASP-2021-A07",
+          "title": "Identification and Authentication Failures",
+          "coverage": "partial",
+          "status": "PASS",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "secrets.detect-secrets",
+              "status": "PASS"
+            },
+            {
+              "id": "secrets.sensitive-files",
+              "status": "PASS"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.mcp-config",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Hardcoded credentials and key files; credentials in MCP configuration; missing or weak security schemes in OpenAPI documents",
+          "not_covered": "Session handling, password policy, MFA, token lifetime, the authentication implementation itself"
+        },
+        {
+          "id": "OWASP-2021-A08",
+          "title": "Software and Data Integrity Failures",
+          "coverage": "partial",
+          "status": "PASS",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.bandit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.mcp-config",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.pinning",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "hygiene.ci-config",
+              "status": "WARNING"
+            }
+          ],
+          "aspect": "Unsafe deserialisation; unpinned packages launched by MCP configuration; lockfiles; presence of a CI pipeline",
+          "not_covered": "Build pipeline integrity, artefact signing, update mechanisms"
+        },
+        {
+          "id": "OWASP-2021-A09",
+          "title": "Security Logging and Monitoring Failures",
+          "coverage": "none",
+          "status": "NOT_EXECUTED",
+          "findings_tagged": 0,
+          "checks": [],
+          "aspect": "",
+          "not_covered": "Not assessed at Level 1"
+        },
+        {
+          "id": "OWASP-2021-A10",
+          "title": "Server-Side Request Forgery (SSRF)",
+          "coverage": "none",
+          "status": "NOT_EXECUTED",
+          "findings_tagged": 0,
+          "checks": [],
+          "aspect": "",
+          "not_covered": "Not assessed at Level 1 (needs data-flow analysis)"
+        }
+      ]
+    },
+    {
+      "id": "OWASP-API-2023",
+      "title": "OWASP API Security Top 10 (2023)",
+      "categories": [
+        {
+          "id": "OWASP-API-2023-API1",
+          "title": "Broken Object Level Authorization",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.sql-postgres",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Only where authorisation is implemented as PostgreSQL row level security in SQL files",
+          "not_covered": "Object-level checks in API handlers"
+        },
+        {
+          "id": "OWASP-API-2023-API2",
+          "title": "Broken Authentication",
+          "coverage": "partial",
+          "status": "PASS",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "secrets.detect-secrets",
+              "status": "PASS"
+            }
+          ],
+          "aspect": "Operations without a security requirement in the OpenAPI document; disabled JWT verification; hardcoded credentials",
+          "not_covered": "The authentication implementation; endpoints that are not in an OpenAPI document"
+        },
+        {
+          "id": "OWASP-API-2023-API3",
+          "title": "Broken Object Property Level Authorization",
+          "coverage": "none",
+          "status": "NOT_EXECUTED",
+          "findings_tagged": 0,
+          "checks": [],
+          "aspect": "",
+          "not_covered": "Not assessed at Level 1"
+        },
+        {
+          "id": "OWASP-API-2023-API4",
+          "title": "Unrestricted Resource Consumption",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Whether the OpenAPI document mentions rate limiting (HTTP 429) at all",
+          "not_covered": "Actual rate limits, payload limits, timeouts, cost controls"
+        },
+        {
+          "id": "OWASP-API-2023-API5",
+          "title": "Broken Function Level Authorization",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Operations without a security requirement in the OpenAPI document",
+          "not_covered": "Role checks in handlers; admin functions not described in the document"
+        },
+        {
+          "id": "OWASP-API-2023-API6",
+          "title": "Unrestricted Access to Sensitive Business Flows",
+          "coverage": "none",
+          "status": "NOT_EXECUTED",
+          "findings_tagged": 0,
+          "checks": [],
+          "aspect": "",
+          "not_covered": "Not assessable by static tools"
+        },
+        {
+          "id": "OWASP-API-2023-API7",
+          "title": "Server Side Request Forgery",
+          "coverage": "none",
+          "status": "NOT_EXECUTED",
+          "findings_tagged": 0,
+          "checks": [],
+          "aspect": "",
+          "not_covered": "Not assessed at Level 1"
+        },
+        {
+          "id": "OWASP-API-2023-API8",
+          "title": "Security Misconfiguration",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.openapi",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "security.bandit",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Plain-http servers in the OpenAPI document; CORS wildcards; disabled TLS verification; debug/bind-all settings",
+          "not_covered": "Deployed gateway, TLS and header configuration"
+        },
+        {
+          "id": "OWASP-API-2023-API9",
+          "title": "Improper Inventory Management",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "practice.docs.api-contract",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Whether an API contract exists in the repository",
+          "not_covered": "Whether the contract matches the deployed API; old versions still running"
+        },
+        {
+          "id": "OWASP-API-2023-API10",
+          "title": "Unsafe Consumption of APIs",
+          "coverage": "none",
+          "status": "NOT_APPLICABLE",
+          "findings_tagged": 0,
+          "checks": [
+            {
+              "id": "security.semgrep",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.pip-audit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.npm-audit",
+              "status": "NOT_APPLICABLE"
+            },
+            {
+              "id": "dependencies.bun-audit",
+              "status": "NOT_APPLICABLE"
+            }
+          ],
+          "aspect": "Disabled TLS verification for outbound calls; known-vulnerable client libraries",
+          "not_covered": "Validation of third-party API responses"
+        }
+      ]
     }
   ],
   "checks": [
@@ -344,6 +907,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-788"
+          ],
           "fingerprint": "243fa254df0a488e"
         },
         {
@@ -357,6 +925,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-401"
+          ],
           "fingerprint": "8a7a37abcea60633"
         },
         {
@@ -370,6 +943,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-477"
+          ],
           "fingerprint": "def0c56dffa5cb77"
         },
         {
@@ -383,6 +961,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "01dd6007ac53524a"
         },
         {
@@ -396,6 +979,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "6a7924f962e87348"
         },
         {
@@ -409,6 +997,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "6f4cb6b5c4388cc8"
         },
         {
@@ -422,6 +1015,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "1fa8efcb1f729421"
         },
         {
@@ -435,6 +1033,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "405e7df3fb21e78d"
         },
         {
@@ -448,6 +1051,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Fix the reported defect. If cppcheck lacks build context, provide a compile_commands.json (Level 2) before dismissing it.",
+          "standards": [
+            "CERT C",
+            "CWE-398"
+          ],
           "fingerprint": "eca74f4be84dca01"
         }
       ],
@@ -462,10 +1070,10 @@
             "--suppress=missingInclude",
             "--suppress=missingIncludeSystem",
             "-I/home/user/Engg_assurance_framework/samples/embedded-c-cpp/include",
-            "--file-list=/tmp/eaf-mf6mcc1i/cppcheck-files.txt"
+            "--file-list=/tmp/eaf-1q7e97dc/cppcheck-files.txt"
           ],
           "exit_code": 0,
-          "duration_s": 0.015,
+          "duration_s": 0.014,
           "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "stderr_sha256": "fb835a7e255d92c07723c7cb474f05eefa511921de0a633965ffe20a2af485a5",
           "raw_output_file": null,
@@ -476,7 +1084,7 @@
         "Analysed without a compilation database: include paths and preprocessor defines are unknown, so some code paths are not checked and some findings may be configuration artefacts.",
         "Include path heuristic: 1 director(ies) containing headers inside the scope were passed with -I."
       ],
-      "duration_s": 0.019
+      "duration_s": 0.025
     },
     {
       "id": "quality.eslint-js",
@@ -523,6 +1131,36 @@
       "files_examined": 0,
       "thresholds": {
         "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "quality.squawk",
+      "title": "PostgreSQL migration safety (squawk)",
+      "category": "code_quality",
+      "status": "NOT_APPLICABLE",
+      "reason": "No sql source files in scope",
+      "scanner": "squawk",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "sql"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
         "warn_at": "low"
       },
       "finding_counts": {
@@ -606,6 +1244,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "83986e1fc8f41a9d"
         },
         {
@@ -619,6 +1262,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "9a07220d2a09fbbb"
         },
         {
@@ -632,6 +1280,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "e2864160fab4cf44"
         },
         {
@@ -645,6 +1298,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "42473ee9e2831ae8"
         },
         {
@@ -658,6 +1316,12 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-134",
+            "OWASP-2021-A03"
+          ],
           "fingerprint": "1348c55a1cb6dce7"
         },
         {
@@ -671,6 +1335,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "9f6a34365b7a9454"
         },
         {
@@ -684,6 +1353,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-119"
+          ],
           "fingerprint": "2d46ce3fc4fef9b0"
         },
         {
@@ -697,6 +1371,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-119"
+          ],
           "fingerprint": "8d57a6a598c5b8aa"
         },
         {
@@ -710,6 +1389,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "11b38b43f0030cc3"
         },
         {
@@ -723,6 +1407,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "b764daf948d8056f"
         },
         {
@@ -736,6 +1425,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-119"
+          ],
           "fingerprint": "df892ce6b81d0baa"
         },
         {
@@ -749,6 +1443,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-120"
+          ],
           "fingerprint": "4fa417ac52f84d82"
         },
         {
@@ -762,6 +1461,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-362"
+          ],
           "fingerprint": "070924ec598cef48"
         },
         {
@@ -775,6 +1479,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-126"
+          ],
           "fingerprint": "23b65e4e2c8ad68f"
         },
         {
@@ -788,6 +1497,11 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Replace unbounded C string functions with length-checked ones (snprintf, strlcpy, fgets) and check every length against the destination size.",
+          "standards": [
+            "CERT C STR31-C",
+            "CWE-190"
+          ],
           "fingerprint": "80dfc9b0aa95c066"
         }
       ],
@@ -806,7 +1520,7 @@
             "/home/user/Engg_assurance_framework/samples/embedded-c-cpp/tests/test_ring_buffer.cpp"
           ],
           "exit_code": 0,
-          "duration_s": 0.061,
+          "duration_s": 0.081,
           "stdout_sha256": "8c6ee9e868265fbd256c0f3043e8895b688c0fc8bf2d4a49c450754dabebaf4c",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
@@ -816,7 +1530,125 @@
       "notes": [
         "flawfinder matches function names lexically without data-flow analysis; expect false positives, especially at risk levels 1-2 (reported as 'low')."
       ],
-      "duration_s": 0.112
+      "duration_s": 0.142
+    },
+    {
+      "id": "security.semgrep",
+      "title": "API, MCP, vector-store and web security patterns (semgrep, EAF rules)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No python/javascript/typescript source files in scope",
+      "scanner": "semgrep",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "python",
+        "javascript",
+        "typescript"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.sql-postgres",
+      "title": "PostgreSQL / pgvector access-control rules (built-in)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No sql source files in scope",
+      "scanner": "eaf-builtin",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [
+        "sql"
+      ],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.openapi",
+      "title": "REST API contract: authentication and transport (OpenAPI, built-in)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No OpenAPI/Swagger document in scope",
+      "scanner": "eaf-builtin",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
+      "id": "security.mcp-config",
+      "title": "MCP server configuration: credentials, transport, supply chain (built-in)",
+      "category": "security",
+      "status": "NOT_APPLICABLE",
+      "reason": "No MCP configuration file (.mcp.json, mcp.json, ...) in scope",
+      "scanner": "eaf-builtin",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
     },
     {
       "id": "secrets.detect-secrets",
@@ -851,8 +1683,8 @@
             "eaf_canary.py"
           ],
           "exit_code": 0,
-          "duration_s": 0.207,
-          "stdout_sha256": "3cf01fd5b9d36756e367359502c298618a3dd6f261ea27afa8439d6858051a96",
+          "duration_s": 0.23,
+          "stdout_sha256": "9da33c1e805dd321ecb764d38fcea5d33faa84f1e05a1e4dfef5173f4dac14d6",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -873,8 +1705,8 @@
             "tests/test_ring_buffer.cpp"
           ],
           "exit_code": 0,
-          "duration_s": 0.208,
-          "stdout_sha256": "69d82a12ad80343cc53de17d076fa499977c2b8a7fdc66aa45e899d52d07b4b8",
+          "duration_s": 0.232,
+          "stdout_sha256": "a47efd9809641b44b0a5cb81260f7b0de4b5ac55f2e8434201133ee4f0475d51",
           "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "raw_output_file": null,
           "timed_out": false
@@ -886,7 +1718,7 @@
         "Online secret verification is disabled (--no-verify).",
         "Scanner self-test passed (planted canary secret was detected)."
       ],
-      "duration_s": 0.57
+      "duration_s": 0.678
     },
     {
       "id": "secrets.sensitive-files",
@@ -895,7 +1727,7 @@
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 9,
@@ -1003,13 +1835,41 @@
       "duration_s": 0.0
     },
     {
+      "id": "dependencies.bun-audit",
+      "title": "Bun dependencies: known vulnerabilities (bun audit)",
+      "category": "dependencies",
+      "status": "NOT_APPLICABLE",
+      "reason": "No bun.lock in scope",
+      "scanner": "bun",
+      "scanner_version": null,
+      "requires_network": true,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "high",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.0
+    },
+    {
       "id": "hygiene.readme",
       "title": "README present at scope root",
       "category": "hygiene",
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 9,
@@ -1037,7 +1897,7 @@
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 9,
@@ -1065,7 +1925,7 @@
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 1,
@@ -1093,13 +1953,14 @@
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [
         "c",
         "cpp",
         "javascript",
         "python",
+        "sql",
         "typescript"
       ],
       "files_examined": 5,
@@ -1130,7 +1991,7 @@
       "status": "WARNING",
       "reason": "1 finding(s) at or above 'low' severity",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 1,
@@ -1158,6 +2019,8 @@
           "confidence": null,
           "suppressed": false,
           "suppression_reason": null,
+          "guidance": "Add a CI pipeline that runs build, tests and `eaf assess --fail-on fail` on every pull request.",
+          "standards": [],
           "fingerprint": "ea66e69576d61d8b"
         }
       ],
@@ -1172,7 +2035,7 @@
       "status": "PASS",
       "reason": "No findings",
       "scanner": "eaf-builtin",
-      "scanner_version": "0.1.0",
+      "scanner_version": "0.2.0",
       "requires_network": false,
       "languages": [],
       "files_examined": 9,
@@ -1192,10 +2055,539 @@
       "evidence": [],
       "notes": [],
       "duration_s": 0.0
+    },
+    {
+      "id": "hygiene.tracked-artifacts",
+      "title": "No generated files or caches under version control",
+      "category": "hygiene",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-builtin",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 9,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Looks at files tracked by git, including directories that the other checks exclude from their scope (caches, dependency folders)."
+      ],
+      "duration_s": 0.005
+    },
+    {
+      "id": "practice.spec.present",
+      "title": "A written specification exists",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 1,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.spec.present",
+          "rule_id": "not-found",
+          "severity": "medium",
+          "message": "Not found: A written specification exists. Looked for: spec/*, specs/*, docs/spec*, docs/specs/*, docs/requirements*, requirements/*, docs/prd*, prd.md ...",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "Without a written specification nobody can tell whether the code does what was intended, and reviewers of AI-generated code have nothing to review against. Before changing code, write or update a short spec per feature (for example specs/<feature>.md): the problem, the intended behaviour, inputs and outputs, error cases, and what is explicitly out of scope. Give the spec to the AI assistant as the task input instead of a one-line prompt, and change the spec first when requirements change.",
+          "standards": [
+            "Spec-driven development",
+            "ISO/IEC/IEEE 29148 (requirements engineering)"
+          ],
+          "fingerprint": "bdcf77bdd6971ac6"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.004
+    },
+    {
+      "id": "practice.spec.acceptance-criteria",
+      "title": "Specifications contain testable acceptance criteria",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.spec.acceptance-criteria",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: Specifications contain testable acceptance criteria. Looked for: spec/*, specs/*, docs/spec*, docs/specs/*, docs/requirements*, requirements/*, docs/prd*, prd.md ...",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "A spec that cannot be tested cannot be verified. Acceptance criteria are what turns a description into something a test or a reviewer can check. For each requirement add acceptance criteria that can be checked: numbered requirements (REQ-001 ...) or Given/When/Then scenarios. Reference the requirement id in the test that covers it.",
+          "standards": [
+            "Spec-driven development",
+            "Behaviour-driven development (Gherkin)"
+          ],
+          "fingerprint": "1036804534474c1b"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.docs.readme-sections",
+      "title": "README explains purpose, setup, usage and testing",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "2 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 1,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 2,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.docs.readme-sections",
+          "rule_id": "readme-section:setup / installation",
+          "severity": "low",
+          "message": "README has no section about: setup / installation",
+          "file": "README.md",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "A new team member, a reviewer or an auditor should be able to build, run and test the project from the README alone. Add the missing sections to README.md. Keep each to a few lines with the exact commands. When you change how the project is built, run or tested, update the README in the same change.",
+          "standards": [],
+          "fingerprint": "24ed9902d19cca33"
+        },
+        {
+          "check_id": "practice.docs.readme-sections",
+          "rule_id": "readme-section:usage / how to run",
+          "severity": "low",
+          "message": "README has no section about: usage / how to run",
+          "file": "README.md",
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "A new team member, a reviewer or an auditor should be able to build, run and test the project from the README alone. Add the missing sections to README.md. Keep each to a few lines with the exact commands. When you change how the project is built, run or tested, update the README in the same change.",
+          "standards": [],
+          "fingerprint": "3d9b474fcb66f453"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.003
+    },
+    {
+      "id": "practice.docs.architecture",
+      "title": "Architecture or design decisions are documented",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.docs.architecture",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: Architecture or design decisions are documented. Looked for: docs/architecture*, architecture.md, docs/design*, design.md, docs/adr/*, adr/*, docs/decisions/*, docs/arc42* ...",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "Structure that exists only in the code (or only in an AI chat history) is lost. Undocumented architecture is the main reason generated code drifts into inconsistency. Add docs/architecture.md with the main components, their responsibilities, data flow and external interfaces. Record significant decisions as short ADRs (docs/adr/0001-<title>.md: context, decision, consequences) at the time they are made.",
+          "standards": [
+            "arc42",
+            "Architecture Decision Records (ADR)",
+            "ISO/IEC/IEEE 42010"
+          ],
+          "fingerprint": "2585e02d15a71429"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.003
+    },
+    {
+      "id": "practice.docs.changelog",
+      "title": "Changes are recorded (changelog or release notes)",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.docs.changelog",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: Changes are recorded (changelog or release notes). Looked for: changelog*, changes.md, history.md, release-notes*, releases.md, docs/changelog*, docs/release*, .changeset/*",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "Users and reviewers need to know what changed between versions without reading every commit. Add CHANGELOG.md in 'Keep a Changelog' format and add an entry in the same change that alters behaviour. Use semantic versioning for releases.",
+          "standards": [
+            "Keep a Changelog",
+            "Semantic Versioning 2.0.0"
+          ],
+          "fingerprint": "70a86e2130769970"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.docs.contribution-process",
+      "title": "Contribution and review process is defined",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.docs.contribution-process",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: Contribution and review process is defined. Looked for: contributing*, docs/contributing*, .github/pull_request_template*, .github/PULL_REQUEST_TEMPLATE/*, codeowners, .github/codeowners, docs/codeowners, .gitlab/merge_request_templates/* ...",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "Generated code needs the same review as hand-written code. A defined process (who reviews, what must be true before merge) is what makes that enforceable. Add CONTRIBUTING.md (branching, commit and review rules, definition of done), a pull request template with a checklist (spec updated, tests added, EAF run attached) and a CODEOWNERS file.",
+          "standards": [],
+          "fingerprint": "385616c5cd9c5899"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.003
+    },
+    {
+      "id": "practice.docs.security-policy",
+      "title": "Security policy or threat model is documented",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.docs.security-policy",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: Security policy or threat model is documented. Looked for: security.md, .github/security.md, docs/security*, docs/threat*, threat-model*, docs/tara*",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "IT security reviewers ask first how vulnerabilities are reported and which threats were considered. Without a document the answer is 'none'. Add SECURITY.md (how to report a vulnerability, supported versions) and, for anything networked, a short threat model: assets, entry points, trust boundaries, and the mitigations you rely on.",
+          "standards": [
+            "OWASP Threat Modeling",
+            "ISO/SAE 21434 (TARA) for vehicle-related items"
+          ],
+          "fingerprint": "9670425f4525dc7b"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.docs.freshness",
+      "title": "Documentation is updated together with the code",
+      "category": "practices",
+      "status": "PASS",
+      "reason": "No findings",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [
+        "Last documentation commit is 0 day(s) older than the last code commit."
+      ],
+      "duration_s": 0.009
+    },
+    {
+      "id": "practice.docs.api-contract",
+      "title": "The REST API has a machine-readable contract (OpenAPI)",
+      "category": "practices",
+      "status": "NOT_APPLICABLE",
+      "reason": "Practice applies only when: api (not met: api)",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.docs.data-model",
+      "title": "Database schema changes are versioned migrations",
+      "category": "practices",
+      "status": "NOT_APPLICABLE",
+      "reason": "Practice applies only when: database (not met: database)",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.docs.mcp-tools",
+      "title": "MCP servers and their tools are documented",
+      "category": "practices",
+      "status": "NOT_APPLICABLE",
+      "reason": "Practice applies only when: mcp (not met: mcp)",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": null,
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.002
+    },
+    {
+      "id": "practice.ai.agent-instructions",
+      "title": "AI coding assistants have project instructions",
+      "category": "practices",
+      "status": "WARNING",
+      "reason": "1 finding(s) at or above 'low' severity",
+      "scanner": "eaf-guidance:eaf-practices",
+      "scanner_version": "0.2.0",
+      "requires_network": false,
+      "languages": [],
+      "files_examined": 0,
+      "thresholds": {
+        "fail_at": "never",
+        "warn_at": "low"
+      },
+      "finding_counts": {
+        "info": 0,
+        "low": 1,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "suppressed_count": 0,
+      "findings": [
+        {
+          "check_id": "practice.ai.agent-instructions",
+          "rule_id": "not-found",
+          "severity": "low",
+          "message": "Not found: AI coding assistants have project instructions. Looked for: agents.md, claude.md, .github/copilot-instructions.md, .github/instructions/*, .cursor/rules/*, .cursorrules, .windsurfrules, .clinerules ...",
+          "file": null,
+          "line": null,
+          "cwe": null,
+          "confidence": null,
+          "suppressed": false,
+          "suppression_reason": null,
+          "guidance": "Without project rules an assistant falls back to generic patterns. That is what produces inconsistent structure, duplicated helpers and unreviewed dependencies. Add AGENTS.md (or .github/copilot-instructions.md) stating: where the spec lives and that it must be read first, architecture rules, coding conventions, how to run tests and EAF, what the assistant must not do (add dependencies, change schemas, weaken checks) without asking.",
+          "standards": [],
+          "fingerprint": "d0ee4d1c9428c23e"
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "duration_s": 0.003
     }
   ],
   "limitations": [
     "Level 1 inspects source text only: nothing is built, executed or tested.",
-    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects."
+    "A PASS reflects the configured tools and thresholds only; absence of findings is not absence of defects.",
+    "Engineering-practice checks establish that a document exists and has minimal substance. They do not judge whether it is correct, complete or followed.",
+    "Standards coverage is partial by construction: a mapped category means some checks look for instances of that weakness class, not that the category is satisfied."
   ]
 }
