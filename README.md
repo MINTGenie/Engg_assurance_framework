@@ -12,7 +12,7 @@ for evidence of engineering practices (specification, documentation, review proc
 a versioned policy, and writes JSON, HTML and Markdown reports. Every finding carries fix
 guidance and, where one exists, a reference to a public standard category (CWE, OWASP).
 
-EAF has two jobs:
+EAF has two jobs, described in detail under [What you get from a run](#what-you-get-from-a-run):
 
 1. **Guide the developer.** Tell them what is missing and how to add it, so that a project
    built with AI assistance is engineered rather than merely generated.
@@ -24,7 +24,64 @@ EAF has two jobs:
 > ASPICE compliance, and is **not** an Audi IT or release approval. It means only that the
 > listed tools found nothing above the policy thresholds in the assessed scope.
 
-## What it checks
+## What you get from a run
+
+EAF is not a compliance or approval tool. It does two things: it tells the developer what to
+improve, and it gives a reviewer verifiable evidence of how the project was engineered.
+
+### 1. For the developer: what to improve and how
+
+Every item below produces findings with a location, a "how to fix" text, and a reference to
+the relevant standard category where one exists.
+
+| Area | What EAF looks for | Check ids |
+|---|---|---|
+| Specification | Is there a written spec? Does it have testable acceptance criteria or requirement IDs? | `practice.spec.*` |
+| Documentation | README covers purpose, setup, usage, testing. Architecture or ADRs. Changelog. Docs changed in step with code. | `practice.docs.readme-sections`, `.architecture`, `.changelog`, `.freshness` |
+| Process | Contribution and review rules, PR template, CODEOWNERS. Security policy or threat model. CI pipeline. | `practice.docs.contribution-process`, `.security-policy`, `hygiene.ci-config` |
+| AI-assisted work | Project instructions for coding assistants (AGENTS.md, copilot-instructions) | `practice.ai.agent-instructions` |
+| Tests | Test files exist for each language in use | `hygiene.tests-present` |
+| Code quality | Probable bugs, undefined names, unreachable code, excessive complexity, C/C++ memory and bounds defects | `quality.ruff`, `quality.eslint-*`, `quality.cppcheck` |
+| Security in code | Injection sinks (shell, SQL, eval, HTML), unsafe deserialisation, weak crypto, disabled TLS verification, unverified JWTs, CORS wildcards, risky C string functions | `security.bandit`, `security.semgrep`, `security.flawfinder` |
+| REST API | Operations without authentication, plain-HTTP servers, weak auth schemes in the OpenAPI document; whether a contract exists at all | `security.openapi`, `practice.docs.api-contract` |
+| MCP | Credentials, plain HTTP and unpinned packages in MCP configuration; tool handlers that run commands or open arbitrary paths | `security.mcp-config`, `security.semgrep`, `practice.docs.mcp-tools` |
+| Database | PostgreSQL row level security, permissive policies, grants, `SECURITY DEFINER`, dynamic SQL; migration safety; versioned migrations | `security.sql-postgres`, `quality.squawk`, `practice.docs.data-model` |
+| Vector stores | pgvector tables without access rules or index, search functions that bypass row security, insecure client connections, unsafe index loading | `security.sql-postgres`, `security.semgrep` |
+| Secrets | Credentials in file contents; key and `.env` files in the tree | `secrets.*` |
+| Dependencies | Unpinned or unlocked dependencies; known vulnerabilities for pip, npm and Bun (with `--allow-network`) | `dependencies.*` |
+| Repository hygiene | README, licence, `.gitignore`, large or generated files under version control | `hygiene.*` |
+
+Run `eaf guidance` to read the advice for every practice; teams can replace any of it.
+
+### 2. For the reviewer or IT team: evidence to build confidence
+
+A reviewer cannot tell from a demo whether an application was engineered or merely generated.
+The report answers the questions a reviewer would otherwise have to ask, and each answer can
+be checked.
+
+| Reviewer's question | Where the report answers it |
+|---|---|
+| What exactly was looked at? | Git revision, dirty state, source digest, file and line counts, excluded paths |
+| Can I reproduce this? | Tool versions, exact commands, policy and guidance pack versions with hashes, results digest |
+| Was the work specified before it was built? | Practices: specification present, acceptance criteria present, with the files found as evidence |
+| Is it documented and maintained like a real project? | Practices: README sections, architecture, changelog, contribution process, security policy, documentation freshness |
+| Is AI assistance governed? | Profile records development mode and tools; practice check for assistant instructions |
+| Which recognised checks were run? | Checks table: every check with tool, version, status and finding counts |
+| How does this relate to industry standards? | Findings tagged with CWE and OWASP categories; coverage tables for OWASP Top 10 (2021) and OWASP API Security Top 10 (2023) |
+| What was found, and how serious is it? | Findings by severity with file and line; critical and high findings listed in the evidence summary |
+| What was waived, and why? | Every suppression with its written reason |
+| What was **not** checked? | NOT EXECUTED and NOT APPLICABLE checks with reasons; languages not assessed; per-category "not covered" text; limitations list |
+
+Hand over `eaf-evidence.md` (two pages) with `eaf-report.html` as the detail.
+
+**What this evidence does and does not establish.** It shows that named practices have
+artefacts in the repository and that named tools found (or did not find) instances of known
+weakness classes in an identified source state. It does not show that a specification is
+correct, that the code implements it, or that the application is secure. Standards coverage
+is reported as `partial` or `none`, never as complete. Confidence should come from the
+reviewer reading the evidence, not from the overall status alone.
+
+## Check reference
 
 | Category | Check id | Tool | Applies to |
 |---|---|---|---|
